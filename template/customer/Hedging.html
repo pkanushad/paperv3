@@ -1,0 +1,180 @@
+{% extends 'customer/base.html' %}
+{% load static %}
+{% block content %}
+
+
+
+
+  <style>
+
+    .styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.styled-table thead tr {
+    background-color: #405189;
+    color: #ffffff;
+    text-align: left;
+}
+
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+.styled-table tbody tr.active-row {
+    font-weight: bold;
+    color: black;
+}
+  </style>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<div class="page-content">
+    <div class="container-fluid">
+    <!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0"> HEDGING </h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Hedging</li>
+                </ol>
+            </div>
+
+        </div>
+    </div>
+</div>
+        <!-- end page title -->
+
+
+
+
+<div class="row ">
+    <div class="col-12 grid-margin ">
+        <div class="card">
+            <div class="card-body">
+                    <h4 class="card-title">HEDGING SWAPS</h4>
+
+                <div class="table-responsive">
+
+
+                       <table class="styled-table table table-hover ">
+
+                        <thead>
+                        <tr>
+                             <th class="serial" > No </th>
+                               {% for col in sb_headging_df.columns %}
+                                <th class=""> {{col}} </th>
+                                {%endfor%}
+                        </tr>
+                        </thead>
+                        <tbody>
+                              {% for row in sb_headging_df.values %}
+                        <tr class="active-row">
+                           <td class="serial">{{forloop.counter}}</td>
+                             {% for value in row %}
+                            <td class="{% if value < 0 %}text-danger{% endif %}">{{value}}</td>
+                               {% endfor %}
+                        </tr>
+                                  {% endfor %}
+                        <!-- and so on... -->
+                        </tbody>
+                    </table>
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<div class="row ">-->
+<!--    <div class="col-12 grid-margin">-->
+<!--        <div class="card">-->
+<!--            <div class="card-body">-->
+<!--                    <h4 class="card-title">HEDGING</h4>-->
+<!--&lt;!&ndash;                #2 buttons&ndash;&gt;-->
+<!--                <div class="table-responsive">-->
+<!--                    <table class="table table-hover able-condensed table table-bordered border-primary ">-->
+<!--&lt;!&ndash;                          <h5 class="card-title">Exchange Trading Position</h5>&ndash;&gt;-->
+<!--                        <thead>-->
+<!--                            <tr>-->
+<!--                                 <th class="serial" style="background-color:#00BFFF;"> No </th>-->
+
+<!--                                {% for col in sb_headging_df.columns %}-->
+<!--                                <th class="" style="background-color:#00BFFF;"> {{col}} </th>-->
+<!--                                {%endfor%}-->
+
+<!--                            </tr>-->
+<!--                        </thead>-->
+<!--                        <tbody>-->
+<!--                        {% for row in sb_headging_df.values %}-->
+<!--                        <tr>-->
+<!--                            <td class="serial">{{forloop.counter}}</td>-->
+<!--                            {% for value in row %}-->
+<!--&lt;!&ndash;                            <td class="bg-danger" > {{value}}</td>&ndash;&gt;-->
+<!--                            <td class="{% if value < 0 %}text-danger{% endif %}">{{value}}</td>-->
+<!--&lt;!&ndash;                            <td class="{% if value < 0 %}text-danger {%elif value >= 0%} text-success {% endif %}">{{value}}</td>&ndash;&gt;-->
+
+<!--&lt;!&ndash;                            <td>{{value}}</td>&ndash;&gt;-->
+<!--                            {% endfor %}-->
+<!--                        </tr>-->
+<!--                        {% endfor %}-->
+<!--                        </tbody>-->
+<!--                    </table>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+
+
+{% endblock %}

@@ -1,0 +1,165 @@
+{% extends 'customer/base.html' %}
+{% block content %}
+
+<div class="page-content">
+    <div class="container-fluid">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0">Swaps Entry Details</h4>
+        
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Swaps Entry Details</li>
+                </ol>
+            </div>
+        
+        </div>
+<div class="card mb-3">
+    <div class="card-body">
+
+<!--        <div class="table-card">-->
+<!--            <table class="table mb-0">-->
+<!--                <tbody>-->
+<!--                    <tr>-->
+<!--                        <td class="fw-medium">Book Name</td>-->
+<!--                        <td>{{fb.date}}</td>-->
+<!--                    </tr>-->
+
+<!--                   <div class="row">-->
+<!--                       <div class="col-6">-->
+
+<!--                            <tr>-->
+<!--                        <td class="fw-medium">Created on</td>-->
+<!--                        <td><span class="badge badge-soft-secondary">{{fb.created_date}}</span></td>-->
+<!--                    </tr>-->
+
+<!--                    <tr>-->
+<!--                        <td class="fw-medium">Last Update</td>-->
+<!--                        <td><span class="badge badge-soft-secondary">{{fb.updated_at}}</span></td>-->
+<!--                    </tr>-->
+
+
+
+
+<!--                       </div>-->
+
+
+
+<!--                       <div class="col-6">-->
+
+<!--                            <tr>-->
+<!--                        <td class="fw-medium">Created on</td>-->
+<!--                        <td><span class="badge badge-soft-secondary">{{fb.created_date}}</span></td>-->
+<!--                    </tr>-->
+
+<!--                    <tr>-->
+<!--                        <td class="fw-medium">Last Update</td>-->
+<!--                        <td><span class="badge badge-soft-secondary">{{fb.updated_at}}</span></td>-->
+<!--                    </tr>-->
+
+
+
+<!--                       </div>-->
+
+
+
+<!--                </div>-->
+
+
+        <div class="row">
+
+            <div class="col-6">
+
+                <ul class="list-group list-group-flush">
+
+                       <li class="list-group-item " mt-3> <b>Date :</b> {{fb.date}}</li>
+                       <li class="list-group-item mt-3 "><b>Trade ID :</b>  <span>{{fb.Trade_id}}</span></li>
+                        <li class="list-group-item mt-3 "> <b>Trade Type :</b> {{fb.trader_type}}</li>
+                       <li class="list-group-item mt-3 "> <b>Clearer :</b> {{fb.clearer}}</li>
+                       <li class="list-group-item mt-3 "> <b>Trader :</b> {{fb.trader}}</li>
+                       <li class="list-group-item mt-3 "> <b>Book :</b> {{fb.book}}</li>
+                       <li class="list-group-item mt-3 "> <b>Customer Company :</b> {{fb.customer_company}}</li>
+                       <li class="list-group-item mt-3 "> <b>Customer Account :</b> {{fb.customer_account}}</li>
+                      <li class="list-group-item mt-3 "> <b>Strategy :</b> {{fb.strategy}}</li>
+                     <li class="list-group-item mt-3 "> <b>Derivative :</b> {{fb.derivatives}}</li>
+
+                    <li class="list-group-item mt-3 "> <b>Volume :</b> {{fb.volume}}</li>
+                    <li class="list-group-item mt-3 "> <b>Contract Name :</b> {{fb.contract}}</li>
+                    <li class="list-group-item mt-3 "> <b>Start Date :</b> {{fb.start_date}}</li>
+                    <li class="list-group-item mt-3 "> <b>End Date :</b> {{fb.end_date}}</li>
+                    <li class="list-group-item mt-3 "> <b>Price :</b> {{fb.price}}</li>
+                    <li class="list-group-item mt-3 "> <b>Aproximate Ep :</b> {{fb.approx_ep}}</li>
+
+                </ul>
+            </div>
+
+
+
+            <div class="col-6">
+
+
+                <ul class="list-group list-group-flush">
+
+                    <li class="list-group-item mt-3 "> <b>Holiday :</b> {{fb.holiday}}</li>
+                    <li class="list-group-item mt-3 "> <b>Type :</b> {{fb.type}}</li>
+                    <li class="list-group-item mt-3 "> <b>EFSC Code :</b> {{fb.efs_code}}</li>
+                    <li class="list-group-item mt-3 "> <b>Broker :</b> {{fb.broker}}</li>
+                    <li class="list-group-item mt-3 "> <b>Block Fee:</b> {{fb.total_fee}}</li>
+                    <li class="list-group-item mt-3 "> <b>Screen Fee:</b> {{fb.Clearer_rate}}</li>
+
+                    <li class="list-group-item mt-3 "> <b>Brokerage :</b> {{fb.brockerage}}</li>
+                    <li class="list-group-item mt-3 "> <b>bbl MT Conversion :</b> {{fb.bbl_mt_conversion}}</li>
+                    <li class="list-group-item mt-3 "> <b>kbbl MT Conversion :</b> {{fb.kbbl_mt_conversion}}</li>
+                    <li class="list-group-item mt-3 "> <b>Physical Code:</b> {{fb.physical_code}}</li>
+                    <li class="list-group-item mt-3 "> <b>Unit:</b> {{fb.unit}}</li>
+                    <li class="list-group-item mt-3 "> <b>Tick:</b> {{fb.tick}}</li>
+                    <li class="list-group-item mt-3 "> <b>Notes:</b> {{fb.notes}}</li>
+
+                </ul>
+
+
+            </div>
+
+
+
+        </div>
+
+          <div class="text-end">
+<!--    <a href="#" class="card-link">Card link</a>-->
+<!--    <a href="#" class="card-link">Another link</a>-->
+<!--              <a href="/future-blotter" class="btn btn-link btn-ghost-success fw-medium text-decoration-none" data-mdb-toggle="button" aria-pressed="true"-->
+<!--                                            role="button"><i class="ri-close-line me-1 align-middle"></i>  Close</a>-->
+
+<!--              <a href="/future-blotter" class="btn btn-link btn-ghost-success fw-medium text-decoration-none" data-mdb-toggle="button" aria-pressed="true"-->
+<!--                                            role="button"><i class="ri-close-line me-1 align-middle"></i>  Edit</a>-->
+
+<!--              <a href="/future-blotter" class="btn btn-link btn-ghost-danger fw-medium text-decoration-none" data-mdb-toggle="button" aria-pressed="true"-->
+<!--                                            role="button"><i class="ri-close-line me-1 align-middle"></i>  Delete</a>-->
+
+
+              <a href="/future-blotter" class="btn btn-success "
+                                       role="button">Back</a>
+      <a href="" class="btn "
+                                       role="button"></a>
+          <a href="" class="btn "
+                                       role="button"></a>
+  </div>
+
+
+
+
+
+
+
+
+
+
+<!--                </tbody>-->
+<!--            </table>-->
+            <!--end table-->
+        </div>
+    </div>
+</div>
+</div>
+</div>
+{% endblock %}

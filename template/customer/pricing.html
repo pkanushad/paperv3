@@ -1,0 +1,794 @@
+{% extends 'customer/base.html' %}
+{% load static %}
+{% block content %}
+
+
+<style>
+    .for-class{
+        margin:0px;
+    }
+
+        .table tr {font-size: 13px;}
+.table td {font-size: 13px;}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<div class="page-content">
+    <div class="container-fluid">
+    <!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0"> Pricing</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
+                    <li class="breadcrumb-item active"> Pricing</li>
+                </ol>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+        <!-- end page title -->
+
+
+<!-- # physical blotter as in the card       -->
+
+<!--                        <div class="row mt-2">-->
+<!--    <div class="col-12 grid-margin">-->
+<!--        <div class="card">-->
+
+<!--            <div class="card-body tbl-container  ">-->
+<!--                <h4 class="card-title"><b>Closed Deals</b> </h4>-->
+<!--                 <div class="table-responsive">-->
+<!--                            <table class="table align-middle table-nowrap mb-0 border border" id="tasksTable">-->
+<!--                                <thead class="table-light text-muted sticky-top">-->
+<!--                                    {% for messages in messages %}-->
+<!--                                    <div id="snackbar">{{messages}}</div>-->
+<!--                                    {% endfor %}-->
+<!--                                    <tr>-->
+<!--                                        <th class="serial" > No </th>-->
+<!--                                        <th> Date  </th>-->
+<!--                                         <th>Trade ID</th>-->
+<!--                                        <th>Purchase/Sales ID</th>-->
+
+<!--&lt;!&ndash;                                <th> Trader </th>&ndash;&gt;-->
+<!--                                <th> Book  </th>-->
+<!--                                <th> Counter Party  </th>-->
+<!--                                <th> Strategy  </th>-->
+<!--&lt;!&ndash;                                <th> Derivative</th>&ndash;&gt;-->
+
+<!--&lt;!&ndash;                                <th> Buy sell </th>&ndash;&gt;-->
+<!--                                <th> Cargo </th>-->
+<!--&lt;!&ndash;                                <th> Pricing Contract</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <th> Pricing Method  </th>&ndash;&gt;-->
+<!--                                <th> Volume  </th>-->
+<!--                                <th> Unit  </th>-->
+<!--&lt;!&ndash;                                <th> Density  </th>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <th> Nominated Quantity  </th>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <th>Premium Discount  </th>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <th> Pricing Term</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <th> BL Date</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <th> Start Date</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <th> End Date</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <th> Holiday</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <th> Total No Days</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <th>Delivery Mode</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <th>Port</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <th>Terminal</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <th>Vessal Name</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <th>Tank</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <th>External Terminal</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <th>Headging</th>&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;                                #behind calculations&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;                                                       <th>Shore Recieved</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <th>Terminal Cost</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <th>Fright Cost</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <th>Vessal Cost</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <th>Additional Secondary Charge</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <th>additional Cost Type</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <th>Total Secondary Cost</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <th>Priced Days</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <th>Unpriced Days</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <th>Total Volume</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <th>Price Volume</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <th>Unprice Volume</th>&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                <th>Position</th>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;                                <th>Priced Price</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <th>Unpriced Price</th>&ndash;&gt;-->
+
+<!--&lt;!&ndash;&lt;!&ndash;                                <th>Shore Recieved</th>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                <th>Difference</th>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                <th>PnL</th>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                <th>Difference Pnl</th>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                <th>Total Profit Loss</th>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;                                             <th>Remarks</th>&ndash;&gt;-->
+
+
+<!--                                    </tr>-->
+
+<!--                                </thead>-->
+<!--                                <tbody id="tableBodyTrader" class="list form-check-all">-->
+
+<!--                                    {% for messages in messages %}-->
+<!--                                    <p data-toast data-toast-text="{{messages}}" data-toast-gravity="top" id="messages" data-toast-position="center" data-toast-duration="3000" data-toast-close="close"></p>-->
+<!--                                    {% endfor %}-->
+
+<!--                                    {%if closed_pb %}-->
+
+<!--                                   {% for data in closed_pb %}-->
+<!--                                    <tr class="active-row">-->
+
+<!--                                        <td class="serial">{{forloop.counter}}</td>-->
+
+<!--&lt;!&ndash;                                        # actions&ndash;&gt;-->
+
+
+<!--                                        <td> {{data.Date}}</td>-->
+<!--                                        <td> {{data.Trade_id}}</td>-->
+<!--                                          <td> {{data.Purchase_sales_ID}}</td>-->
+
+
+<!--&lt;!&ndash;                                        <td> {{physicalblotter.Trader}}</td>&ndash;&gt;-->
+<!--                                        <td> {{data.Book}}</td>-->
+<!--                                        <td> {{data.Company_name}}</td>-->
+<!--                                        <td> {{data.Strategy}}</td>-->
+<!--&lt;!&ndash;                                        <td> {{physicalblotter.Derivative}}</td>&ndash;&gt;-->
+
+<!--&lt;!&ndash;                                        <td> {{physicalblotter.Buy_sell}}</td>&ndash;&gt;-->
+<!--                                        <td> {{data.Cargo}}</td>-->
+<!--&lt;!&ndash;                                        <td> {{physicalblotter.Pricing_contract}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{physicalblotter.Pricing_method}}</td>&ndash;&gt;-->
+<!--                                        <td> {{data.Quantity}}</td>-->
+<!--                                        <td> {{data.Unit}}</td>-->
+
+<!--&lt;!&ndash;                                        <td> {{physicalblotter.Density}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{physicalblotter.Nominated_quantity}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{physicalblotter.Premium_discount}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{physicalblotter.Pricing_term}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{physicalblotter.bl_date}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{physicalblotter.start_date}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{physicalblotter.end_date}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{physicalblotter.Holiday}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{physicalblotter.Total_no_days}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{physicalblotter.Delivery_mode}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{physicalblotter.Port}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{physicalblotter.Terminal}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{physicalblotter.Vessal_name}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{physicalblotter.Tank}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{physicalblotter.External_Terminal}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{physicalblotter.Headging}}</td>&ndash;&gt;-->
+
+
+<!--&lt;!&ndash;                                        &lt;!&ndash;                                <td> {{physicalblotter.status}}</td>&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;                                         <td> {{physicalblotter.Shore_recieved}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        &lt;!&ndash;                                    # behind for calculations&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{physicalblotter.Terminal_cost}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{physicalblotter.Freight_cost}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{physicalblotter.Vessal_cost}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{physicalblotter.additional_secondary_charge}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{physicalblotter.additional_cost_type}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{physicalblotter.Total_Secondary_Cost}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{physicalblotter.price_days}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{physicalblotter.unprice_days}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{physicalblotter.total_volume}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{physicalblotter.price_volume}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{physicalblotter.unprice_volume}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        &lt;!&ndash;                                 <td> {{physicalblotter.position}}</td>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{physicalblotter.priced_price}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{physicalblotter.unpriced_price}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{physicalblotter.Remarks}}</td>&ndash;&gt;-->
+
+<!--                                        &lt;!&ndash;                                  <td> {{physicalblotter.Shore_recieved}}</td>&ndash;&gt;-->
+<!--                                        &lt;!&ndash;                                  <td> {{physicalblotter.Difference}}</td>&ndash;&gt;-->
+<!--                                        &lt;!&ndash;                                  <td> {{physicalblotter.PnL}}</td>&ndash;&gt;-->
+<!--                                        &lt;!&ndash;                                 <td> {{physicalblotter.Difference_Pnl}}</td>&ndash;&gt;-->
+<!--                                        &lt;!&ndash;                                 <td> {{physicalblotter.Total_Profit_Loss}}</td>&ndash;&gt;-->
+<!--                                        &lt;!&ndash;                                <td> <div class="p-2 bg-warning text-dark ">{{physicalblotter.status}}</div> </td>&ndash;&gt;-->
+
+<!--                                    </tr>-->
+<!--                                    {% endfor %}-->
+<!--                                {% else %}-->
+<!--                                <tr><td>No Data Found</td></tr>-->
+<!--                            {% endif %}-->
+
+<!--                                </tbody>-->
+<!--                            </table>-->
+
+
+
+<!--                        </div>-->
+<!--                    </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+
+<!--##### INVENTORY SUMMARY        -->
+
+<!--                                <div class="row mt-2">-->
+<!--    <div class="col-12 grid-margin">-->
+<!--        <div class="card">-->
+
+<!--            <div class="card-body tbl-container  ">-->
+<!--                <h4 class="card-title"><b>Active Deals</b></h4>-->
+<!--                 <div class="table-responsive">-->
+<!--                            <table class="table align-middle table-nowrap mb-0" id="tasksTable">-->
+<!--                                <thead class="table-light text-muted sticky-top">-->
+<!--                                    {% for messages in messages %}-->
+<!--                                    <div id="snackbar">{{messages}}</div>-->
+<!--                                    {% endfor %}-->
+<!--                                    <tr>-->
+<!--                                        <th class="serial" > No </th>-->
+
+
+<!--                                        <th> Date</th>-->
+<!--                                        <th>Trade ID</th>-->
+<!--                                        <th>Purchase/Sales ID</th>-->
+
+<!--                                        &lt;!&ndash;                                <th> Trader </th>&ndash;&gt;-->
+<!--                                        <th> Book</th>-->
+<!--                                        <th> Counter Party</th>-->
+
+<!--                                        &lt;!&ndash;                                <th> Delivery Mode </th>&ndash;&gt;-->
+<!--                                        <th> Strategy</th>-->
+<!--                                        <th> Cargo</th>-->
+<!--                                        <th> Volume</th>-->
+<!--                                        <th> Unit</th>-->
+
+<!--                                        &lt;!&ndash;                               To&ndash;&gt;-->
+<!--&lt;!&ndash;                                <th> Destination Container</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <th> Port Dest </th>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <th> Terminal dest </th>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <th>Tank No dest </th>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <th> Vessal Name dest</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <th> Transfer Mode</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <th> Unit dest</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <th> Cargo LD QTY </th>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <th>Recieved</th>&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                          # calculated    values                                     &ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;                                <th> Source Cargo LD QTY</th>&ndash;&gt;-->
+<!--&lt;!&ndash;                                <th>Dest Difference</th>&ndash;&gt;-->
+
+
+<!--                                    </tr>-->
+
+<!--                                </thead>-->
+<!--                                <tbody id="tableBodyTrader" class="list form-check-all">-->
+
+<!--                                    {% for messages in messages %}-->
+<!--                                    <p data-toast data-toast-text="{{messages}}" data-toast-gravity="top" id="messages" data-toast-position="center" data-toast-duration="3000" data-toast-close="close"></p>-->
+<!--                                    {% endfor %}-->
+
+<!--                                    {%if open_pb%}-->
+
+<!--                                   {% for data in open_pb %}-->
+<!--                                    <tr class="active-row">-->
+
+<!--                                        <td class="serial">{{forloop.counter}}</td>-->
+
+<!--&lt;!&ndash;                                        # actions&ndash;&gt;-->
+
+<!--                                         <td> {{data.Date}}</td>-->
+<!--                                        <td> {{data.Trade_id}}</td>-->
+<!--                                          <td> {{data.Purchase_sales_ID}}</td>-->
+
+
+<!--                                        <td> {{data.Book}}</td>-->
+<!--                                        <td> {{data.Company_name}}</td>-->
+<!--                                        <td> {{data.Strategy}}</td>-->
+<!--                                        <td> {{data.Cargo}}</td>-->
+
+<!--                                            <td> {{data.Quantity}}</td>-->
+<!--                                        <td> {{data.Unit}}</td>-->
+
+<!--&lt;!&ndash;                                        <td> {{pb.Tank}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{pb.Vessal_name}}</td>&ndash;&gt;-->
+
+<!--&lt;!&ndash;                                        <td> {{pb.Port}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{pb.Terminal}}</td>&ndash;&gt;-->
+
+<!--&lt;!&ndash;                                        <td> {{pb.Shore_recieved}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{pb.Density}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{pb.Unit}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                        To&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;                                        <td> {{pb.dest_container}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{pb.dest_port}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{pb.dest_terminal}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{pb.dest_tank_num}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{pb.dest_vessal_op}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{pb.inv_transfer_mode}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{pb.dest_unit}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{pb.dest_cargo_LD_QTY}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{pb.dest_received_qty}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;                                        Calculated values&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{pb.source_cargo_LD_QTY}}</td>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <td> {{pb.dest_difference}}</td>&ndash;&gt;-->
+
+
+<!--                                    </tr>-->
+<!--                                    {% endfor %}-->
+<!--                                 {% else %}-->
+<!--                                <tr><td>No Data Found</td></tr>-->
+<!--                            {% endif %}-->
+<!--                                </tbody>-->
+<!--                            </table>-->
+
+
+
+<!--                        </div>-->
+<!--                    </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+
+
+
+<!--<div class="row">-->
+
+<!--<div>-->
+<!--<canvas id="myChart" width="100" height="100"></canvas>-->
+<!--</div>-->
+<!--        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.bundle.js"></script>-->
+
+
+
+
+<!--<script>-->
+<!--  var ctx = document.getElementById("myChart");-->
+<!--debugger;-->
+<!--var data = {-->
+<!--  labels: ["2 Jan", "9 Jan", "16 Jan", "23 Jan", "30 Jan", "6 Feb", "13 Feb"],-->
+<!--  datasets: [{-->
+<!--    data: [150, 87, 56, 50, 88, 60, 45],-->
+<!--    backgroundColor: "#4082c4"-->
+<!--  }]-->
+<!--}-->
+<!--var myChart = new Chart(ctx, {-->
+<!--  type: 'bar',-->
+<!--  data: data,-->
+<!--  options: {-->
+<!--    "hover": {-->
+<!--      "animationDuration": 0-->
+<!--    },-->
+<!--    "animation": {-->
+<!--      "duration": 1,-->
+<!--      "onComplete": function() {-->
+<!--        var chartInstance = this.chart,-->
+<!--          ctx = chartInstance.ctx;-->
+
+<!--        ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);-->
+<!--        ctx.textAlign = 'center';-->
+<!--        ctx.textBaseline = 'bottom';-->
+
+<!--        this.data.datasets.forEach(function(dataset, i) {-->
+<!--          var meta = chartInstance.controller.getDatasetMeta(i);-->
+<!--          meta.data.forEach(function(bar, index) {-->
+<!--            var data = dataset.data[index];-->
+<!--            ctx.fillText(data, bar._model.x, bar._model.y - 5);-->
+<!--          });-->
+<!--        });-->
+<!--      }-->
+<!--    },-->
+<!--    legend: {-->
+<!--      "display": false-->
+<!--    },-->
+<!--    tooltips: {-->
+<!--      "enabled": false-->
+<!--    },-->
+<!--    scales: {-->
+<!--      yAxes: [{-->
+<!--        display: false,-->
+<!--        gridLines: {-->
+<!--          display: false-->
+<!--        },-->
+<!--        ticks: {-->
+<!--          max: Math.max(...data.datasets[0].data) + 10,-->
+<!--          display: false,-->
+<!--          beginAtZero: true-->
+<!--        }-->
+<!--      }],-->
+<!--      xAxes: [{-->
+<!--        gridLines: {-->
+<!--          display: false-->
+<!--        },-->
+<!--        ticks: {-->
+<!--          beginAtZero: true-->
+<!--        }-->
+<!--      }]-->
+<!--    }-->
+<!--  }-->
+<!--});-->
+
+<!--</script>-->
+
+
+<!--    </div>-->
+
+
+
+                <div class="row  mt-2">
+            <div class="col-4">
+        <div class="card">
+
+            <div class="card-body tbl-container  ">
+                <h4 class="card-title"><b>This Month Priced & Unpriced</b> </h4>
+                 <div class="table-responsive tbl-fixed  ">
+                            <table class="table tablex align-middle table-nowrap mb-0 border border   table-hover " id="tasksTable">
+                                <thead class="table-light">
+                                    {% for messages in messages %}
+                                    <div id="snackbar">{{messages}}</div>
+                                    {% endfor %}
+                                    <tr>
+
+                                        <th class="serial"> No</th>
+                                        {% for col in this_month_price.columns %}
+                                        <th class=""> {{col}}</th>
+                                        {%endfor%}
+
+                                    </tr>
+
+                                </thead>
+                                <tbody id="tableBodyTrader" class="list form-check-all">
+
+                                    {% for messages in messages %}
+                                    <p data-toast data-toast-text="{{messages}}" data-toast-gravity="top" id="messages" data-toast-position="center" data-toast-duration="3000" data-toast-close="close"></p>
+                                    {% endfor %}
+
+
+                                   {% for row in this_month_price.values %}
+                                    <tr class="active-row">
+                                      <td class="serial">{{forloop.counter}}</td>
+                                      {% for value in row %}
+                                      <td class="{% if value < 0 %}text-danger{% endif %}">{{value}}</td>
+                                      {% endfor %}
+
+                                    </tr>
+                                    {% endfor %}
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+        </div>
+    </div>
+
+
+
+<!--            ##### second row col-6-->
+
+
+                        <div class="col-4">
+        <div class="card">
+
+            <div class="card-body tbl-container  ">
+                <h4 class="card-title"><b>This Month Holiday</b> </h4>
+                 <div class="table-responsive tbl-fixed  ">
+                            <table class="table  align-middle table-nowrap mb-0 border border   table-hover " id="tasksTable">
+                                <thead class="table-light">
+                                    {% for messages in messages %}
+                                    <div id="snackbar">{{messages}}</div>
+                                    {% endfor %}
+                                    <tr>
+                                       <th class="serial"> No</th>
+                                        {% for col in this_month_holiday.columns %}
+                                        <th class=""> {{col}}</th>
+                                        {%endfor%}
+                                    </tr>
+
+                                </thead>
+                                <tbody id="tableBodyTrader" class="list form-check-all">
+
+                                    {% for messages in messages %}
+                                    <p data-toast data-toast-text="{{messages}}" data-toast-gravity="top" id="messages" data-toast-position="center" data-toast-duration="3000" data-toast-close="close"></p>
+                                    {% endfor %}
+
+                                   {% for row in this_month_holiday.values %}
+                                    <tr class="active-row">
+                                      <td class="serial">{{forloop.counter}}</td>
+                                      {% for value in row %}
+                                      <td class="{% if value < 0 %}text-danger{% endif %}">{{value}}</td>
+                                      {% endfor %}
+
+                                    </tr>
+                                    {% endfor %}
+
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+        </div>
+    </div>
+
+
+
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+ <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card" id="orderList">
+
+                                <div class="card-header border-0">
+                                    <div class="row align-items-center gy-3">
+                                        <div class="col-sm">
+                                            <h5 class="card-title mb-0">Pricing</h5>
+                                        </div>
+                                        <div class="col-sm-auto">
+                                            <div class="d-flex gap-1 flex-wrap">
+<!--                                                <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal"><i class="ri-add-line align-bottom me-1"></i> Create Order</button>-->
+                                                <button type="button" class="btn btn-info"><i class="ri-file-download-line align-bottom me-1"></i> Import</button>
+                                                <button class="btn btn-soft-danger" id="remove-actions" onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body border border-dashed border-end-0 border-start-0">
+                                    <form method="post" enctype="multipart/form-data" >
+                                            {% csrf_token %}
+                                        <div class="row g-3">
+                                            <div class="col-xxl-5 col-sm-6">
+                                                <div class="search-box">
+                                                    <input type="text" class="form-control search" placeholder="Search for order ID, customer, order status or something...">
+                                                    <i class="ri-search-line search-icon"></i>
+                                                </div>
+                                            </div>
+                                            <!--end col-->
+                                            <div class="col-xxl-2 col-sm-6">
+                                                <div>
+                                                    <input type="date" class="form-control" data-provider="flatpickr" data-date-format="d M, Y" data-range-date="true" id="date" name="date" placeholder="Select date">
+                                                </div>
+                                            </div>
+                                            <!--end col-->
+<!--                                            <div class="col-xxl-2 col-sm-4">-->
+<!--                                                <div>-->
+<!--                                                    <select class="form-control" data-choices data-choices-search-false name="choices-single-default" id="idStatus">-->
+<!--                                                        <option value="">Status</option>-->
+<!--                                                        <option value="all" selected>All</option>-->
+<!--                                                        <option value="Pending">Pending</option>-->
+<!--                                                        <option value="Inprogress">Inprogress</option>-->
+<!--                                                        <option value="Cancelled">Cancelled</option>-->
+<!--                                                        <option value="Pickups">Pickups</option>-->
+<!--                                                        <option value="Returns">Returns</option>-->
+<!--                                                        <option value="Delivered">Delivered</option>-->
+<!--                                                    </select>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                            &lt;!&ndash;end col&ndash;&gt;-->
+<!--                                            <div class="col-xxl-2 col-sm-4">-->
+<!--                                                <div>-->
+<!--                                                    <select class="form-control" data-choices data-choices-search-false name="choices-single-default" id="idPayment">-->
+<!--                                                        <option value="">Select Payment</option>-->
+<!--                                                        <option value="all" selected>All</option>-->
+<!--                                                        <option value="Mastercard">Mastercard</option>-->
+<!--                                                        <option value="Paypal">Paypal</option>-->
+<!--                                                        <option value="Visa">Visa</option>-->
+<!--                                                        <option value="COD">COD</option>-->
+<!--                                                    </select>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+                                            <!--end col-->
+                                            <div class="col-xxl-3 col-sm-4">
+                                                <div>
+                                                    <button type="submit"  class="btn btn-primary w-100" onclick="SearchData();"> <i class="ri-equalizer-fill me-1 align-bottom"></i>
+                                                        Filters
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <!--end col-->
+                                        </div>
+                                        <!--end row-->
+                                    </form>
+                                </div>
+
+
+
+
+
+
+
+<!--        ### select tabs-->
+
+        <div class="card">
+
+                                <div class="card-body">
+                                    <!-- Nav tabs -->
+                                    <ul class="nav nav-tabs nav-tabs-custom nav-success nav-justified mb-3" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" data-bs-toggle="tab" href="#home1" role="tab">
+                                               Platts Settlements
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-bs-toggle="tab" href="#profile1" role="tab">
+                                                 Futures Settlements
+                                            </a>
+                                        </li>
+<!--                                        <li class="nav-item">-->
+<!--                                            <a class="nav-link" data-bs-toggle="tab" href="#messages1" role="tab">-->
+<!--                                                Physical Trade-->
+<!--                                            </a>-->
+<!--                                        </li>-->
+<!--                                        <li class="nav-item">-->
+<!--                                            <a class="nav-link" data-bs-toggle="tab" href="#settings1" role="tab">-->
+<!--                                               Future-Swap Trade-->
+<!--                                            </a>-->
+<!--                                        </li>-->
+                                    </ul>
+
+
+
+<!--        ############################################-->
+<!--# uncomment this code-->
+                                    <div class="row mt-2 tab-content">
+    <div class="col-12 grid-margin tab-pane active" id="home1" role="tabpanel" >
+        <div class="card">
+
+            <div class="card-body tbl-container  ">
+                <h4 class="card-title"><b>Platts Settlement</b> </h4>
+                 <div class="table-responsive">
+     <table class="table align-middle table-nowrap mb-0" id="tasksTable">
+                                <thead class="table-light text-muted sticky-top">
+                                   {% for messages in messages %}
+                                <div id="snackbar">{{messages}}</div>
+                                {% endfor %}
+                                <tr>
+                                    <th class="serial"> No</th>
+                                    {% for col in plattes_prices_df.columns %}
+                                    <th class=""> {{col}}</th>
+                                    {%endfor%}
+
+                                </tr>
+
+                                </thead>
+                                <tbody id="tableBodyTrader" class="list form-check-all">
+
+                                   {% for messages in messages %}
+                                    <p data-toast data-toast-text="{{messages}}" data-toast-gravity="top" id="messages" data-toast-position="center" data-toast-duration="3000" data-toast-close="close"></p>
+                                    {% endfor %}
+
+                                    {% for row in plattes_prices_df.values %}
+                                    <tr class="active-row">
+                                        <td class="serial">{{forloop.counter}}</td>
+                                        {% for value in row %}
+                                        <td class="{% if value < 0 %}text-danger{% endif %}">
+                                            {{value}}
+                                        </td>
+                                        {% endfor %}
+                                    </tr>
+                                    {% endfor %}
+                                    <!-- and so on... -->
+
+                                </tbody>
+                            </table>
+
+
+
+                        </div>
+                    </div>
+        </div>
+    </div>
+</div>
+
+
+
+                                    <div class="row  tab-content">
+    <div class="col-12 grid-margin tab-pane" id="profile1" role="tabpanel">
+        <div class="card">
+
+
+                            <div class="col-12 grid-margin">
+        <div class="card">
+            <div class="card-body">
+<!--                    <h4 class="card-title">Exchange Trade Position</h4>-->
+
+                <div class="">
+<!--             <a href="" class="btn btn-primary active" data-mdb-toggle="button" aria-pressed="true"-->
+<!--           role="button"> Futures-Swap</a>-->
+                    <a href="" class="btn btn-primary btn active"  data-mdb-toggle="button" aria-pressed="true"
+           role="button">Daily Settlement</a>
+                    <a href="" class="btn btn-primary btn active " data-mdb-toggle="button" aria-pressed="true"
+           role="button"> Historical Settlement</a>
+                </div>
+
+
+
+            </div></div></div>
+
+
+            <div class="card-body tbl-container  ">
+                <h4 class="card-title"><b>Daily Settlement</b> </h4>
+                 <div class="table-responsive">
+                                                     <table class="table align-middle table-nowrap mb-0 border border" id="tasksTable">
+                                <thead class="table-light text-muted sticky-top">
+                                    {% for messages in messages %}
+                                <div id="snackbar">{{messages}}</div>
+                                {% endfor %}
+                                <tr>
+                                    <th class="serial"> No</th>
+                                    {% for col in Futures_pricing_df.columns %}
+                                    <th class=""> {{col}}</th>
+                                    {%endfor%}
+
+                                </tr>
+
+                                </thead>
+                                <tbody id="tableBodyTrader" class="list form-check-all">
+
+                                   {% for messages in messages %}
+                                    <p data-toast data-toast-text="{{messages}}" data-toast-gravity="top" id="messages" data-toast-position="center" data-toast-duration="3000" data-toast-close="close"></p>
+                                    {% endfor %}
+
+                                    {% for row in Futures_pricing_df.values %}
+                                    <tr class="active-row">
+                                        <td class="serial">{{forloop.counter}}</td>
+                                        {% for value in row %}
+                                        <td class="{% if value < 0 %}text-danger{% endif %}">
+                                            {{value}}
+                                        </td>
+                                        {% endfor %}
+                                    </tr>
+                                    {% endfor %}
+                                    <!-- and so on... -->
+
+                                </tbody>
+                            </table>
+
+
+
+                        </div>
+                    </div>
+        </div>
+    </div>
+</div>
+
+       </div></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div></div></div>
+
+
+    </div>
+</div>
+
+
+{% endblock %}
+
+
+{% block javascript %}
+
+
+{% endblock %}

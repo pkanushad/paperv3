@@ -1,0 +1,317 @@
+
+{% extends 'customer/base.html' %}
+{% load static %}
+{% block content %}
+
+
+<style xmlns="http://www.w3.org/1999/html">
+
+    .styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.styled-table thead tr {
+    background-color: #405189;
+    color: #ffffff;
+    text-align: left;
+}
+
+
+.styled-table th,
+.styled-table td {
+    padding: 9px 9px;
+}
+
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+.styled-table tbody tr.active-row {
+    font-weight: bold;
+    color: black;
+
+
+    .tableheadbg{
+    background-color:#405189;
+    }
+
+
+        .table_template tr {font-size: 10px;}
+.table_template td {font-size: 10px;}
+}
+  </style>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<div class="page-content">
+    <div class="container-fluid">
+    <!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0">Trade History</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Trade History</li>
+                </ol>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--        ################# SELECTED TABS ##############################-->
+
+                            <div class="row">
+
+                        <div class="col-xxl-12">
+<!--                            <h5 class="mb-3">Exchange Trading Position</h5>-->
+                            <div class="card">
+                                <div class="card-body">
+                                    <!-- Nav tabs -->
+                                    <ul class="nav nav-tabs nav-tabs-custom nav-success nav-justified mb-3" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" data-bs-toggle="tab" href="#home1" role="tab">
+                                               Future Trade
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-bs-toggle="tab" href="#profile1" role="tab">
+                                                Swap Trade
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-bs-toggle="tab" href="#messages1" role="tab">
+                                                Physical Trade
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-bs-toggle="tab" href="#settings1" role="tab">
+                                               Future-Swap Trade
+                                            </a>
+                                        </li>
+                                    </ul>
+
+                                    <!-- Tab panes -->
+                                    <div class="tab-content text-muted">
+                                        <div class="tab-pane active" id="home1" role="tabpanel">
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1 ms-2">
+                                                    <h4 class="card-title">Future Trade History</h4>
+                                                    <div class="table-responsive table-card ">
+
+                                                        <table class="styled-table table table-hover table-striped">
+
+                                                            <thead>
+                                                            <tr>
+
+                                                                <th class="serial"> No</th>
+                                                                {% for col in fb_history_df.columns %}
+                                                                <th class=""> {{col}}</th>
+                                                                {%endfor%}
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            {% for row in fb_history_df.values %}
+                                                            <tr class="active-row">
+                                                                <td class="serial">{{forloop.counter}}</td>
+                                                                {% for value in row %}
+                                                                <td class="{% if value < 0 %}text-danger{% endif %}">
+                                                                    {{value}}
+                                                                </td>
+                                                                {% endfor %}
+                                                            </tr>
+                                                            {% endfor %}
+                                                            <!-- and so on... -->
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                        <div class="tab-pane" id="profile1" role="tabpanel">
+                                            <div class="d-flex">
+<!--                                                <div class="flex-shrink-0">-->
+<!--                                                    <i class="ri-checkbox-multiple-blank-fill text-success"></i>-->
+<!--                                                </div>-->
+                                                <div class="flex-grow-1 ms-2">
+
+                                                    <h4 class="card-title">Swaps Trade History</h4>
+
+
+                                                    <div class="table-responsive table-card ">
+
+                                                        <table class="styled-table table table-hover table-striped">
+
+                                                            <thead>
+                                                            <tr>
+
+                                                                <th class="serial"> No</th>
+                                                                 {% for col in sb_history_df.columns %}
+                                                                <th class=""> {{col}}</th>
+                                                                {%endfor%}
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            {% for row in sb_history_df.values %}
+                                                            <tr class="active-row">
+                                                                <td class="serial">{{forloop.counter}}</td>
+                                                                {% for value in row %}
+                                                                <td class="{% if value < 0 %}text-danger{% endif %}">
+                                                                    {{value}}
+                                                                </td>
+                                                                {% endfor %}
+                                                            </tr>
+                                                            {% endfor %}
+                                                            <!-- and so on... -->
+                                                            </tbody>
+                                                        </table>
+
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+<!--                                        ## physical trade-->
+
+
+                                        <div class="tab-pane" id="messages1" role="tabpanel">
+                                            <div class="d-flex">
+<!--                                                <div class="flex-shrink-0">-->
+<!--                                                    <i class="ri-checkbox-multiple-blank-fill text-success"></i>-->
+<!--                                                </div>-->
+                                                <div class="flex-grow-1 ms-2">
+
+                                                    <h4 class="card-title">Physical Trade History</h4>
+
+
+                                                    <div class="table-responsive table-card ">
+
+                                                        <table class="styled-table table table-hover table-striped">
+
+                                                            <thead>
+                                                            <tr>
+
+                                                                <th class="serial"> No</th>
+                                                                {% for col in pb_history_df.columns %}
+                                                                <th class=""> {{col}}</th>
+                                                                {%endfor%}
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            {% for row in pb_history_df.values %}
+                                                            <tr class="active-row">
+                                                                <td class="serial">{{forloop.counter}}</td>
+                                                                {% for value in row %}
+                                                                <td class="{% if value < 0 %}text-danger{% endif %}">
+                                                                    {{value}}
+                                                                </td>
+                                                                {% endfor %}
+                                                            </tr>
+                                                            {% endfor %}
+                                                            <!-- and so on... -->
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- ## swap futures trade-->
+
+
+                                        <div class="tab-pane" id="settings1" role="tabpanel">
+                                            <div class="d-flex">
+<!--                                                <div class="flex-shrink-0">-->
+<!--                                                    <i class="ri-checkbox-multiple-blank-fill text-success"></i>-->
+<!--                                                </div>-->
+                                                <div class="flex-grow-1 ms-2">
+
+                                                    <h4 class="card-title">Swap-Future Trade History</h4>
+
+
+                                                    <div class="table-responsive table-card ">
+
+                                                        <table class="styled-table table table-hover table-striped">
+
+                                                            <thead>
+                                                            <tr>
+
+                                                                <th class="serial"> No</th>
+                                                                {% for col in sb_history_df.columns %}
+                                                                <th class=""> {{col}}</th>
+                                                                {%endfor%}
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            {% for row in sb_history_df.values %}
+                                                            <tr class="active-row">
+                                                                <td class="serial">{{forloop.counter}}</td>
+                                                                {% for value in row %}
+                                                                <td class="{% if value < 0 %}text-danger{% endif %}">
+                                                                    {{value}}
+                                                                </td>
+                                                                {% endfor %}
+                                                            </tr>
+                                                            {% endfor %}
+                                                            <!-- and so on... -->
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+
+
+
+
+
+                                    </div>
+                                </div><!-- end card-body -->
+                            </div><!-- end card -->
+                        </div>
+
+                            </div>
+    </div>
+                        <!--end col-->
+                        <!--end col-->
+<!--                    </div>-->
+<!--                    &lt;!&ndash;end row&ndash;&gt;-->
+
+
+
+
+
+
+</div>
+</div>
+
+
+
+{% endblock %}

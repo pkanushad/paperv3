@@ -1,0 +1,632 @@
+{% extends 'customer/base.html' %}
+{% load static %}
+{% block content %}
+
+
+<style xmlns="http://www.w3.org/1999/html">
+
+    .styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.styled-table thead tr {
+    background-color: #405189;
+    color: #ffffff;
+    text-align: left;
+}
+
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+.styled-table tbody tr.active-row {
+    font-weight: bold;
+    color: black;
+
+}
+
+        .table tr {font-size: 13px;}
+.table td {font-size: 13px;}
+
+
+
+
+  </style>
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<div class="page-content">
+    <div class="container-fluid">
+    <!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0">Inventory Summary Dashboard </h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Inventory Dashboard</li>
+                </ol>
+            </div>
+
+        </div>
+    </div>
+</div>
+        <!-- end page title -->
+
+
+
+
+<!--<div class="row ">-->
+<!--    <div class="col-12 grid-margin ">-->
+<!--        <div class="card">-->
+<!--            <div class="card-body">-->
+<!--                    <h4 class="card-title">Physical Blotter Hedging</h4>-->
+
+<!--                <div class="table-responsive">-->
+
+
+<!--                       <table class="styled-table table table-hover ">-->
+
+<!--                        <thead>-->
+<!--                        <tr>-->
+<!--                             <th class="serial" > No </th>-->
+<!--                               {% for col in physical_hedging_t.columns %}-->
+<!--                                <th class=""> {{col}} </th>-->
+<!--                                {%endfor%}-->
+<!--                        </tr>-->
+<!--                        </thead>-->
+<!--                        <tbody>-->
+<!--                              {% for row in physical_hedging_t.values %}-->
+<!--                        <tr class="active-row">-->
+<!--                           <td class="serial">{{forloop.counter}}</td>-->
+<!--                             {% for value in row %}-->
+<!--                            <td class="{% if value < 0 %}text-danger{% endif %}">{{value}}</td>-->
+<!--                               {% endfor %}-->
+<!--                        </tr>-->
+<!--                                  {% endfor %}-->
+<!--                        &lt;!&ndash; and so on... &ndash;&gt;-->
+<!--                        </tbody>-->
+<!--                    </table>-->
+
+
+
+
+
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+
+<!--                        <div class="">-->
+<!--&lt;!&ndash;             <a href="" class="btn btn-primary active" data-mdb-toggle="button" aria-pressed="true"&ndash;&gt;-->
+<!--&lt;!&ndash;           role="button"> Futures-Swap</a>&ndash;&gt;-->
+<!--                    <a href="/tatal_kbbl_position" class="btn btn-light btn active " data-mdb-toggle="button" aria-pressed="true"-->
+<!--           role="button">Exchange Trading Position</a>-->
+<!--                    <a href="/filter" class="btn btn-light btn active " data-mdb-toggle="button" aria-pressed="true"-->
+<!--           role="button">Company/Custmor Position</a>-->
+<!--                </div>-->
+
+
+
+        <div class="col-12">
+            <div class="row">
+
+                    <form onsubmit="validateForm(event)" method="post">
+                            {% csrf_token %}
+
+                           <div class="row">
+
+                   <div class="col-sm-4">
+                                        <p class="labelsa"><b>  Port </b><p>
+
+<!--                                        <input type="text" class="form-control" id="unit_to" placeholder="" name="unit_to" aria-label="First-Name" value="" required >-->
+
+                                          <select class="form-select" name="port" id="port_id"  onchange="PortTermialRelationChart();" >
+                                            <option value="" selected>Select</option>
+                                            {% for i in port %}
+                                            <option value="{{i}}">{{i}}</option>
+                                            {% endfor %}
+
+                                        </select>
+
+
+                                    </div>
+
+
+
+                   <div class="col-sm-4">
+                                        <p class="labelsa"><b>  Terminal </b><p>
+
+<!--                                        <input type="text" class="form-control" id="unit_to" placeholder="" name="unit_to" aria-label="First-Name" value="" required >-->
+
+                                          <select class="form-select" name="terminal" id="terminal_id" required >
+                                            <option value="" selected>Select</option>
+<!--                                            {% for i in unit %}-->
+<!--                                            <option value="{{i.name}}">{{i.name}}</option>-->
+<!--                                            {% endfor %}-->
+
+                                        </select>
+
+
+                                    </div>
+                   <div class="col-sm-2 mt-4">
+                                    <button type="submit" class="btn btn-primary"> Submit
+                                    </button>
+                       <a href="/inventory_data" class="btn btn-primary" data-mdb-toggle="button" aria-pressed="true"
+                          role="button">Clear</a>
+
+
+                   </div>
+
+                           </div>
+
+
+                                </form>
+
+            </div>
+        </div>
+
+
+
+<!--        ############################################-->
+<!--# uncomment this code-->
+        <div class="row">
+
+
+
+
+<!--        <div class="row mt-2">-->
+            <div class="col-6 grid-margin">
+                <div class="card">
+
+                    <div class="card-body tbl-container  ">
+                        <h5> Bar Graph</h5>
+                        <div>
+
+                            <div>
+                                <canvas id="firstchart"></canvas>
+                            </div>
+
+                            <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0/dist/chart.min.js"></script>
+                            <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+
+                            <script>
+
+                            var colorArray = [ '#405189', '#fdfd05', '#66E64D', '#0660e7', '#9900B3',]
+
+
+                            const fchart = document.getElementById('firstchart');
+                              new Chart(fchart, {
+                                type: 'bar',
+                                plugins: [ChartDataLabels],
+                                data: {
+                                  labels:[{% for tno in cargo_tank %} '{{tno}}', {% endfor %}],
+                                  datasets: [{
+                                    label: 'Cargo',
+                                    data: [{% for data in cqty %} '{{data}}', {% endfor %}],
+
+<!--                                     backgroundColor: [-->
+<!--                                      'rgb(54, 162, 235)',-->
+<!--&lt;!&ndash;                                      'rgb(255, 99, 132)',&ndash;&gt;-->
+<!--&lt;!&ndash;                                      'rgb(54, 162, 235)',&ndash;&gt;-->
+<!--&lt;!&ndash;                                      'rgb(255, 205, 86)',&ndash;&gt;-->
+<!--&lt;!&ndash;                                      'rgba(75, 192, 192, 1)',&ndash;&gt;-->
+<!--&lt;!&ndash;                                      'rgba(255, 159, 64, 1)'&ndash;&gt;-->
+<!--                                    ],-->
+
+                                     backgroundColor: colorArray,
+
+                                     barThickness:60 ,
+                                    borderWidth: 1
+                                  }]
+                                },
+                                options: {
+                                responsive: true,
+                                 plugins: {
+                                          // Change options for ALL labels of THIS CHART
+                                          datalabels: {
+                                            color: 'white'
+                                          }
+                                       },
+                                  scales: {
+                                    y: {
+                                    grid:{display: false},
+                                    title: {
+                                             display: true,
+                                              text: 'Quantity(MT)',
+                                               family: 'Poppins',
+                                             },
+
+                                      beginAtZero: true
+                                    },
+
+                                    x: {
+                                    grid:{display: false},
+                                    title: {
+                                             display: true,
+                                              text: 'Tank',
+                                               family: 'Poppins',
+                                             },
+
+                                    }
+
+                                  }
+                                }
+                              });
+
+                            </script>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+<!--        </div>-->
+
+
+
+
+
+<!--         <div class="row mt-2">-->
+<!--            <div class="col-6 grid-margin">-->
+<!--                <div class="card">-->
+
+<!--                    <h2> Mannually added js by dheeraj</h2>-->
+
+<!--                    <div class="card-body tbl-container  ">-->
+
+
+<!--                        <div>-->
+
+<!--                            <div>-->
+<!--                                <canvas id="myChart"></canvas>-->
+<!--                            </div>-->
+
+<!--                            <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0/dist/chart.min.js"></script>-->
+<!--                            <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>-->
+<!--                            <script>-->
+<!--                              const ctx = document.getElementById("myChart");-->
+
+<!--                              // -&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+<!--                              // from backend-->
+<!--                              const tanNumbers = [{% for term in tankno %} '{{term}}', {% endfor %}];-->
+<!--                              const bgColors = ['rgba(255, 99, 132, 1)',-->
+<!--                                                'rgba(54, 162, 235, 1)',-->
+<!--                                                'rgba(255, 206, 86, 1)',-->
+<!--                                                'rgba(75, 192, 192, 1)',-->
+<!--                                                'rgba(153, 102, 255, 1)',-->
+<!--                                                'rgba(255, 159, 64, 1)'];-->
+
+
+
+<!--                              const dataFromBackend = [-->
+<!--                                { label: "gasoline", value: "208" },-->
+<!--                                { label: "fuel", value: "111" },-->
+<!--                                { label: "oil", value: "53" },-->
+<!--                                { label: "Blented Gasoil", value: "54" }-->
+<!--                              ];-->
+
+
+
+<!--&lt;!&ndash;                                const dataFromBackend  = [{% for t in tabk %} '{{t}}', {% endfor %}];&ndash;&gt;-->
+
+
+
+<!--                              // &#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;-->
+
+<!--                              new Chart(ctx, {-->
+<!--                                type: "bar",-->
+<!--                                plugins: [ChartDataLabels],-->
+<!--                                data: {-->
+<!--                                  labels: tanNumbers,-->
+<!--                                  datasets: [-->
+<!--                                    {-->
+<!--                                      label: "Cargo",-->
+<!--                                      backgroundColor: bgColors,-->
+<!--                                      data: dataFromBackend.map((d) => d.value),-->
+<!--                                      borderWidth: 1-->
+<!--                                    }-->
+<!--                                  ]-->
+<!--                                },-->
+
+
+<!--                                 borderColor: [-->
+<!--                                'rgba(255, 99, 132, 1)',-->
+<!--                                'rgba(54, 162, 235, 1)',-->
+<!--                                'rgba(255, 206, 86, 1)',-->
+<!--                                'rgba(75, 192, 192, 1)',-->
+<!--                                'rgba(153, 102, 255, 1)',-->
+<!--                                'rgba(255, 159, 64, 1)'-->
+<!--                            ],-->
+
+
+
+
+<!--                                options: {-->
+<!--                                "hover": {-->
+<!--                                  "animationDuration": 0-->
+<!--                                },-->
+
+<!--                                  plugins: {-->
+<!--                                    datalabels: {-->
+<!--                                      color: "black",-->
+<!--                                      anchor: "end",-->
+<!--                                      align: "top",-->
+<!--                                      formatter: function (value, context) {-->
+<!--                                        const name = dataFromBackend.find((d) => d.value === value)-->
+<!--                                          .label;-->
+<!--                                        return name + " " + value;-->
+<!--                                      }-->
+<!--                                    }-->
+<!--                                  },-->
+<!--                                  scales: {-->
+<!--                                    y: {-->
+<!--                                    grid:{display: false},-->
+
+<!--                                    title: {-->
+<!--                                             display: true,-->
+<!--                                              text: 'Quantity(MT)',-->
+
+
+<!--                                             },-->
+<!--                                      beginAtZero: true-->
+<!--                                    },-->
+
+<!--                                    x: {-->
+<!--                                    grid:{display: false},-->
+
+<!--                                    title: {-->
+<!--                                             display: true,-->
+<!--                                              text: 'Tank',-->
+
+<!--                                             },-->
+
+<!--                                    }-->
+
+<!--                                  }-->
+<!--                                }-->
+<!--                              });-->
+<!--    </script>-->
+<!--                        </div></div></div></div></div>-->
+
+<!--                           ##################   DONUT UNCOMMENT %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%-->
+
+
+<!--         <div class="row mt-2">-->
+<!--            <div class="col-4 grid-margin">-->
+<!--                <div class="card">-->
+
+<!--                    <div class="card-body tbl-container  ">-->
+<!--                        <h5> Doughnut Diagram</h5>-->
+<!--                        <div>-->
+
+<!--                            <div>-->
+<!--                                <canvas id="piedia"></canvas>-->
+<!--                            </div>-->
+
+<!--                            <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0/dist/chart.min.js"></script>-->
+<!--                            <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>-->
+
+<!--                            <script>-->
+
+<!--                               var colorArray = [ '#f1963b', '#0ab39c', '#405989', '#f06548', '#9900B3',]-->
+
+<!--                           const pied = document.getElementById('piedia');-->
+<!--                              new Chart(pied, {-->
+<!--                                type: 'doughnut',-->
+<!--                                plugins: [ChartDataLabels],-->
+<!--                                data: {-->
+<!--                                  labels:[{% for term in tankno %} '{{term}}', {% endfor %}],-->
+<!--                                  datasets: [{-->
+<!--                                    label: 'Cargo',-->
+<!--                                    data: [{% for term in cqty %} '{{term}}', {% endfor %}],-->
+
+<!--&lt;!&ndash;                                     backgroundColor: [&ndash;&gt;-->
+<!--&lt;!&ndash;                                     'rgb(54, 162, 235)',&ndash;&gt;-->
+<!--&lt;!&ndash;                                      'rgb(255, 99, 132)',&ndash;&gt;-->
+<!--&lt;!&ndash;                                      'rgb(54, 162, 235)',&ndash;&gt;-->
+<!--&lt;!&ndash;                                      'rgb(255, 205, 86)',&ndash;&gt;-->
+<!--&lt;!&ndash;                                      'rgba(75, 192, 192, 1)',&ndash;&gt;-->
+<!--&lt;!&ndash;                                      'rgba(255, 159, 64, 1)'&ndash;&gt;-->
+<!--&lt;!&ndash;                                    ],&ndash;&gt;-->
+
+<!--                                        backgroundColor:colorArray,-->
+
+
+<!--                                    borderWidth: 1-->
+<!--                                  }]-->
+<!--                                },-->
+<!--                                options: {-->
+<!--                                    responsive: true,-->
+<!--                                 plugins: {-->
+<!--                                          // Change options for ALL labels of THIS CHART-->
+<!--                                          datalabels: {-->
+<!--                                            color: 'white'-->
+<!--                                          }-->
+<!--                                       },-->
+<!--                                  scales: {-->
+<!--                                    y: {-->
+<!--                                    grid:{display: false},-->
+<!--                                    title: {-->
+<!--                                             display: true,-->
+<!--                                              text: 'Quantity(MT)',-->
+<!--                                               family: 'Poppins',-->
+<!--                                             },-->
+
+<!--                                      beginAtZero: true-->
+<!--                                    },-->
+
+<!--                                    x: {-->
+<!--                                    grid:{display: false},-->
+<!--                                    title: {-->
+<!--                                             display: true,-->
+<!--                                              text: 'Tank',-->
+<!--                                               family: 'Poppins',-->
+<!--                                             },-->
+
+<!--                                    }-->
+<!--                                  }-->
+<!--                                }-->
+<!--                              });-->
+
+<!--                            </script>-->
+
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+
+
+        <div class="row mt-2">
+            <div class="col-5 grid-margin">
+                <div class="card">
+
+                    <div class="card-body tbl-container  ">
+                        <h5> Pie Diagram</h5>
+
+                        <div>
+                            <div class="row container">
+                                <div class="container" style="width: 70%; height: 50%; ">
+                                    <canvas id="doughnut-chart"></canvas>
+                                </div>
+                            </div>
+
+
+                            <script>
+
+                                        {% if cargo and cqty  %}
+
+                                        var colorArray = ['#0ab39c',
+                                            '#f1963b', '#405989', '#f06548',
+                                             '#d07201', '#14b300','#06d2a6','#f8061a','#c45850',
+                                            '#66664D', '#d6d6d7', '#76008f', '#4DB3FF', '#1AB399',
+                                            '#ec92d1', '#33991A', '#ba8383', '#B3B31A', '#00E680',
+                                            '#4D8066', '#809980', '#E6FF80', '#1AFF33', '#999933',
+                                            '#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF'];
+
+                                            new Chart(document.getElementById("doughnut-chart"), {
+                                            type: 'doughnut',
+                                            data: {
+                                              labels:  [{% for term in cargo %} '{{term}}', {% endfor %}],
+                                              datasets: [{
+                                                label: "",
+                                                backgroundColor: colorArray,
+                                                data: [{% for term in cqty %} '{{term}}', {% endfor %}],
+                                              }]
+                                            },
+                                            options: {
+                                                responsive: true,
+                                              title: {
+                                                display: true,
+                                                text: 'Visualization'
+                                              }
+                                            }
+                                        });
+
+                                        {% else %}
+
+                                        {{ "No data" }}
+
+                                        {%endif%}
+
+
+                            </script>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+<!-- row end-->
+</div>
+
+
+
+        <!--######## new design -->
+
+
+{% endblock %}
+
+{% block javascript %}
+
+
+
+
+async function PortTermialRelationChart(){
+    var port = document.querySelector('#port_id').value;
+    console.log(port)
+    var terminal = document.querySelector('#terminal_id')
+    console.log(terminal)
+    await fetch('/port_terminal_chart_relation', { // add comma after URL
+        method: 'POST', // fix colon to comma
+        headers:{
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}',
+        },
+        body: JSON.stringify({'port_name':port}) // fix method name to stringify
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('sss')
+        console.log(data.data1.length)
+        while (terminal.firstChild){
+            terminal.removeChild(terminal.firstChild)
+        }
+
+        for (let i=0; i < data.data.length; i++){
+            const option = document.createElement('option')
+            option.value = data.data[i].date
+            option.text = data.data[i].date
+            terminal.append(option)
+        }
+        console.log('reached')
+
+<!--        while (tank_no.firstChild){-->
+<!--            tank_no.removeChild(tank_no.firstChild)-->
+<!--        }-->
+
+<!--        for (let i=0; i < data.data1.length; i++){-->
+<!--            console.log('reachedss')-->
+<!--            const option = document.createElement('option')-->
+<!--            option.value = data.data1[i].data-->
+<!--            option.text = data.data1[i].data-->
+<!--            tank_no.append(option)-->
+<!--        }-->
+
+    })
+}
+
+
+
+
+{% endblock %}

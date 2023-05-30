@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+<form method="post">
+    {% csrf_token %}
+    <label for="date">Enter a date (YYYY-MM-DD):</label>
+    <input type="text" name="date" id="date" required>
+    <button type="submit">Submit</button>
+</form>
+
+
+</body>
+</html>

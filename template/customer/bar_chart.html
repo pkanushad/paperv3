@@ -1,0 +1,121 @@
+{% extends 'customer/base.html' %}
+{% load static %}
+{% block content %}
+
+
+
+
+  <style>
+
+    .styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.styled-table thead tr {
+    background-color: #405189;
+    color: #ffffff;
+    text-align: left;
+}
+
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+.styled-table tbody tr.active-row {
+    font-weight: bold;
+    color: black;
+
+}
+
+        .table tr {font-size: 13px;}
+.table td {font-size: 13px;}
+
+
+
+
+  </style>
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<div class="page-content">
+    <div class="container-fluid">
+    <!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0">Hedging </h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Hedging</li>
+                </ol>
+            </div>
+
+        </div>
+    </div>
+</div>
+        <!-- end page title -->
+
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <img src="data:image/png;base64,{{ graphic }}" />
+        </div>
+        <div class="col-md-4">
+            <h3>Legend:</h3>
+            <ul class="list-group">
+                <li class="list-group-item">{{ legend }}</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div></div>
+
+{% endblock %}

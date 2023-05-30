@@ -1,0 +1,413 @@
+{% extends 'customer/base.html' %}
+{% block content %}
+
+
+<style>
+<!--    .form-group {-->
+<!--        width: 20%;-->
+<!--        padding: 5px;-->
+<!--        float: left;-->
+<!--    }-->
+
+</style>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<div class="page-content">
+    <div class="container-fluid">
+    <!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0">Load Discharge</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Load Discharge</li>
+                </ol>
+            </div>
+
+        </div>
+    </div>
+</div>
+        <!-- end page title -->
+
+
+
+
+
+<div class="row">
+    <div class="col-12">
+                <div class="row">
+                    <form action="" method="post" enctype="multipart/form-data" id="fbForm" data-fb-url="">
+                        <div class="row">
+                           {% csrf_token %}
+  <div class="card">
+            <div class="card-body">
+                <h4 class="card-title text-success"> From</h4>
+                <hr>
+
+
+                          <div class="row">
+                               <div class="col-sm-2">
+                                        <p class="labelsa"><b>Date </b><p>
+                                        <input type="date" class="form-control" id="date_id" placeholder="" name="date" aria-label="First-Name"  required >
+
+                               </div>
+
+                                    <div class="col-sm-3">
+                                        <p class="labelsa"><b>Trade ID</b><p>
+
+                                        <input type="text" class="form-control" id="trade_id" placeholder="" name="trade_id" aria-label="First-Name" value="{{d.Trade_id}}" required readonly>
+
+                                    </div>
+                               <div class="col-sm-3">
+                                        <p class="labelsa"><b>Purchase/Sales ID</b><p>
+
+                                        <input type="text" class="form-control" id="purchase_sales_id" placeholder="" name="purchase_sales_id" aria-label="First-Name" value="{{d.Purchase_sales_ID}}" required readonly>
+
+                                    </div>
+
+                                      <div class="col-sm-2">
+                                        <p class="labelsa"><b>Distribution Type</b><p>
+
+                                        <input type="text" class="form-control" id="distribution_type" placeholder="" name="distribution_type" aria-label="First-Name" value="Secondary" required readonly>
+
+                                    </div>
+
+                                      <div class="col-sm-2">
+                                        <p class="labelsa"><b>  Delivery Mode</b><p>
+
+                                        <input type="text" class="form-control" id="deliverymode" placeholder="" name="deliverymode" aria-label="First-Name" value="{{d.dest_container}}" required readonly >
+
+                                    </div>
+
+                                     <div class="col-sm-2">
+                                        <p class="labelsa"><b> Tank</b><p>
+
+                                        <input type="text" class="form-control" id="tank" placeholder="" name="tank" aria-label="First-Name" value="{{d.dest_tank_num}}" readonly >
+
+                                    </div>
+
+
+                                     <div class="col-sm-3">
+                                        <p class="labelsa"><b>  Strategy </b><p>
+
+                                        <input type="text" class="form-control" id="strategy" placeholder="" name="strategy" aria-label="First-Name" value="{{d.Strategy}}" readonly >
+
+                                    </div>
+
+
+
+                                     <div class="col-sm-3">
+                                        <p class="labelsa"><b> Vessal Name</b><p>
+
+                                        <input type="text" class="form-control" id="vesselname" placeholder="" name="vesselname" aria-label="First-Name" value="{{d.dest_vessal_op}}" readonly  >
+
+                                    </div>
+
+                                    <div class="col-sm-2">
+                                        <p class="labelsa"><b> Port</b><p>
+
+                                        <input type="text" class="form-control" id="port" placeholder="" name="port" aria-label="First-Name" value="{{d.dest_port}}" required readonly >
+
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <p class="labelsa"><b> Terminal</b><p>
+
+                                        <input type="text" class="form-control" id="terminal" placeholder="" name="terminal" aria-label="First-Name" value="{{d.dest_terminal}}" required readonly >
+
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <p class="labelsa"><b> Cargo</b><p>
+
+                                        <input type="text" class="form-control" id="cargo" placeholder="" name="cargo" aria-label="First-Name" value="{{d.Cargo}}" required readonly >
+
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <p class="labelsa"><b>In Stock</b><p>
+
+                                        <input type="text" class="form-control" id="shore_recieved" placeholder="" name="shore_recieved" aria-label="First-Name" value="{{current_container_qty}}" required readonly >
+
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <p class="labelsa"><b> Density</b><p>
+
+                                        <input type="text" class="form-control" id="density" placeholder="" name="density" aria-label="First-Name" value="{{d.Density}}" required readonly >
+
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <p class="labelsa"><b> Unit</b><p>
+
+                                        <input type="text" class="form-control" id="unit" placeholder="" name="unit" aria-label="First-Name" value="{{d.Unit}}" required readonly >
+
+                                    </div>
+
+<!--                              # From ends here-->
+
+<!--                              <div class="card bg-light">-->
+<!--                                  <div class="card-body">-->
+<!--                                       <h4 class="card-title text-danger">To</h4>-->
+
+<!--                                         <div class="col-sm-2">-->
+<!--                                        <p class="labelsa"><b>Date </b><p>-->
+
+<!--                                        <input type="date" class="form-control" id="date_id" placeholder="" name="date" aria-label="First-Name" value="{{d.Date}}" required >-->
+
+<!--                               </div>-->
+
+
+
+                                  </div>
+                              </div>
+
+
+                                  </div>
+
+                             <div class="card">
+            <div class="card-body">
+                <h4 class="card-title text-success"> To</h4>
+                <hr>
+
+
+                          <div class="row">
+                               <div class="col-sm-2">
+                                        <p class="labelsa"><b>Destination Container </b><p>
+
+                                   <select class="form-select" name="dest_container_to" id="dest_container_to"
+                                           onchange="vessaltankdisable()" required>
+
+                                       <option value=""selected>Select</option>
+                                       <option value="Tank">Tank</option>
+                                       <option value="Vessel">Vessal</option>
+                                   </select>
+
+
+
+                               </div>
+
+                                    <div class="col-sm-3">
+                                        <p class="labelsa"><b>Port</b><p>
+
+<!--                                        <input type="text" class="form-control" id="port_to" placeholder="" name="port_to" aria-label="First-Name" value="" required >-->
+
+                                             <select class="form-select" name="port_to" id="port_to" required onchange="TankPortTermialRelation()">
+                                            <option value="" selected>Select</option>
+                                            {% for i in port %}
+                                            <option value="{{i.name}}">{{i.name}}</option>
+                                            {% endfor %}
+
+                                        </select>
+
+
+                                    </div>
+                               <div class="col-sm-3">
+                                        <p class="labelsa"><b>Terminal</b><p>
+
+<!--                                        <input type="text" class="form-control" id="terminal_to" placeholder="" name="terminal_to" aria-label="First-Name" value="" required >-->
+
+                                              <select class="form-select" name="terminal_to" id="terminal_to" required>
+                                            <option value="" selected>Select</option>
+<!--                                            {% for i in terminal %}-->
+<!--                                            <option value="{{i.name}}">{{i.name}}</option>-->
+<!--                                            {% endfor %}-->
+
+                                        </select>
+
+
+
+                                    </div>
+
+                                      <div class="col-sm-2">
+                                        <p class="labelsa"><b>Tank No:</b><p>
+
+<!--                                        <input type="text" class="form-control" id="tankno_to" placeholder="" name="tankno_to" aria-label="First-Name" value="" required >-->
+                                          <select class="form-select" name="tankno_to" id="tankno_to" onchange="">
+                                              <option value="" selected>Select</option>
+<!--                                              {% for i in tank %}-->
+<!--                                              <option value="{{i.Tank_no}}">{{i.Tank_no}}</option>-->
+<!--                                              {% endfor %}-->
+
+                                          </select>
+
+
+
+                                    </div>
+
+                                      <div class="col-sm-2">
+                                        <p class="labelsa"><b>  Vessal Name</b><p>
+
+                                        <input type="text" class="form-control" id="vessalname_to" placeholder="" name="vessalname_to" aria-label="First-Name" value="" >
+
+                                    </div>
+
+                                     <div class="col-sm-2">
+                                        <p class="labelsa"><b> Transfer Mode</b><p>
+
+<!--                                        <input type="text" class="form-control" id="inv_transfer_mode_to" placeholder="" name="inv_transfer_mode_to" aria-label="First-Name" value="" required >-->
+                                         <select class="form-select" name="inv_transfer_mode_to" id="inv_transfer_mode_to" required>
+                                              <option value="" selected>Select</option>
+                                             <option value="PLT" >PLT</option>
+                                             <option value="Truck" >Truck</option>
+                                         </select>
+
+                                    </div>
+
+                                         <div class="col-sm-3">
+                                        <p class="labelsa"><b> Temperature</b><p>
+
+                                        <input type="text" class="form-control" id="temperature" placeholder="" name="temperature" aria-label="First-Name" value="" >
+
+                                    </div>
+
+
+                                     <div class="col-sm-3">
+                                        <p class="labelsa"><b>  Unit </b><p>
+
+<!--                                        <input type="text" class="form-control" id="unit_to" placeholder="" name="unit_to" aria-label="First-Name" value="" required >-->
+
+                                          <select class="form-select" name="unit_to" id="unit_to" required >
+                                            <option value="" selected>Select</option>
+                                            {% for i in unit %}
+                                            <option value="{{i.name}}">{{i.name}}</option>
+                                            {% endfor %}
+
+                                        </select>
+
+
+
+                                    </div>
+
+
+
+                                     <div class="col-sm-2">
+                                        <p class="labelsa"><b>Cargo LD QTY</b><p>
+
+                                        <input type="text" class="form-control" id="dest_cargo_LD_QTY_to" placeholder="" name="dest_cargo_LD_QTY_to" aria-label="First-Name" value="" required >
+
+                                    </div>
+
+                                    <div class="col-sm-2">
+                                        <p class="labelsa text-danger"><b> Recieved</b><p>
+
+                                        <input type="text" class="form-control" id="dest_received_qty_to" placeholder="" name="dest_received_qty_to" aria-label="First-Name" value="" required >
+
+                                    </div>
+
+
+                                  </div>
+                              </div>
+
+
+                                  </div>
+
+                              <hr>
+
+
+                        </div>
+
+                        <div class="row">
+<!--                              <div class="form-group">-->
+<!--                                <label for="attach_file" class="control-label "> Attach File</label>-->
+<!--&lt;!&ndash;                                {{ form.Attach_file }}&ndash;&gt;-->
+<!--                                  <input type="file" name="Attach_file" class="clearablefileinput form-control-file" id="id_Attach_file" onclick="EnableDisableFile(this)">-->
+<!--                            </div>-->
+                            <input class="btn btn-success d-block w-25 m-auto" type="submit" value="SAVE">
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+
+<!--###  tank, terminal, port realation-->
+
+async function TankPortTermialRelation(){
+    var port = document.querySelector('#port_to').value;
+    console.log(port)
+    var terminal = document.querySelector('#terminal_to')
+    console.log(terminal)
+    const tank_no = document.querySelector('#tankno_to')
+    console.log(tank_no)
+    await fetch('/tank_port_terminal_relation_INV', { // add comma after URL
+        method: 'POST', // fix colon to comma
+        headers:{
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}',
+        },
+        body: JSON.stringify({'port_name':port}) // fix method name to stringify
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('sss')
+        console.log(data.data1.length)
+        while (terminal.firstChild){
+            terminal.removeChild(terminal.firstChild)
+        }
+
+        for (let i=0; i < data.data.length; i++){
+            const option = document.createElement('option')
+            option.value = data.data[i].date
+            option.text = data.data[i].date
+            terminal.append(option)
+        }
+        console.log('reached')
+
+        while (tank_no.firstChild){
+            tank_no.removeChild(tank_no.firstChild)
+        }
+
+        for (let i=0; i < data.data1.length; i++){
+            console.log('reachedss')
+            const option = document.createElement('option')
+            option.value = data.data1[i].data
+            option.text = data.data1[i].data
+            tank_no.append(option)
+        }
+
+    })
+}
+
+<!--# vessal name tank name disable-->
+
+
+
+function vessaltankdisable(){
+    var option = document.querySelector('#dest_container_to').value;
+    console.log(option)
+
+    if (option == 'Tank'){
+        document.getElementById("vessalname_to").value = ""
+        document.getElementById("tankno_to").disabled=false;
+        document.getElementById("vessalname_to").disabled=true;
+
+<!--        document.querySelector('#major_mini_disabled').disabled=true;-->
+    }
+
+    else if (option == 'Vessel'){
+
+     document.getElementById("tankno_to").value = ""
+     document.getElementById("vessalname_to").disabled=false;
+     document.getElementById("tankno_to").disabled=true;
+     document.getElementById("vessalname_to").value = ""
+    }
+
+
+}
+
+document.getElementById('date_id').valueAsDate = new Date();
+
+
+
+
+{% endblock %}

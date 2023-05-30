@@ -1,0 +1,995 @@
+{% extends 'customer/base.html' %}-->
+{% block content %}
+
+<style>
+    .table tr {font-size: 12px;}
+    .table td {font-size: 12px;}
+
+    .tbl-container{
+
+     max-width:fit-content;
+     max-height:fit-content;
+
+    }
+
+    .tbl-fixed {
+       overflow-x: scroll;
+       overflow-y: scroll;
+<!--       height: fit-content;-->
+       max-height:70 vh;
+         height: 285px;
+    }
+
+    table{
+    min-width:max-content;
+    }
+
+    .table th{
+    position:sticky;
+    top: 0px;
+    background:#405189;
+
+    }
+
+<!--    table td {-->
+<!--    background:#fff;-->
+<!--    text-align:center;-->
+<!--    border:1px solid #ccc;-->
+
+<!--    }-->
+
+<!--    .table-wrapper{-->
+<!--    max-height:300px;-->
+<!--    overflow-y: scroll;-->
+
+<!--    }-->
+
+
+
+
+
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<div class="page-content">
+    <div class="container-fluid">
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h4 class="mb-sm-0">Futures Entry</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Futures Entry </li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- end page title -->
+
+        <!--end row-->
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card" id="tasksList">
+                    <div class="card-header border-0">
+                        <div class="d-flex align-items-center">
+                            <h5 class="card-title mb-0 flex-grow-1">Futures Entry</h5>
+                            <div class="flex-shrink-0">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body border border-dashed border-end-0 border-start-0">
+                        <form>
+                            <div class="row g-3">
+                                <div class="col-sm-6">
+<!--                                    <div class="search-box">-->
+                                    <input type="text" class="form-control bg-light border-light" name="search_query" id="demo-datepicker" data-provider="flatpickr" data-date-format="d M, Y" data-range-date="true" placeholder="Search with Contract Name" value="{{request.GET.search_query}}">
+
+<!--                                    </div>-->
+                                </div>
+                                <!--end col-->
+
+<!--                                <div class="col-xxl-4 col-sm-6">-->
+<!--                                    <input type="text" class="form-control bg-light border-light" name="search_query" id="demo-datepicker" data-provider="flatpickr" data-date-format="d M, Y" data-range-date="true" placeholder="Search with Contract Name" value="{{request.GET.search_query}}">-->
+<!--                                </div>-->
+                                <!--end col-->
+
+
+                                <!--end col-->
+                                <div class=" col-sm-1">
+                                    <button type="submit" class="btn btn-primary w-100" onclick="SearchData();"> <i class="ri-search-2-line"></i>
+
+                                    </button>
+                                </div>
+
+                                <div class="col-sm-1">
+                                    <button type="button" class="btn btn-primary w-100" onclick="window.location.href='/future-blotter'"> <i class="ri-close-circle-line"></i>
+
+                                    </button>
+                                </div>
+
+
+                                <div class=" col-sm-4">
+                                    <p class="btn btn-danger add-btn" data-bs-toggle="modal" data-bs-target="#showModal"><i class="ri-add-line align-bottom me-1"></i> Create Contract</p>
+                                    <p class="btn btn-success add-btn" data-bs-toggle="modal" data-bs-target="#showModal4"><i class="ri-add-line align-bottom me-1"></i> Upload file</p>
+
+                                </div>
+
+
+
+                                <!--end col-->
+                            </div>
+                            <!--end row-->
+                        </form>
+                    </div>
+                    <!--end card-body-->
+<!--                    <div class="card-body tbl-container ">-->
+<!--                        <div class="table-responsive tbl-fixed ">-->
+<!--                            <table id="alternative-pagination" class="table dt-responsive align-middle table-hover table-bordered table-condensed" style="width:100%">-->
+
+<!--                                <thead class="text-white" style="background:#405189;">-->
+<!--                                    {% for messages in messages %}-->
+<!--                                    <div id="snackbar">{{messages}}</div>-->
+<!--                                    {% endfor %}-->
+<!--                                    <tr>-->
+<!--                                         <th style="text-align: center;">Sl No</th>-->
+<!--                                        <th style="text-align: center;">Date</th>-->
+<!--                                        <th style="text-align: center;">Trade Type</th>-->
+<!--                                        <th style="text-align: center;">Clearer</th>-->
+<!--                                        <th style="text-align: center;">Trader</th>-->
+<!--                                        <th style="text-align: center;">Book</th>-->
+<!--                                        <th style="text-align: center;">Customer Company</th>-->
+<!--                                        <th style="text-align: center;">Customer Account</th>-->
+<!--                                        <th style="text-align: center;">Strategy</th>-->
+<!--                                        <th style="text-align: center;">Volume</th>-->
+<!--                                        <th style="text-align: center;">Contract Name</th>-->
+<!--                                        <th style="text-align: center;">Contract Month</th>-->
+<!--                                        <th style="text-align: center;">Price</th>-->
+<!--                                        <th style="text-align: center;">Aproximate Ep</th>-->
+<!--                                        <th style="text-align: center;">Type</th>-->
+<!--                                        <th style="text-align: center;">EFSC Code</th>-->
+<!--                                        <th style="text-align: center;">Broker</th>-->
+<!--                                        <th style="text-align: center;">Notes</th>-->
+<!--                                      <th style="text-align: center;">Trade ID</th>-->
+<!--&lt;!&ndash;                                      #calculated value&ndash;&gt;-->
+
+<!--                                        <th style="text-align: center;">Unit </th>-->
+<!--                                        <th style="text-align: center;">Clearer Rate</th>-->
+<!--                                        <th style="text-align: center;">Exchange Rate</th>-->
+<!--                                        <th style="text-align: center;">Brokerage</th>-->
+<!--                                        <th style="text-align: center;">Total Fee</th>-->
+<!--                                        <th style="text-align: center;">Holiday </th>-->
+<!--                                        <th style="text-align: center;">Tick </th>-->
+<!--                                        <th style="text-align: center;">bbl MT Conversion </th>-->
+<!--                                        <th style="text-align: center;">kbbl MT Conversion </th>-->
+<!--                                        <th style="text-align: center;">Physical Code </th>-->
+<!--                                         <th style="text-align: center;">Physical Blotter ID </th>-->
+<!--                                       <th style="text-align: center;">Action </th>-->
+
+<!--                                    </tr>-->
+<!--                                </thead>-->
+<!--                                <tbody id="tableBodyTrader" class="list form-check-all">-->
+<!--                                    {% for messages in messages %}-->
+<!--                                    <p data-toast data-toast-text="{{messages}}" data-toast-gravity="top" id="messages" data-toast-position="center" data-toast-duration="3000" data-toast-close="close"></p>-->
+<!--                                    {% endfor %}-->
+
+<!--                                    {%if page_obj %}-->
+
+<!--                                    {% for data in page_obj %}-->
+<!--                                    <tr>-->
+
+<!--                                         <td style="text-align: center;"class="id">{{forloop.counter}}</td>-->
+
+<!--                                        <td style="text-align: center;"class="id">{{data.date}}</td>-->
+<!--                                        <td style="text-align: center;"class="id">{{data.trader_type}}</td>-->
+<!--&lt;!&ndash;                                        <td style="text-align: center;"class="id">{{data.clearer.clearer.name}}</td>&ndash;&gt;-->
+<!--                                        <td style="text-align: center;"class="id">{{data.clearer}}</td>-->
+<!--                                        <td style="text-align: center;"class="id">{{data.trader.name}}</td>-->
+<!--                                        <td style="text-align: center;"class="id">{{data.book}}</td>-->
+<!--                                        <td style="text-align: center;"class="id">{{data.customer_company}}</td>-->
+<!--                                        <td style="text-align: center;"class="id">{{data.customer_account}}</td>-->
+<!--                                        <td style="text-align: center;"class="id">{{data.strategy.name}}</td>-->
+<!--                                        <td style="text-align: center;"class="id">{{data.volume}}</td>-->
+<!--                                        <td style="text-align: center;"class="id">{{data.contract}}</td>-->
+<!--                                        <td style="text-align: center;"class="id">{{data.Contract_Month}}</td>-->
+<!--                                        <td style="text-align: center;"class="id">{{data.price}}</td>-->
+<!--                                        <td style="text-align: center;"class="id">{{data.approx_ep}}</td>-->
+<!--&lt;!&ndash;                                        <td style="text-align: center;"class="id">{{data.holiday}}</td>&ndash;&gt;-->
+<!--                                        <td style="text-align: center;"class="id">{{data.type}}</td>-->
+<!--                                        <td style="text-align: center;"class="id">{{data.efs_code}}</td>-->
+<!--                                        <td style="text-align: center;"class="id">{{data.broker}}</td>-->
+<!--                                        <td style="text-align: center;"class="id">{{data.notes}}</td>-->
+<!--                                       <td style="text-align: center;"class="id">{{data.Trade_id}}</td>-->
+<!--                                      &lt;!&ndash;#calculated value&ndash;&gt;-->
+<!--                                           <td style="text-align: center;"class="id">{{data.unit}}</td>-->
+<!--                                        <td style="text-align: center;"class="id">{{data.Clearer_rate}}</td>-->
+<!--                                        <td style="text-align: center;"class="id">{{data.Exchange_rate}}</td>-->
+<!--                                        <td style="text-align: center;"class="id">{{data.brockerage}}</td>-->
+<!--                                       <td style="text-align: center;"class="id">{{data.total_fee}}</td>-->
+<!--                                           <td style="text-align: center;"class="id">{{data.holiday}}</td>-->
+<!--                                        <td style="text-align: center;"class="id">{{data.tick}}</td>-->
+<!--                                        <td style="text-align: center;"class="id">{{data.bbl_mt_conversion}}</td>-->
+<!--                                        <td style="text-align: center;"class="id">{{data.kbbl_mt_conversion}}</td>-->
+<!--                                           <td style="text-align: center;"class="id">{{data.physical_code}}</td>-->
+<!--                                         <td style="text-align: center;"class="id">{{data.physica_blotter_connect}}</td>-->
+
+
+
+<!--                                        <td>-->
+
+<!--                                                    <ul >-->
+<!--&lt;!&ndash;                                                        copy&ndash;&gt;-->
+<!--                                                        <li class="list-inline-item"><a class="edit-item-btn" href="/edit-future-blotter/{{data.id}}"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i></a></li>-->
+<!--                                                        <li class="list-inline-item"><a class="edit-item-btn" href="/edit-future-blotter/{{data.id}}"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i></a></li>-->
+<!--                                                        <li class="list-inline-item">-->
+<!--                                                            <a class="remove-item-btn"  href="/delete-future-blotter/{{data.id}}">-->
+<!--                                                                <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>-->
+<!--                                                            </a>-->
+<!--                                                        </li>-->
+<!--                                                    </ul>-->
+
+<!--                                        </td>-->
+
+<!--                                    </tr>-->
+<!--                                    {% endfor %}-->
+<!--                                 {% else %}-->
+<!--                                <tr><td>No Data Found</td></tr>-->
+<!--                            {% endif %}-->
+<!--                                </tbody>-->
+<!--                            </table>-->
+
+<!--                        </div>-->
+<!--                    </div>-->
+                            <!--end table-->
+                            <div class="noresult" style="display: none">
+                                <div class="text-center">
+                                    <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop" colors="primary:#121331,secondary:#08a88a" style="width:75px;height:75px"></lord-icon>
+                                    <h5 class="mt-2">Sorry! No Result Found</h5>
+                                    <p class="text-muted mb-0">We've searched more than 200k+ tasks We did not find any tasks for you search.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end mt-2">
+                            <div class="pagination-wrap hstack gap-2">
+                                {% if page_obj.has_previous %}
+                                <a class="page-item pagination-prev" href="?page={{ page_obj.previous_page_number }}">
+                                    Previous
+                                </a>
+                                {% endif %}
+                                <ul class="pagination listjs-pagination mb-0"></ul>
+                                <p style="
+                                margin-bottom: 0px;
+                            "class="page-item pagination-next">{{ page_obj.number }}</p>
+                                <ul class="pagination listjs-pagination mb-0"></ul>
+                                {% if page_obj.has_next %}
+                                <a class="page-item pagination-next" href="?page={{ page_obj.next_page_number }}">
+                                    Next
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <!--end card-body-->
+                </div>
+                <!--end card-->
+            </div>
+            <!--end col-->
+        </div>
+        <!--end row-->
+        <form method="post">
+            {% csrf_token %}
+
+        <div class="modal fade flip" id="deleteOrder" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body p-5 text-center">
+                        <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#405189,secondary:#f06548" style="width:90px;height:90px"></lord-icon>
+                        <div class="mt-4 text-center">
+                            <input type="hidden" name="delet_id" id="delete_feild" value="">
+                            <h4>Are You Sure You want To delete</h4>
+                            <p class="text-muted fs-14 mb-4">Deleting your task will remove all of
+                                your information from our database.</p>
+                            <div class="hstack gap-2 justify-content-center remove">
+                                <button type="reset" class="btn btn-link btn-ghost-success fw-medium text-decoration-none" id="deleteRecord-close" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Close</button>
+                                <button type="submit" class="btn btn-danger" id="delete-record">Yes, Delete It</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+        <!--end delete modal -->
+
+        <div class="modal fade zoomIn" id="showModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content border-0">
+                    <div class="modal-header p-3 bg-soft-info">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Contract
+
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+                    </div>
+                    <form class="tablelist-form" method="post" id="trader_from" autocomplete="off">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <input type="hidden" id="tasksId" />
+                            <div class="row g-3">
+                                <div class="col-lg-12">
+
+                                    <label for="projectName-field" class="form-label">Name</label>
+                                    <input type="hidden" id="edit_id" name="edit_name_id" value="">
+                                    <input type="text"  name="edit_name" id="value_field" value="" class="form-control" placeholder="Contract name" required />
+                                </div>
+                                <!--end col-->
+
+                                <!--end col-->
+                            </div>
+                            <!--end row-->
+                        </div>
+                        <div class="modal-footer">
+                            <div class="hstack gap-2 justify-content-end">
+                                <button type="button" class="btn btn-light" id="close-modal" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-success" id="add-btn" >Add Contract</button>
+                                <!-- <button type="button" class="btn btn-success" id="edit-btn">Update Task</button> -->
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade zoomIn" id="showModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content border-0">
+                    <div class="modal-header p-3 bg-soft-info">
+                        <h5 class="modal-title" id="exampleModalLabel">Add Futures Trade</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+                    </div>
+
+
+
+                    <form onsubmit="validateForm(event)" method="post" >
+                        {% csrf_token %}
+
+                        <div class="row g-3" style="padding:20px;">
+
+                            <div class="col-sm-4">
+                                <p><b>Date</b></p>
+                                <input type="Date" class="form-control" name="date" id="date_id" aria-label="First-Name"  required >
+                            </div><!--end col-->
+                            <div class="col-sm-4">
+                                <p class="labelsa"><b>TradeType</b><p>
+                                <select class="form-select" id="singlediff" name="bileteral_external" onchange="enabledisable_ext()">
+<!--                                    <option value="choose" selected>Select</option>-->
+                                    <option value="{{d.trader_type}}" selected>{{d.trader_type}}</option>
+                                    <option value="Bilateral">Bilateral</option>
+                                    <option value="External">External</option>
+
+                                </select>                             </div>
+                            <div class="col-sm-4">
+                                <p class="labelsa"><b>Clearear</b></p>
+
+                                <label class="visually-hidden" for="inlineFormSelectPref">Clearear</label>
+                                <select class="form-select" name="clearer" id="clearer_iid" onchange="ClearerChange()">
+<!--                                    <option value="choose" selected>Select</option>-->
+                                     <option value="{{d.clearer}}" selected>{{d.clearer}}</option>
+                                    {% for i in clearer %}
+                                    <option value="{{i}}">{{i}}</option>
+                                    {% endfor %}
+
+                                </select>                             </div>
+
+
+
+
+
+
+                                <div class="col-sm-3">
+                                    <p class="labelsa"><b>Trader</b><p>
+
+                                    <label class="visually-hidden" for="inlineFormSelectPref">Trader</label>
+                                    <select class="form-select" id="trader" name="trader">
+<!--                                        <option value="choose" selected>Select</option>-->
+                                        <option value="{{d.trader.id}}" selected>{{d.trader.name}}</option>
+                                        {% for i in trader %}
+                                        <option value="{{i.id}}">{{i.name}}</option>
+                                        {% endfor %}
+
+                                    </select>                             </div>
+
+
+
+
+                                    <div class="col-sm-3">
+                                        <p class="labelsa"><b>Book</b><p>
+
+                                        <label class="visually-hidden" for="inlineFormSelectPref">Book</label>
+                                        <select class="form-select" id="book" name="book">
+<!--                                            <option value="choose" selected>Select</option>-->
+                                            <option value="{{d.book}}" selected>{{d.book}}</option>
+                                            {% for i in book %}
+                                            <option value="{{i.name}}">{{i.name}}</option>
+                                            {% endfor %}
+
+                                        </select>                             </div>
+
+
+<!--                                        <div class="col-sm-3">-->
+<!--                                            <p class="labelsa"><b>Customer Company</b><p>-->
+
+<!--                                          {% if d.trader_type == 'External'%}-->
+
+<!--                                            <select class="form-select" id="customerCompanyId" name="customer_company" onchange="customerCompanyFun()" disabled>-->
+<!--                                                <option value="{{d.customer_company}}" selected>{{d.customer_company}}</option>-->
+<!--                                                {% for i in customer_company %}-->
+<!--                                                <option value="{{i.Customer_Company_name}}">{{i.Customer_Company_name}}</option>-->
+<!--                                                {% endfor %}-->
+
+<!--                                            </select>-->
+
+<!--                                             {% elif d.trader_type == 'Bilateral' %}-->
+
+
+<!--                                            <select class="form-select" id="customerCompanyId" name="customer_company" onchange="customerCompanyFun()">-->
+<!--                                                <option value="{{d.customer_company}}" selected>{{d.customer_company}}</option>-->
+<!--                                                {% for i in customer_company %}-->
+<!--                                                <option value="{{i.Customer_Company_name}}">{{i.Customer_Company_name}}</option>-->
+<!--                                                {% endfor %}-->
+<!--                                            </select>-->
+<!--                                                {% endif %}-->
+<!--                                        </div>-->
+
+
+
+
+<!--                                    <div class="col-sm-3">-->
+<!--                                        <p class="labelsa"><b>Account</b><p>-->
+
+<!--                                            {% if d.bileteral_external == 'External'%}-->
+
+<!--                                        <select class="form-select" id="account_id" name="company_account" disabled>-->
+<!--                                            <option value="{{d.customer_account}}" selected>{{d.customer_account}}</option>-->
+<!--                                        </select>-->
+
+<!--                                        {% elif d.bileteral_external == 'Bilateral' %}-->
+<!--                                            <select class="form-select" id="account_id" name="company_account">-->
+<!--                                                <option value="{{d.customer_account}}" selected>{{d.customer_account}}</option>-->
+<!--                                        </select>-->
+<!--                                            {% endif %}-->
+
+<!--                                    </div>-->
+
+
+                                                                    <div class="col-sm-3">
+                                            <p class="labelsa"><b>Customer Company</b><p>
+
+                                            <label class="visually-hidden" for="inlineFormSelectPref">Customer Company</label>
+
+
+                                            {% if d.bileteral_external == 'External'%}
+
+                                                 <select class="form-select" id="customerCompanyId" name="customer_company" onchange="customerCompanyFun()" disabled>
+                                                <option value="{{d.customer_company}}" selected>{{d.customer_company}}</option>
+                                                {% for i in customer_company %}
+                                                <option value="{{i.Customer_Company_name}}">{{i.Customer_Company_name}}</option>
+                                                {% endfor %}
+
+                                            </select>
+
+                                            {% elif d.bileteral_external == 'Bilateral' %}
+
+                                                       <select class="form-select" id="customerCompanyId" name="customer_company" onchange="customerCompanyFun()">
+                                                <option value="{{d.customer_company}}" selected>{{d.customer_company}}</option>
+                                                {% for i in customer_company %}
+                                                <option value="{{i.Customer_Company_name}}">{{i.Customer_Company_name}}</option>
+                                                {% endfor %}
+                                            </select>
+
+                                            {% endif %}
+
+                                        </div>
+
+
+
+
+                                    <div class="col-sm-3">
+                                        <p class="labelsa"><b>Account</b><p>
+
+                                        <label class="visually-hidden" for="inlineFormSelectPref">Account</label>
+
+                                        {% if d.bileteral_external == 'External'%}
+
+                                          <select class="form-select" id="account_id" name="company_account" disabled>
+                                            <option value="{{d.customer_account}}" selected>{{d.customer_account}}</option>
+
+                                        </select>
+
+                                           {% elif d.bileteral_external == 'Bilateral' %}
+
+                                        <select class="form-select" id="account_id" name="company_account">
+                                            <option value="{{d.customer_account}}" selected>{{d.customer_account}}</option>
+
+                                        </select>
+
+                                        {% endif %}
+
+                                    </div>
+
+
+
+
+
+
+
+                                    <div class="col-sm-3">
+                                        <p class="labelsa"><b>Strategy</b></p>
+
+                                        <label class="visually-hidden" for="inlineFormSelectPref">Clearear</label>
+                                        <select class="form-select" name="strategy">
+<!--                                            <option value="choose" selected>Select</option>-->
+                                               <option value="{{d.strategy.id}}" selected>{{d.strategy.name}}</option>
+                                            {% for i in strategy %}
+                                            <option value="{{i.id}}">{{i.name}}</option>
+
+                                            {% endfor %}
+
+
+                                        </select>
+                                    </div>
+
+
+<!--                                        <div class="col-sm-3">-->
+<!--                                            <p class="labelsa"><b>Derivatives</b></p>-->
+<!--                                     -->
+<!--                                            <label class="visually-hidden" for="inlineFormSelectPref">Clearear</label>-->
+<!--                                            <select class="form-select" name="derivatives"  id="derivative_id" >-->
+<!--                                                <option value="swaps" selected>swaps</option>-->
+<!--                                             -->
+<!--                        -->
+<!--                                            </select>                             </div>-->
+
+
+
+                                <div class="col-sm-3">
+                                    <p class="labelsa"><b>Buy/Sell</b></p>
+
+                                    <input type="text" class="form-control" id="buy_sell" placeholder="" name="buy_sell" aria-label="First-Name" value="" required readonly >
+                                </div>
+
+
+                                <div class="col-sm-3">
+                                    <p class="labelsa"><b>Volume</b></p>
+                                    <input type="text" class="form-control"  id="volume" onchange="buySell()" placeholder="" name="volume" aria-label="First-Name" value="" required >
+                                </div>
+
+<!--                             <div class="col-sm-4">-->
+<!--                                    <p class="labelsa"><b>Physical Blotter ID</b></p>-->
+<!--                                    <input type="text" class="form-control"  id="pb_id" placeholder="" name="pb_id" aria-label="First-Name" value="{{d.physica_blotter_connect}}"  required >-->
+<!--                                </div>-->
+
+
+                                  <div class="col-sm-3">
+                                    <p class="labelsa"><b>Contract Name </b></p>
+
+                                    <select class="form-select"  name="contract_name" id="contract1" onchange="Contract_name_broker_like_clearer()" required>
+                                        <option value="{{d.contract}}" selected>{{d.contract}}</option>
+
+                                    </div>
+
+                                        <br>
+                                        <div class="col-sm-12">
+                                            <input type="hidden" class="form-control">
+                                        </div>
+
+
+
+
+
+                                                         <div class="col-sm-3">
+                                      <p class="labelsa"><b>Unit</b><p>
+<!--                                    <input type="text" class="form-control" name="unit_c"  id="unit_idc" placeholder="" aria-label="First-Name" value="">-->
+
+                                  <select class="form-select" id="unit_idc" name="unit_c">
+
+                                          <option value="{{d.unit}}" >{{d.unit}}</option>
+<!--                                            <option value="" ></option>-->
+
+                                        </select>
+
+
+
+                                </div>
+
+                              <div class="col-sm-3">
+                                      <p class="labelsa"><b>Tick</b><p>
+<!--                                    <input type="text" class="form-control" name="tick_c" id="tick_idc" placeholder="" aria-label="First-Name">-->
+
+                                           <select class="form-select" id="tick_idc" name="tick_c">
+                                               <option value="{{d.tick}}" >{{d.tick}}</option>
+<!--                                            <option value="" ></option>-->
+
+                                        </select>
+                                </div>
+
+
+                                <div class="col-sm-3">
+                                    <p class="labelsa"><b>Contract Month</b><p>
+                                    <input type="date" name="contract_month" class="form-control" placeholder="" aria-label="First-Name" id="contract_month"  value="{{d.Contract_Month}}"  required>
+                                </div>
+
+
+<!--                                <div class="col-sm-3">-->
+<!--                                    <p class="labelsa">End date</p>-->
+<!--                                    <input type="date" name="end_date" class="form-control" placeholder="Major Mini Conn" aria-label="First-Name" id="end_date" required>-->
+<!--                                </div>-->
+
+
+                                <div class="col-sm-3">
+                                      <p class="labelsa"><b>Price</b><p>
+                                    <input type="text" class="form-control" name="price"  placeholder="" aria-label="First-Name" value="" required>
+                                </div>
+
+
+                                <div class="col-sm-3">
+                                     <p class="labelsa"><b>Approx. Executed Price</b><p>
+                                       {% if d.bileteral_external == 'External'%}
+                                    <input type="text" class="form-control" name="approximate_ep" id="approximate_ep_id" placeholder="" aria-label="First-Name" value="" disabled>
+                                      {% elif d.bileteral_external == 'Bilateral' %}
+                                    <input type="text" class="form-control" name="approximate_ep" id="approximate_ep_id" placeholder="" aria-label="First-Name" value="">
+                                              {% endif %}
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <p class="labelsa"><b>Holiday</b><p>
+
+                                    <select class="form-select" id="holiday"  name="holiday" required>
+
+                                        <option value="{{d.holiday}}" selected>{{d.holiday}}</option>
+<!--                                                {% for i in customer_company %}-->
+<!--                                                <option value="{{i.contract}}">{{i.contract}}</option>-->
+<!--                                                {% endfor %}-->
+
+
+                                                            </div>
+
+                                                            <div class="col-sm-3">
+                                                                <p class="labelsa"></p>
+
+                                                                <select class="form-select"  name="unit" required>
+
+
+                                                                                        </div>
+
+
+
+                                <div class="col-sm-3">
+                                           <p class="labelsa"><b>Type</b><p>
+                                    <label class="visually-hidden" >Type</label>
+                                    <select class="form-select"  name="type" required>
+<!--                                        <option value="choose" >Select</option>-->
+                                          <option value="{{d.type}}" selected>{{d.type}}</option>
+                                        {% for i in type %}
+                                        <option value="{{i.name}}" >{{i.name}}</option>
+                                        {% endfor %}
+
+                                                            </div>
+
+<br>
+                                                            <div class="col-sm-12">
+                                                                <input type="hidden" class="form-control"  placeholder="BBi/Mt Conversion" aria-label="First-Name" >
+
+                                                            </div>
+
+
+
+
+
+
+
+
+
+                                <div class="col-sm-3">
+                                    <p class="labelsa"><b>EFS Code</b><p>
+                                    <input type="text" class="form-control" name="efs_code" placeholder="" aria-label="First-Name" value="{{d.efs_code}}" >
+                                </div>
+
+                                <div class="col-sm-6">
+                                     <p class="labelsa"><b>Broker </b><p>
+
+                                    <label class="visually-hidden" >Broker</label>
+                                    <select class="form-select" name="brocker" id="brocker_id" required>
+<!--                                        <option selected >Select</option>-->
+                                            <option value="{{d.broker}}" selected>{{d.broker}}</option>
+
+                                </div>
+
+
+
+<!--<br>-->
+
+                                <div class="col-sm-3">
+
+                                    <input type="hidden" class="form-control" name="physical_code" placeholder="" aria-label="First-Name" required>
+                                </div>
+
+                                <div class="col-sm-6">
+                                        <p class="labelsa"><b>Notes </b><p>
+                                    <input type="text" class="form-control" name="notes" placeholder="" aria-label="First-Name" value="{{d.notes}}">
+                                </div>
+                                <div class="col-12">
+        <div class="text-end">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </div>
+                        </div><!--end row-->
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade zoomIn" id="showModal4" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content border-0">
+                    <div class="modal-header p-3 bg-soft-info">
+                        <h5 class="modal-title" id="exampleModalLabel">Create Contract</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+                    </div>
+
+
+
+                    <form class="tablelist-form" method="post" id="trader_from" autocomplete="off" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <input type="hidden" id="tasksId" />
+                            <div class="row g-3">
+                                <div class="col-lg-12">
+                                    <label for="projectName-field" class="form-label">Name</label>
+                                    <input type="file"  name="file" id="projectName-field" class="form-control" placeholder="Contract name" required />
+                                </div>
+                                <!--end col-->
+
+                                <!--end col-->
+                            </div>
+                            <!--end row-->
+                        </div>
+                        <div class="modal-footer">
+                            <div class="hstack gap-2 justify-content-end">
+                                <button type="button" class="btn btn-light" id="close-modal" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-success" id="add-btn" >Upload file</button>
+                                <!-- <button type="button" class="btn btn-success" id="edit-btn">Update Task</button> -->
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--end modal-->
+
+    </div>
+    <!-- container-fluid -->
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+
+function deletefunc(id){
+
+    document.querySelector('#delete_feild').value=id
+}
+
+<!--async function contractNameHolidayRelation(){-->
+<!--    var contract = document.querySelector('#contract1').value;-->
+<!--    var holiday = document.querySelector('#holiday')-->
+<!--    const brocker_input = document.querySelector('#brocker_id')-->
+<!--    await fetch('contract_name_holiday_relation', { // add comma after URL-->
+<!--        method: 'POST', // fix colon to comma-->
+<!--        headers:{-->
+<!--            'Content-Type': 'application/json',-->
+<!--            'X-CSRFToken': '{{ csrf_token }}',-->
+<!--        },-->
+<!--        body: JSON.stringify({'contract_name':contract}) // fix method name to stringify-->
+<!--    })-->
+<!--    .then(response => response.json())-->
+<!--    .then(data => {-->
+<!--        console.log('sss')-->
+<!--        console.log(data.data1.length)-->
+<!--        while (holiday.firstChild){-->
+<!--            holiday.removeChild(holiday.firstChild)-->
+<!--        }-->
+
+<!--        for (let i=0; i < data.data.length; i++){-->
+<!--            const option = document.createElement('option')-->
+<!--            option.value = data.data[i].date-->
+<!--            option.text = data.data[i].date-->
+<!--            holiday.append(option)-->
+<!--        }-->
+<!--        console.log('reached')-->
+
+<!--        while (brocker_input.firstChild){-->
+<!--            brocker_input.removeChild(brocker_input.firstChild)-->
+<!--        }-->
+
+<!--        for (let i=0; i < data.data1.length; i++){-->
+<!--            console.log('reachedss')-->
+<!--            const option = document.createElement('option')-->
+<!--            option.value = data.data1[i].data-->
+<!--            option.text = data.data1[i].data-->
+<!--            brocker_input.append(option)-->
+<!--        }-->
+
+<!--    })-->
+<!--}-->
+
+async function ClearerChange(){
+    const clearer_name = document.querySelector('#clearer_iid').value
+    const derivative_id = 'features'
+     fetch(`/future_bloters_clearer_derivative`,{
+        method:"POST",
+        headers:{
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}',
+        },
+        body:JSON.stringify({'clearer':clearer_name})
+     })
+
+    .then (response => response.json())
+    .then (data => {
+        console.log(data)
+        while (contract1.firstChild){
+            contract1.removeChild(contract1.firstChild)
+        }
+
+
+        const option = document.createElement('option')
+        option.value ='choose'
+        option.text = '------'
+        document.querySelector('#contract1').append(option)
+        for (i=0; i < data.data.length; i++){
+        console.log(data.data[0].data)
+        const option = document.createElement('option')
+        option.value = data.data[i].data;
+        option.text = data.data[i].data;
+        document.querySelector('#contract1').append(option);
+    }
+
+    })
+}
+
+
+
+async function Contract_name_broker_like_clearer(){
+    const contract = document.querySelector('#contract1').value
+    const derivative_id = 'features'
+     fetch(`/future_bloters_company_broker_derivative`,{
+        method:"POST",
+        headers:{
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}',
+        },
+        body:JSON.stringify({'contract_name':contract})
+     })
+
+    .then (response => response.json())
+    .then (data => {
+        console.log(data)
+        console.log(data.data2)
+        while (brocker_id.firstChild){
+            brocker_id.removeChild(brocker_id.firstChild)
+        }
+        const option = document.createElement('option')
+        option.value ='choose'
+        option.text = '------'
+        document.querySelector('#brocker_id').append(option)
+        for (i=0; i < data.data.length; i++){
+        console.log(data.data[0].data)
+        const option = document.createElement('option')
+        option.value = data.data[i].data;
+        option.text = data.data[i].data;
+        document.querySelector('#brocker_id').append(option);
+
+    }
+    })
+}
+
+
+
+document.getElementById('date_id').valueAsDate = new Date();
+function buySell(){
+    const buy_sell = document.querySelector('#buy_sell')
+    const volume = document.querySelector('#volume').value
+
+    if (volume > 0){
+        buy_sell.value='Buy'
+    }
+
+    else if(volume < 0){
+        buy_sell.value='Sell'
+    }
+
+}
+
+
+
+
+
+
+
+function customerCompanyFun(){
+    const customer_company = document.querySelector('#customerCompanyId').value
+
+    fetch(`/search_customer_company/${customer_company}`)
+
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.company_name)
+        const account_id = document.querySelector('#account_id')
+
+        while (account_id.firstChild){
+            account_id.removeChild(account_id.firstChild)
+        }
+
+        for (i=0; i < data.company_name.length; i++){
+            const option = document.createElement('option');
+            option.value = data.company_name[i].data
+            option.text = data.company_name[i].data
+            account_id.appendChild(option)
+        }
+    })
+}
+
+
+<!--#enable disable customer compnay account  approximate EP-->
+
+function enabledisable_ext(){
+    var option = document.querySelector('#singlediff').value;
+    console.log(option)
+
+    if (option == 'External'){
+        document.getElementById("customerCompanyId").value = ""
+        document.getElementById("customerCompanyId").disabled=true;
+        document.getElementById("account_id").value = ""
+        document.getElementById("account_id").disabled=true;
+        document.getElementById("approximate_ep_id").value = ""
+        document.getElementById("approximate_ep_id").disabled=true;
+    }
+
+    if (option == 'Bilateral'){
+<!--        document.getElementById("customerCompanyId").value = ""-->
+        document.getElementById("customerCompanyId").disabled=false;
+        document.getElementById("account_id").value = ""
+        document.getElementById("account_id").disabled=false;
+        document.getElementById("approximate_ep_id").value = ""
+        document.getElementById("approximate_ep_id").disabled=false;
+    }
+
+}
+
+
+
+<!--##### copy data by click-->
+
+   var table = document.getElementById('alternative-pagination');
+   console.log(table)
+
+                for(var i = 1; i < table.rows.length; i++)
+                {
+                    table.rows[i].onclick = function()
+                    {
+                         //rIndex = this.rowIndex;
+                         document.getElementById("date_id").value = this.cells[0].innerHTML;
+                         document.getElementById("singlediff").value = this.cells[1].innerHTML;
+                         document.getElementById("clearer_iid").value = this.cells[2].innerHTML;
+                    };
+                }
+
+
+{% endblock %}

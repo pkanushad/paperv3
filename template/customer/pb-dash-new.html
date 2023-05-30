@@ -1,0 +1,112 @@
+{% extends 'customer/base.html' %}
+{% load static %}
+{% block content %}
+
+
+<style>
+<!--    .tableheadbg{-->
+<!--    background-color:#405189;-->
+<!--    }-->
+<!--    .table th,-->
+<!--.table td {-->
+<!--    padding: 3px 10px;-->
+<!--}-->
+
+.table tr {font-size: 13px;}
+.table td {font-size: 12px;}
+
+<!--tableclass tr tr {font-size: 10px;}-->
+
+
+
+</style>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<div class="page-content">
+    <div class="container-fluid">
+    <!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0"> Deals</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
+                    <li class="breadcrumb-item active"> Deals</li>
+                </ol>
+            </div>
+
+        </div>
+    </div>
+</div>
+        <!-- end page title -->
+
+
+<div class="row mt-0 ">
+    <div class="col-12 grid-margin mt-0">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title"> New Deals</h4>
+                <div class="table-responsive mt-0">
+                      <table class="table   table-hover  align-middle mb-0 border border-2 table-responsive ">
+                                            <thead class="tableheadbg bg-light ">
+                                                <tr class="">
+                                                       <th class="serial "> No </th>
+                                                    <th scope="col" >Deal ID</th>
+                                                    <th scope="col" > Strategy </th>
+                                                    <th scope="col" >Book</th>
+                                                     <th scope="col" >Counter Party </th>
+                                                      <th scope="col" >Cargo </th>
+                                                      <th scope="col" > Quantity </th>
+                                                     <th scope="col" > Unit </th>
+                                                    <th scope="col">Status</th>
+                                                    <th scope="col" >Actions</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                            {% if generatetrade_user %}
+                                            {% for generatetrade in generatetrade_user %}
+                                                <tr>
+                                                      <td class="serial">{{forloop.counter}}</td>
+                                                    <td>{{generatetrade.Trade_id}}</td>
+                                                    <td>{{generatetrade.Strategy}}</td>
+                                                    <td>{{generatetrade.Book}}</td>
+                                                    <td>{{generatetrade.Company_name}}</td>
+                                                    <td>{{generatetrade.Cargo}}</td>
+                                                    <td>{{generatetrade.deal_current_qty }}</td>
+                                                        <td>{{generatetrade.Unit}}</td>
+<!--                                                    <td><img src="assets/images/users/avatar-1.jpg" alt="" class="avatar-xs rounded-circle me-2">-->
+<!--                                                        <a href="#javascript: void(0);" class="text-body fw-medium">Donald Risher</a>-->
+<!--                                                    </td>-->
+                                                    <td><span class="badge badge-soft-success p-2">{{generatetrade.Status}} </span></td>
+                                                    <td>
+                                                        <a href="/physical-blotter/{{generatetrade.id}}"
+                                                           class="btn btn-primary btn-sm"
+                                                           role="button"> Process</a>
+                                                    </td>
+                                                </tr>
+                                             {% endfor %}
+                                            {% else %}
+                                            <tr>
+                                                <td>No Data Found</td>
+                                            </tr>
+                                            {% endif %}
+
+                                            </tbody><!-- end tbody -->
+                                        </table><!-- end table -->
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</div>
+{% endblock %}

@@ -1,0 +1,229 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="page-content">
+    <div class="container-fluid">
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h4 class="mb-sm-0">Traders</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Traders</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- end page title -->
+
+        <!--end row-->
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card" id="tasksList">
+                    <div class="card-header border-0">
+                        <div class="d-flex align-items-center">
+                            <h5 class="card-title mb-0 flex-grow-1">All Traders</h5>
+                            <div class="flex-shrink-0">
+                               <div class="d-flex flex-wrap gap-2">
+                                    <button class="btn btn-danger add-btn" data-bs-toggle="modal" data-bs-target="#showModal"><i class="ri-add-line align-bottom me-1"></i> Create Task</button>
+                                    <button class="btn btn-soft-danger" id="remove-actions" onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
+                               </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body border border-dashed border-end-0 border-start-0">
+                        <form>
+                            <div class="row g-3">
+                                <div class="col-xxl-5 col-sm-12">
+                                    <div class="search-box">
+                                        <input type="text" class="form-control search bg-light border-light" placeholder="Search for tasks or something...">
+                                        <i class="ri-search-line search-icon"></i>
+                                    </div>
+                                </div>
+                                <!--end col-->
+
+                                <div class="col-xxl-3 col-sm-4">
+                                    <input type="text" class="form-control bg-light border-light" id="demo-datepicker" data-provider="flatpickr" data-date-format="d M, Y" data-range-date="true" placeholder="Select date range">
+                                </div>
+                                <!--end col-->
+
+                                <div class="col-xxl-3 col-sm-4">
+                                    <div class="input-light">
+                                        <select class="form-control" data-choices data-choices-search-false name="choices-single-default" id="idStatus">
+                                            <option value="">Status</option>
+                                            <option value="all" selected>All</option>
+                                            <option value="New">New</option>
+                                            <option value="Pending">Pending</option>
+                                            <option value="Inprogress">Inprogress</option>
+                                            <option value="Completed">Completed</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!--end col-->
+                                <div class="col-xxl-1 col-sm-4">
+                                    <button type="button" class="btn btn-primary w-100" onclick="SearchData();"> <i class="ri-equalizer-fill me-1 align-bottom"></i>
+                                        Filters
+                                    </button>
+                                </div>
+                                <!--end col-->
+                            </div>
+                            <!--end row-->
+                        </form>
+                    </div>
+                    <!--end card-body-->
+                    <div class="card-body">
+                        <div class="table-responsive table-card mb-4">
+                            <table class="table align-middle table-nowrap mb-0" id="tasksTable">
+                                <thead class="table-light text-muted">
+                                    <tr>
+                                        <th class="sort" data-sort="id">ID</th>
+                                        <th class="sort" data-sort="project_name">Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="list form-check-all">
+                                    {% for data in data %}
+                                    <tr>
+                                       
+                                        <td class="id">{{forloop.counter}}</td>
+                                        <td>
+                                            <div class="d-flex">
+                                                <div class="flex-grow-1 tasks_name">{{data.name}}</div>
+                                                <div class="flex-shrink-0 ms-4">
+                                                    <ul class="list-inline tasks-list-menu mb-0">
+                                                        <li class="list-inline-item"><a href="apps-tasks-details.html"><i class="ri-eye-fill align-bottom me-2 text-muted"></i></a></li>
+                                                        <li class="list-inline-item"><a class="edit-item-btn" href="#showModal" data-bs-toggle="modal"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i></a></li>
+                                                        <li class="list-inline-item">
+                                                            <a class="remove-item-btn" data-bs-toggle="modal" href="#deleteOrder">
+                                                                <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </td>
+                                 
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <!--end table-->
+                            <div class="noresult" style="display: none">
+                                <div class="text-center">
+                                    <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop" colors="primary:#121331,secondary:#08a88a" style="width:75px;height:75px"></lord-icon>
+                                    <h5 class="mt-2">Sorry! No Result Found</h5>
+                                    <p class="text-muted mb-0">We've searched more than 200k+ tasks We did not find any tasks for you search.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end mt-2">
+                            <div class="pagination-wrap hstack gap-2">
+                                <a class="page-item pagination-prev disabled" href="#">
+                                    Previous
+                                </a>
+                                <ul class="pagination listjs-pagination mb-0"></ul>
+                                <a class="page-item pagination-next" href="#">
+                                    Next
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end card-body-->
+                </div>
+                <!--end card-->
+            </div>
+            <!--end col-->
+        </div>
+        <!--end row-->
+
+        <div class="modal fade flip" id="deleteOrder" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body p-5 text-center">
+                        <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#405189,secondary:#f06548" style="width:90px;height:90px"></lord-icon>
+                        <div class="mt-4 text-center">
+                            <h4>You are about to delete a task ?</h4>
+                            <p class="text-muted fs-14 mb-4">Deleting your task will remove all of
+                                your information from our database.</p>
+                            <div class="hstack gap-2 justify-content-center remove">
+                                <button class="btn btn-link btn-ghost-success fw-medium text-decoration-none" id="deleteRecord-close" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Close</button>
+                                <button class="btn btn-danger" id="delete-record">Yes, Delete It</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end delete modal -->
+
+        <div class="modal fade zoomIn" id="showModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content border-0">
+                    <div class="modal-header p-3 bg-soft-info">
+                        <h5 class="modal-title" id="exampleModalLabel">Create Traders</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+                    </div>
+                    <form class="tablelist-form" id="trader_from" autocomplete="off">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <input type="hidden" id="tasksId" />
+                            <div class="row g-3">
+                                <div class="col-lg-12">
+                                    <label for="projectName-field" class="form-label">Name</label>
+                                    <input type="text"  name="name" id="projectName-field" class="form-control" placeholder="Trader name" required />
+                                </div>
+                                <!--end col-->
+
+                                <!--end col-->
+                            </div>
+                            <!--end row-->
+                        </div>
+                        <div class="modal-footer">
+                            <div class="hstack gap-2 justify-content-end">
+                                <button type="button" class="btn btn-light" id="close-modal" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-success" id="add-btn" onclick="hd()">Add Trader</button>
+                                <!-- <button type="button" class="btn btn-success" id="edit-btn">Update Task</button> -->
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--end modal-->
+
+    </div>
+    <!-- container-fluid -->
+</div>
+{% endblock %}
+
+{% block javascript %}
+function hd(){
+    let myModalEl = document.getElementById('showModal')
+    let modal = bootstrap.Modal.getInstance(myModalEl)
+    modal.hide()
+}
+
+document.querySelector('#add-btn').addEventListener("click",e=>{
+    e.preventDefault();
+
+
+    const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+    const formData= new FormData(document.querySelector("#trader_from"));
+    formData.append('csrfmiddlewaretoken',csrfToken)
+    const url='/add-trader/';
+    fetch(url,{
+        method:'POST',
+        body:formData,
+    })
+
+    .then(response => response.json()) 
+    .then(data => {
+        const traderName = data.name;
+    })
+})
+{% endblock %}

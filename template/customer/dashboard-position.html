@@ -1,0 +1,256 @@
+{% extends 'customer/base.html' %}
+{% load static %}
+{% block content %}
+
+
+<style>
+    .tableheadbg{
+    background-color:#405189;
+    }
+
+
+    .table_d th {background-color:#405189; font-size: 13px; }
+    .table_d td {
+    padding: 10px 10px;
+    }
+
+
+    .table_d tr {font-size: 12px;}
+     .table_d td {font-size: 12px;}
+     .table_d tr:nth-of-type(1) {
+          background-color: #FFF2E1;font-weight:bold;
+
+        }
+
+
+<!--            .table_d tr:nth-of-type(-1) {-->
+<!--          background-color: #FFF2E1;font-weight:bold;-->
+
+<!--        }-->
+
+
+<!--      table lots style-->
+
+<!--tableclass tr tr {font-size: 10px;}-->
+
+
+
+</style>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<div class="page-content">
+    <div class="container-fluid">
+    <!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0"> TRADING POSITION</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
+                    <li class="breadcrumb-item active"> Trading Position</li>
+                </ol>
+            </div>
+
+        </div>
+    </div>
+</div>
+        <!-- end page title -->
+
+        <div class="col-12 grid-margin">
+        <div class="card">
+            <div class="card-body">
+                    <h4 class="card-title">Exchange Trade Position</h4>
+
+                <div class="">
+<!--             <a href="" class="btn btn-primary active" data-mdb-toggle="button" aria-pressed="true"-->
+<!--           role="button"> Futures-Swap</a>-->
+                    <a href="/tatal_kbbl_position" class="btn btn-primary active" data-mdb-toggle="button" aria-pressed="true"
+           role="button"> Exchange Trading Position</a>
+                    <a href="/filter" class="btn btn-primary active" data-mdb-toggle="button" aria-pressed="true"
+           role="button"> Company/Custmor Position</a>
+                </div>
+
+<!--            </div></div></div>-->
+
+
+<div class="row mt-0 ">
+    <div class="col-12 grid-margin mt-0">
+        <div class="card">
+            <div class="card-body">
+
+
+<!--                <h4 class="card-title">kbbl Position</h4>-->
+
+
+                                                    <div class="table-responsive table-card mt-2">
+
+<!--                                                        <table class="styled-table table table-hover table-striped">-->
+
+<!--                                                            <thead>-->
+<!--                                                            <tr>-->
+<!--                                                                <th class="serial"> No</th>-->
+<!--                                                                {% for col in kbbl_total_position.columns %}-->
+<!--                                                                <th class=""> {{col}}</th>-->
+<!--                                                                {%endfor%}-->
+<!--                                                            </tr>-->
+<!--                                                            </thead>-->
+<!--                                                            <tbody>-->
+<!--                                                            {% for row in kbbl_total_position.values %}-->
+<!--                                                            <tr class="active-row">-->
+<!--                                                                <td class="serial">{{forloop.counter}}</td>-->
+<!--                                                                {% for value in row %}-->
+<!--                                                                <td class="{% if value < 0 %}text-danger{% endif %}">-->
+<!--                                                                    {{value}}-->
+<!--                                                                </td>-->
+<!--                                                                {% endfor %}-->
+<!--                                                            </tr>-->
+<!--                                                            {% endfor %}-->
+<!--                                                            &lt;!&ndash; and so on... &ndash;&gt;-->
+<!--                                                            </tbody>-->
+<!--                                                        </table>-->
+
+                                                          <table class=" table_d table-striped  table-hover  align-middle mb-0 border border-2 table-responsive ">
+                                            <thead class="tableheadbg">
+                                                <tr class="text-muted">
+<!--                                                       <th class="serial text-white"> No </th>-->
+                                                    <th class="serial text-white "> No</th>
+
+                                                                {% for col in kbbl_total_position.columns %}
+
+                                                                <th class=" text-white"> {{col}}</th>
+                                                                {%endfor%}
+
+                                                </tr>
+                                            </thead>
+
+                                                              <tbody>
+
+                                                              {% for row in kbbl_total_position.values %}
+
+
+                                                              <tr class="active-row ">
+
+                                                                  <td class="serial">{{forloop.counter}}</td>
+
+                                                                  {% for value in row %}
+
+                                                                  <td class="{% if value < 0 %}text-danger{% endif %}">
+                                                                      {{value}}
+                                                                  </td>
+                                                                  {% endfor %}
+                                                              </tr>
+                                                              {% endfor %}
+
+                                                              </tbody><!-- end tbody -->
+                                        </table><!-- end table -->
+
+
+
+                                                    </div>
+
+</div>
+
+<!--            # second column lots-->
+
+
+
+
+<!--                                           <div class="card-body mt-5" >-->
+<!--                                    <div class="table-responsive table-card">-->
+<!--                                        <table class="table table-borderless table-hover table-nowrap align-middle mb-0">-->
+<!--                                            <thead class="">-->
+<!--                                                <tr class="text-muted">-->
+<!--                                                    <th class="serial"> No</th>-->
+<!--                                                    {% for col in total_fbsb_trade_position_lots.columns %}-->
+<!--                                                    <th class=""> {{col}}</th>-->
+<!--                                                    {%endfor%}-->
+<!--                                                </tr>-->
+<!--                                            </thead>-->
+
+<!--                                            <tbody>-->
+<!--                                            {% for row in total_fbsb_trade_position_lots.values %}&ndash;&gt;-->
+<!--                                            <tr class="active-row">-->
+<!--                                                <td class="serial">{{forloop.counter}}</td>-->
+<!--                                                {% for value in row %}-->
+<!--                                                <td class="{% if value < 0 %}text-danger{% endif %}">{{value}}</td>-->
+<!--                                                {% endfor %}-->
+<!--                                            </tr>-->
+<!--                                            {% endfor %}-->
+
+<!--                                            </tbody>&lt;!&ndash; end tbody &ndash;&gt;-->
+<!--                                        </table>&lt;!&ndash; end table &ndash;&gt;-->
+<!--                                    </div>&lt;!&ndash; end table responsive &ndash;&gt;-->
+<!--                                </div>&lt;!&ndash; end card body &ndash;&gt;-->
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+
+
+<!--            # second row-->
+
+
+
+                                <div class="row">
+                        <div class="col-xl-12">
+                            <div class="card">
+                                <div class="card-header align-items-center d-flex">
+                                    <h4 class="card-title mb-0 flex-grow-1"></h4>
+                                    <div class="flex-shrink-0">
+                                        <div class="dropdown card-header-dropdown">
+                                            <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <span class="text-muted">02 Nov 2021 to 31 Dec 2021<i class="mdi mdi-chevron-down ms-1"></i></span>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-end">
+                                                <a class="dropdown-item" href="#">Today</a>
+                                                <a class="dropdown-item" href="#">Last Week</a>
+                                                <a class="dropdown-item" href="#">Last Month</a>
+                                                <a class="dropdown-item" href="#">Current Year</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end card header -->
+
+                                <div class="card-body">
+                                    <div class="table-responsive table-card">
+                                        <table class="tablelots table-borderless table-hover table-nowrap align-middle mb-0">
+                                            <thead class="tableheadbglot ">
+                                                  <tr class="text-muted">
+                                                    <th class="serial "> No</th>
+                                                    {% for col in total_fbsb_trade_position_lots.columns %}
+                                                    <th class=""> {{col}}</th>
+                                                    {%endfor%}
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                            {% for row in total_fbsb_trade_position_lots.values %}
+                                            <tr class="active-row">
+                                                <td class="serial">{{forloop.counter}}</td>
+                                                {% for value in row %}
+                                                <td class="{% if value < 0 %}text-danger{% endif %}">{{value}}</td>
+                                                {% endfor %}
+                                            </tr>
+                                            {% endfor %}
+                                            </tbody><!-- end tbody -->
+                                        </table><!-- end table -->
+                                    </div><!-- end table responsive -->
+                                </div><!-- end card body -->
+                            </div><!-- end card -->
+                        </div><!-- end col -->
+
+                    </div><!-- end row -->
+
+{% endblock %}

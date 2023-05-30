@@ -1,0 +1,262 @@
+{% extends 'customer/base.html' %}
+{% load static %}
+{% block content %}
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="./css_final.css">
+    
+       <script src="{% static 'assets/js/filtertable.js' %}"></script>
+    
+    <!-- <link rel="stylesheet" href="./css-1.css"> -->
+    <title>Fixed table</title>
+
+
+    <style>
+
+        * {
+    margin: 0px;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+
+}
+
+
+.heading {
+    display: flex;
+    background-color: #232f3e;
+    box-shadow: 0px 1px 2px #232f3e;
+
+}
+h1 {
+    color: coral;
+    font-weight: bold;
+
+    background: transparent;
+    padding: 7px;
+
+}
+
+
+.outer-wrapper {
+    margin-top: 40px;
+    margin-left: 20px;
+    margin-right: 20px;
+    border: 1px solid black;
+    border-radius: 4px;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.9);
+    max-width: fit-content;
+    max-height: fit-content;
+
+
+}
+.table-wrapper {
+
+    overflow-y: scroll;
+    overflow-x: scroll;
+    height: fit-content;
+    max-height: 66.4vh;
+
+    margin-top: 22px;
+
+    margin: 15px;
+    padding-bottom: 20px;
+
+}
+
+
+table {
+
+    min-width: max-content;
+
+    border-collapse: separate;
+    border-spacing: 0px;
+
+}
+
+.table-filter {
+    border-radius: 5px;
+}
+
+table th{
+    position: sticky;
+    top: 0px;
+
+    background-color: #133b5c;
+    color: rgb(241, 245, 179);
+
+    text-align: center;
+    font-weight: normal;
+    font-size: 18px;
+    outline: 0.7px solid black;
+    border: 1.5px solid black;
+
+}
+
+
+
+table th, table td {
+
+    padding: 15px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+}
+
+table td {
+    text-align: left;
+
+    font-size: 15px;
+    border: 1px solid rgb(177, 177, 177);
+    padding-left: 20px;
+
+}
+
+
+
+    </style>
+
+
+    <div class="heading">
+    <h1>Dropdown table filter using JavaScript</h1>
+    <!-- <button id="get-unique-values" onclick="getUniqueValuesFromColumn()">Get unique column values</button> -->
+</div>
+
+
+    <div class="outer-wrapper">
+    <div class="table-wrapper">
+    <table id="emp-table">
+        <thead>
+            <th col-index = 1>Employee ID</th>
+            <th col-index = 2>Gender
+                <select class="table-filter" onchange="filter_rows()">
+                    <option value="all"></option>
+                </select>
+            </th>
+
+            <th col-index = 3>Department
+                <select class="table-filter" onchange="filter_rows()">
+                    <option value="all"></option>
+                </select>
+            </th>
+            <th col-index = 4>Status
+                <select class="table-filter" onchange="filter_rows()">
+                    <option value="all"></option>
+                </select>
+            </th>
+            <th col-index = 5>Office
+                <select class="table-filter" onchange="filter_rows()">
+                    <option value="all"></option>
+                </select>
+            </th>
+            
+        </thead>
+        <tbody>
+            <tr>
+                <td>101</td>
+                <td>M</td>
+                <td>RnD</td>
+                <td>Online</td>
+                <td>Site 1</td>
+            </tr>
+            <tr>
+                <td>102</td>
+                <td>M</td>
+                <td>RnD</td>
+                <td>On Leave</td>
+                <td>Site 1</td>
+            </tr>
+            <tr>
+                <td>103</td>
+                <td>F</td>
+                <td>RnD</td>
+                <td>Online</td>
+                <td>Site 1</td>
+            </tr>
+            <tr>
+                <td>104</td>
+                <td>F</td>
+                <td>Engineering</td>
+                <td>Online</td>
+                <td>Site 1</td>
+            </tr>
+            <tr>
+                <td>201</td>
+                <td>F</td>
+                <td>Engineering</td>
+                <td>On Leave</td>
+                <td>Site 2</td>
+            </tr>
+            <tr>
+                <td>202</td>
+                <td>F</td>
+                <td>Engineering</td>
+                <td>Online</td>
+                <td>Site 2</td>
+            </tr>
+            <tr>
+                <td>203</td>
+                <td>M</td>
+                <td>Engineering</td>
+                <td>Online</td>
+                <td>Site 2</td>
+            </tr>
+            <tr>
+                <td>204</td>
+                <td>M</td>
+                <td>Design</td>
+                <td>Online</td>
+                <td>Site 2</td>
+            </tr>
+            <tr>
+                <td>301</td>
+                <td>F</td>
+                <td>Support</td>
+                <td>Online</td>
+                <td>Site 3</td>
+            </tr>
+            <tr>
+                <td>302</td>
+                <td>F</td>
+                <td>Support</td>
+                <td>Online</td>
+                <td>Site 3</td>
+            </tr>
+            <tr>
+                <td>303</td>
+                <td>M</td>
+                <td>Support</td>
+                <td>Terminated</td>
+                <td>Site 3</td>
+            </tr>
+            <tr>
+                <td>304</td>
+                <td>M</td>
+                <td>Support</td>
+                <td>On Leave</td>
+                <td>Site 3</td>
+            </tr>
+            
+
+        </tbody>
+    </table>
+    <!-- <script>getUniqueValuesFromColumn()
+    </script> -->
+    <script>
+        window.onload = () => {
+            console.log(document.querySelector("#emp-table > tbody > tr:nth-child(1) > td:nth-child(2) ").innerHTML);
+        };
+
+        getUniqueValuesFromColumn()
+        
+    </script>
+</div>
+</div>
+
+
+
+    {% endblock %}

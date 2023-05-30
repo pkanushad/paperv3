@@ -1,0 +1,175 @@
+{% extends 'customer/base.html' %}
+{% load static %}
+{% block content %}
+
+
+<style>
+<!--    .tableheadbg{-->
+<!--    background-color:#405189;-->
+<!--    }-->
+<!--    .table th,-->
+<!--.table td {-->
+<!--    padding: 3px 10px;-->
+<!--}-->
+
+.table tr {font-size: 13px;}
+.table td {font-size: 12px;}
+
+<!--tableclass tr tr {font-size: 10px;}-->
+
+
+
+</style>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<div class="page-content">
+    <div class="container-fluid">
+    <!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0"> Stock Summary</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
+                    <li class="breadcrumb-item active"> Stock Summary</li>
+                </ol>
+            </div>
+
+        </div>
+    </div>
+</div>
+        <!-- end page title -->
+
+
+<div class="row mt-0 ">
+    <div class="col-12 grid-margin mt-0">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title"> Stock Summary</h4>
+                <div class="table-responsive mt-0">
+                      <table class="table align-middle table-nowrap mb-0" id="tasksTable">
+                                <thead class="table-light ">
+                                    {% for messages in messages %}
+                                    <div id="snackbar">{{messages}}</div>
+                                    {% endfor %}
+                                    <tr>
+                                        <th scope="col">No</th>
+<!--                                         <th scope="col">Action</th>-->
+                                        <th scope="col">Port</th>
+                                         <th scope="col">Terminal</th>
+                                        <th scope="col">Tank No</th>
+                                         <th scope="col">Cargo</th>
+                                        <th scope="col">Qty Add Discharge(m³)</th>
+                                        <th scope="col">Current Quantity(MT)</th>
+                                        <th scope="col">Remaining Space(m³)</th>
+                                         <th scope="col">Cost(cbm)</th>
+
+<!--                                        <th scope="col">Density(kg/m³)</th>-->
+<!--                                        <th scope="col">Nominal Capacity(m³)</th>-->
+<!--                                        <th scope="col">Safe Fill Capacity(m³)</th>-->
+<!--                                        <th scope="col">Prevailing GOV(m³)</th>-->
+<!--                                        <th scope="col">Start Date</th>-->
+<!--                                        <th scope="col">End Date</th>-->
+
+
+
+<!--                                        <th scope="col">Duration</th>-->
+<!--                                        <th scope="col">Today</th>-->
+<!--                                        <th scope="col">Remaining Days</th>-->
+
+
+<!--                                        <th scope="col">Remarks</th>-->
+
+
+                                    </tr>
+
+                                </thead>
+
+
+                                <tbody id="tableBodyTrader" class="list form-check-all">
+                                    {% for messages in messages %}
+                                    <p data-toast data-toast-text="{{messages}}" data-toast-gravity="top" id="messages" data-toast-position="center" data-toast-duration="3000" data-toast-close="close"></p>
+                                    {% endfor %}
+
+
+                                    {% if stocksummary %}
+                                    {% for data in stocksummary %}
+                                    <tr>
+
+                                        <td class="id">{{forloop.counter}}</td>
+
+<!--                                          <td>-->
+<!--                                                    <div class="dropdown d-inline-block">-->
+<!--                                                        <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">-->
+<!--                                                            <i class="ri-more-fill align-middle"></i>-->
+<!--                                                        </button>-->
+<!--                                                        <ul class="dropdown-menu dropdown-menu-end">-->
+<!--&lt;!&ndash;                                                            <li><a href="#!" class="dropdown-item"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> View</a></li>&ndash;&gt;-->
+<!--                                                            <li><a class="dropdown-item edit-item-btn" href="edit-generate-trader-id/{{data.id}}"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>-->
+<!--                                                            <li>-->
+<!--                                                                <a class="dropdown-item remove-item-btn" data-bs-toggle="modal" href="#deleteOrder" onclick="deletefunc('{{data.id}}')">-->
+<!--                                                                    <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Delete-->
+<!--                                                                </a>-->
+<!--                                                            </li>-->
+<!--                                                        </ul>-->
+<!--                                                    </div>-->
+<!--                                                </td>-->
+
+
+
+                                        <td class="id">{{data.Port.name}}</td>
+
+                                        <td class="id">{{data.Terminal.name}}</td>
+
+                                        <td class="id">{{data.Tank_no.name}}</td>
+
+                                                 <td class="id">{{data.Cargo}}</td>
+
+                                        <td class="id">{{data.Qty_add_discharge}}</td>
+                                        <td class="id">{{data.current_quantity}}</td>
+                                        <td class="id">{{data.Remaining_space}}</td>
+                                        <td class="id">{{data.Cost}}</td>
+
+                                        <td class= "id {% if data.Status == "New" %}badge badge-soft-success  bg-light{%elif data.Status == "Process" %}badge badge-soft-warning bg-light{% else %}badge badge-soft-danger bg-light{% endif %}">{{data.Status}}</td>
+
+<!--                                <td>-->
+<!--                                                <div class="flex-shrink-0 ms-4">-->
+<!--                                                    <ul class="list-inline tasks-list-menu mb-0">-->
+<!--                                                        <li class="list-inline-item"><a class="edit-item-btn" href="edit-generate-trader-id/{{data.id}}" ><i class="ri-pencil-fill align-bottom me-2 text-muted"></i></a></li>-->
+<!--                                                        <li class="list-inline-item">-->
+<!--                                                            <a class="remove-item-btn" data-bs-toggle="modal" href="#deleteOrder" onclick="deletefunc('{{data.id}}')">-->
+<!--                                                                <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>-->
+<!--                                                            </a>-->
+<!--                                                        </li>-->
+<!--                                                    </ul>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </td>-->
+
+                                    </tr>
+                                    {% endfor %}
+                                    {% else %}
+                                    <tr>
+                                        <td>No Data Found</td>
+                                    </tr>
+                                    {% endif %}
+
+
+                                </tbody>
+                            </table>
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</div>
+{% endblock %}

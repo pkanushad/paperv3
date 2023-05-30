@@ -1,0 +1,634 @@
+{% extends 'base.html' %}
+{% block content %}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<div class="page-content">
+    <div class="container-fluid">
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h4 class="mb-sm-0">Contract</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Contract</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- end page title -->
+
+        <!--end row-->
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card" id="tasksList">
+                    
+                    <form onsubmit="validateForm(event)" method="post" >
+                        {% csrf_token %}
+                        
+                        <div class="row g-3" style="padding:20px;">
+                            <div class="col-sm-4">
+                                <label class="visually-hidden" for="inlineFormSelectPref">Derivative</label>
+                                <select class="form-select" id="inlineFormSelectPref" name="swaps_features" onchange="swapsFeatures()">
+                                    {% if object.derivative == 'swaps' %}
+                                    <option value="swaps" selected>Swaps</option>
+                                    <option value="features">Features</option>
+                                    {% else %}
+                                    <option value="swaps" >Swaps</option>
+                                    <option value="features" selected>Features</option>
+                                    {% endif %}
+            
+                                </select>                            </div><!--end col-->
+                            <div class="col-sm-4">
+                                <label class="visually-hidden" for="inlineFormSelectPref">Singl/Diff</label>
+                                <select class="form-select" id="singlediff" name="single_diff" onchange="singlDiff()">
+                                    {% if object.single_dif == 'single' %}
+                                    <option value="single" selected>Single</option>
+                                    <option value="diff">Diff</option>
+                                    {% else %}
+                                    <option value="single">Single</option>
+                                    <option value="diff" selected>Diff</option>
+                                    {% endif %}
+
+
+                                </select>                             </div>
+                            <div class="col-sm-4">
+                                <label class="visually-hidden" for="inlineFormSelectPref">Major Mini</label>
+                                <select class="form-select" name="major_mini" onchange="majorMini()" id="major_mini_id">
+                                    {% if object.major_mini == 'major' %}}
+                                    <option value="major" selected>Major</option>
+                                    <option value="mini">Mini</option>
+
+                                    {% else %}
+                                    <option value="major" >Major</option>
+                                    <option value="mini" selected>Mini</option>
+
+                                    {% endif %}
+                                </select>                             </div>
+
+
+
+
+
+
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" id="contractname" placeholder="Contract Name" name="contract_name" value="{{object.contract_name}}" aria-label="First-Name" required>
+                                </div>
+
+
+                                <div class="col-sm-3">
+                                    <label class="visually-hidden" >Contract Name 1</label>
+                                    <select class="form-select" onchange="contract1fun()" name="option1contract" id="contract1">
+                                        <option value="{{object.contract1}}" selected>{{object.contract1}}</option>
+                                        {% for i in contract_name %}
+                                        <option value="{{i.contract_name}}">{{i.contract_name}}</option>
+                                        {% endfor %}
+                                    </div>
+
+                                        <br>
+                                        <div class="col-sm-12">
+                                            <input type="hidden" class="form-control">
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <label class="visually-hidden">Contract Name 2</label>
+                                            <select class="form-select" onchange="contract1fun()" name="option2" id="contract2" required>
+                                                <option value="{{object.contract2}}" selected>{{object.contract2}}</option>
+                                                {% for i in contract_name %}
+                                                <option value="{{i.contract_name}}">{{i.contract_name}}</option>
+                                                {% endfor %}
+                                            
+                                            </div>
+
+
+                                                <br>
+                                                <div class="col-sm-12">
+                                                    <input type="hidden" class="form-control">
+                                                </div>
+
+
+                                <div class="col-sm-3">
+                                    <input type="text" name="major_mini_conn" class="form-control" placeholder="Major Mini Conn" aria-label="First-Name" id="major_mini_disabled" value="{{object.major_mini}}" required>
+                                </div>
+
+
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" name="unit"  placeholder="Unit " value="{{object.unit}}" aria-label="First-Name" required>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" name="tick"  placeholder="Tick" aria-label="First-Name" value="{{object.tick}}" required>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <label class="visually-hidden" >Holiday</label>
+                                    <select class="form-select" id="holiday" name="holiday" required>
+                                        <option selected value="{{object.tick}}" >{{object.holiday}}</option>
+                          
+                                                            </div>
+            
+<br>
+                                                            <div class="col-sm-12">
+                                                                <input type="hidden" class="form-control"  placeholder="BBi/Mt Conversion" aria-label="First-Name" >
+
+                                                            </div>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" name="bbimit_converter" value="{{object.bbi_mt_conversion}}"  placeholder="BBi/Mt Conversion" aria-label="First-Name" required >
+                                </div>
+
+
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control"id="fwmonth"  name="f_w_months"  value="{{object.f_w_months}}" placeholder="F.w Months" aria-label="First-Name" required>
+                                </div>
+
+                                
+
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="exchangeFee" name="exchangeFee" value="{{object.exchange_fee}}" placeholder="Exchange Fee" aria-label="First-Name" required >
+                                </div>
+
+
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="exchangeClearanceFee" name="exchangeClearanceFee" value="{{object.exchanging_clearing_fee}}"  placeholder="Exchange Clearance Fee" aria-label="First-Name" required  >
+                                </div>
+
+
+
+
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="blockFee" name= "blockFee" value="{{object.block_fee}}" placeholder="Block Fee" aria-label="First-Name" required>
+                                </div>
+
+
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="screenFee" name="screenFee" value="{{object.screen_fee}}" placeholder="Screen Dee" aria-label="First-Name" required>
+                                </div>
+
+
+
+
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" name="gmifc_code" placeholder="GMIFC Code" value="{{object.gmifc_code}}" aria-label="First-Name" required >
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" name="physical_code" placeholder="Physical Code" value="{{object.physical_code}}" aria-label="First-Name" required>
+                                </div>
+
+
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" name="logical_code" placeholder="Logical Code" value="{{object.logical_code}}"  aria-label="First-Name" required >
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" name="symbol_code" placeholder="Symbol Code" value="{{object.symbol_code}}" aria-label="First-Name" required>
+                                </div>
+                                <div class="col-12">
+        <div class="text-end">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </div>
+                        </div><!--end row-->
+                    </form>
+                    <!--end card-body-->
+
+                    <!--end card-body-->
+                </div>
+                <!--end card-->
+            </div>
+            <!--end col-->
+        </div>
+        <!--end row-->
+        <form method="post">
+            {% csrf_token %}
+        
+        <div class="modal fade flip" id="deleteOrder" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body p-5 text-center">
+                        <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#405189,secondary:#f06548" style="width:90px;height:90px"></lord-icon>
+                        <div class="mt-4 text-center">
+                            <input type="hidden" name="delet_id" id="delete_feild" value="">
+                            <h4>You are about to delete a Contract ?</h4>
+                            <p class="text-muted fs-14 mb-4">Deleting your task will remove all of
+                                your information from our database.</p>
+                            <div class="hstack gap-2 justify-content-center remove">
+                                <button type="reset" class="btn btn-link btn-ghost-success fw-medium text-decoration-none" id="deleteRecord-close" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Close</button>
+                                <button type="submit" class="btn btn-danger" id="delete-record">Yes, Delete It</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+        <!--end delete modal -->
+
+        <div class="modal fade zoomIn" id="showModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content border-0">
+                    <div class="modal-header p-3 bg-soft-info">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Contract
+
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+                    </div>
+                    <form class="tablelist-form" method="post" id="trader_from" autocomplete="off">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <input type="hidden" id="tasksId" />
+                            <div class="row g-3">
+                                <div class="col-lg-12">
+                                    <label for="projectName-field" class="form-label">Name</label>
+                                    <input type="hidden" id="edit_id" name="edit_name_id" value="">
+                                    <input type="text"  name="edit_name" id="value_field" value="" class="form-control" placeholder="Contract name" required />
+                                </div>
+                                <!--end col-->
+
+                                <!--end col-->
+                            </div>
+                            <!--end row-->
+                        </div>
+                        <div class="modal-footer">
+                            <div class="hstack gap-2 justify-content-end">
+                                <button type="button" class="btn btn-light" id="close-modal" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-success" id="add-btn" >Add Contract</button>
+                                <!-- <button type="button" class="btn btn-success" id="edit-btn">Update Task</button> -->
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade zoomIn" id="showModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content border-0">
+                    <div class="modal-header p-3 bg-soft-info">
+                        <h5 class="modal-title" id="exampleModalLabel">Create Contract</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+                    </div>
+
+                    
+                    
+                    <form onsubmit="validateForm(event)" method="post" >
+                        {% csrf_token %}
+                        
+                        <div class="row g-3" style="padding:20px;">
+                            <div class="col-sm-4">
+                                <label class="visually-hidden" for="inlineFormSelectPref">Derivative</label>
+                                <select class="form-select" id="inlineFormSelectPref" name="swaps_features" onchange="swapsFeatures()">
+                                    <option value="choose" selected>Derivative..</option>
+                                    <option value="swaps">Swaps</option>
+                                    <option value="features">Features</option>
+            
+                                </select>                            </div><!--end col-->
+                            <div class="col-sm-4">
+                                <label class="visually-hidden" for="inlineFormSelectPref">Singl/Diff</label>
+                                <select class="form-select" id="singlediff" name="single_diff" onchange="singlDiff()">
+                                    <option value="choose" selected>Singl/Diff</option>
+                                    <option value="single">Single</option>
+                                    <option value="diff">Diff</option>
+            
+                                </select>                             </div>
+                            <div class="col-sm-4">
+                                <label class="visually-hidden" for="inlineFormSelectPref">Major Mini</label>
+                                <select class="form-select" name="major_mini_option" onchange="majorMini()" id="major_mini_id">
+                                    <option value="choose" selected>Major/Mini...</option>
+                                    <option value="major">Major</option>
+                                    <option value="mini">Mini</option>
+            
+                                </select>                             </div>
+
+
+
+
+
+
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" id="contractname" placeholder="Contract Name" name="contract_name" aria-label="First-Name" required>
+                                </div>
+
+
+                                <div class="col-sm-3">
+                                    <label class="visually-hidden" >Contract Name 1</label>
+                                    <select class="form-select" onchange="contract1fun()" name="option1contract" id="contract1">
+                                        <option selected>Contract 1</option>   
+                                        {% for i in contract_name %}
+                                        <option value="{{i.contract_name}}">{{i.contract_name}}</option>
+                                        {% endfor %}
+                                    </div>
+
+                                        <br>
+                                        <div class="col-sm-12">
+                                            <input type="hidden" class="form-control">
+                                        </div>
+
+                                        <div class="col-sm-3">
+                                            <label class="visually-hidden">Contract Name 2</label>
+                                            <select class="form-select" onchange="contract1fun()" name="option2" id="contract2" required>
+                                                <option selected>Contract 2</option>   
+                                                {% for i in contract_name %}
+                                                <option value="{{i.contract_name}}">{{i.contract_name}}</option>
+                                                {% endfor %}
+                                            
+                                            </div>
+
+
+                                                <br>
+                                                <div class="col-sm-12">
+                                                    <input type="hidden" class="form-control">
+                                                </div>
+
+
+                                <div class="col-sm-3">
+                                    <input type="text" name="major_mini" class="form-control" placeholder="Major Mini Conn" aria-label="First-Name" id="major_mini_disabled" required>
+                                </div>
+
+
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" name="unit"  placeholder="Unit " aria-label="First-Name" required>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" name="tick"  placeholder="Tick" aria-label="First-Name" required>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <label class="visually-hidden" >Holiday</label>
+                                    <select class="form-select" id="holiday" name="holiday" required>
+                                        <option selected >Choose...</option>
+                          
+                                                            </div>
+            
+<br>
+                                                            <div class="col-sm-12">
+                                                                <input type="hidden" class="form-control"  placeholder="BBi/Mt Conversion" aria-label="First-Name" >
+
+                                                            </div>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" name="bbimit_converter"   placeholder="BBi/Mt Conversion" aria-label="First-Name" required >
+                                </div>
+
+
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control"id="fwmonth"  name="f_w_months" placeholder="F.w Months" aria-label="First-Name" required>
+                                </div>
+
+                                
+
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="exchangeFee" name="exchangeFee" placeholder="Exchange Fee" aria-label="First-Name" required >
+                                </div>
+
+
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="exchangeClearanceFee" name="exchangeClearanceFee" placeholder="Exchange Clearance Fee" aria-label="First-Name" required  >
+                                </div>
+
+
+
+
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="blockFee" name= "blockFee" placeholder="Block Fee" aria-label="First-Name" required>
+                                </div>
+
+
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="screenFee" name="screenFee" placeholder="Screen Dee" aria-label="First-Name" required>
+                                </div>
+
+
+
+
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" name="gmifc_code" placeholder="GMIFC Code" aria-label="First-Name" required >
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" name="physical_code" placeholder="Physical Code" aria-label="First-Name" required>
+                                </div>
+
+
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" name="logical_code" placeholder="Logical Code" aria-label="First-Name" required >
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <input type="text" class="form-control" name="symbol_code" placeholder="Symbol Code" aria-label="First-Name" required>
+                                </div>
+                                <div class="col-12">
+        <div class="text-end">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </div>
+                        </div><!--end row-->
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade zoomIn" id="showModal4" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content border-0">
+                    <div class="modal-header p-3 bg-soft-info">
+                        <h5 class="modal-title" id="exampleModalLabel">Create Contract</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+                    </div>
+
+                    
+                    
+                    <form class="tablelist-form" method="post" id="trader_from" autocomplete="off" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <input type="hidden" id="tasksId" />
+                            <div class="row g-3">
+                                <div class="col-lg-12">
+                                    <label for="projectName-field" class="form-label">Name</label>
+                                    <input type="file"  name="file" id="projectName-field" class="form-control" placeholder="Contract name" required />
+                                </div>
+                                <!--end col-->
+
+                                <!--end col-->
+                            </div>
+                            <!--end row-->
+                        </div>
+                        <div class="modal-footer">
+                            <div class="hstack gap-2 justify-content-end">
+                                <button type="button" class="btn btn-light" id="close-modal" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-success" id="add-btn" >Upload file</button>
+                                <!-- <button type="button" class="btn btn-success" id="edit-btn">Update Task</button> -->
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--end modal-->
+
+    </div>
+    <!-- container-fluid -->
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+
+
+function validateForm(event){
+    var option1 = document.querySelector('#inlineFormSelectPref').value;
+    var option2 = document.querySelector('#singlediff').value;
+    var option3 = document.querySelector('#major_mini_id').value;
+    console.log(option3)
+    if (option1=='choose'){
+        event.preventDefault()
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Derivative Should not be null PLease choose Features or swapp',
+            footer: 'Derivative Error'
+          })
+    }
+
+    if (option2=='choose'){
+        event.preventDefault()
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Single/Diff Should not be null PLease choose Single or Diff',
+            footer: 'Single/DiffError'
+          })
+    }
+
+    if (option3=='choose'){
+        event.preventDefault()
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Major/Mini Should not be null PLease choose Single or Diff',
+            footer: 'Single/DiffError'
+          })
+    }
+
+    else{
+        return true;
+    }
+}
+
+
+function majorMini(){
+    var option = document.querySelector('#major_mini_id').value;
+    console.log(option)
+
+    if (option == 'major'){
+        document.querySelector('#major_mini_disabled').disabled=true;
+    }
+
+    else if (option == 'mini'){
+        document.querySelector('#major_mini_disabled').disabled=false;
+    }
+
+
+}
+
+
+function swapsFeatures(){
+
+    option = document.querySelector('#inlineFormSelectPref').value;
+    
+    if (option == 'swaps'){
+
+        document.querySelector('#blockFee').disabled = true;
+        document.querySelector('#screenFee').disabled = true;
+
+        document.querySelector('#fwmonth').disabled=false;
+        document.querySelector('#exchangeClearanceFee').disabled=false;
+        document.querySelector('#exchangeFee').disabled=false;
+    }
+
+    else if (option == 'features') {
+        document.querySelector('#blockFee').disabled = false;
+        document.querySelector('#screenFee').disabled = false;
+
+        document.querySelector('#fwmonth').disabled=true;
+        document.querySelector('#exchangeClearanceFee').disabled=true;
+        document.querySelector('#exchangeFee').disabled=true;
+    }
+}
+
+
+
+function singlDiff() {
+    const option = document.querySelector('#singlediff').value;
+    const holiday = document.querySelector('#holiday');
+    while (holiday.firstChild) {
+        holiday.removeChild(holiday.firstChild);
+      }
+    if (option === 'single') {
+
+      document.querySelector('#contract1').disabled = true;
+      document.querySelector('#contract2').disabled = true;
+  
+      const data = JSON.parse('{{ date | safe }}');
+      const holiday = document.querySelector('#holiday');
+  
+      for (let i = 0; i < data.length; i++) {
+        const option = document.createElement('option');
+        option.value = data[i].name;
+        option.text = data[i].name;
+        holiday.appendChild(option);
+      }
+    } else if (option === 'diff') {
+      const contract1 = (document.querySelector('#contract1').disabled = false);
+      const contract2 = (document.querySelector('#contract2').disabled = false);
+      const holiday = document.querySelector('#holiday');
+      console.log(holiday.firstChild);
+      while (holiday.firstChild) {
+        holiday.removeChild(holiday.firstChild);
+      }
+
+    }
+  }
+
+
+  async function contract1fun() {
+    while (holiday.firstChild) {
+        holiday.removeChild(holiday.firstChild);
+      }
+    let contract1 = document.querySelector('#contract1');
+    let contract2 = document.querySelector('#contract2');
+    console.log(contract1.value)
+    await fetch(`/all_holiday_api`, {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': '{{ csrf_token }}',
+      },
+      body: JSON.stringify({ 'option1contract': contract1.value, option2: contract2.value }),
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data.options.length);
+      const holiday = document.querySelector('#holiday');
+      while (holiday.firstChild) {
+        holiday.removeChild(holiday.firstChild);
+      }
+      const option = document.createElement('option');
+      option.value = 'non-common'
+      option.text = 'non-common'
+      holiday.appendChild(option);
+      for (let i = 0; i < data.options.length; i++) {
+        console.log(data.options[i].holiday)
+        const option = document.createElement('option');
+        option.value = data.options[i].holiday;
+        option.text = data.options[i].holiday;
+        holiday.appendChild(option);
+      }
+    });
+  }
+
+{% endblock %}

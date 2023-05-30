@@ -1,0 +1,860 @@
+{% extends 'customer/base.html' %}
+{% block content %}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<div class="page-content">
+    <div class="container-fluid">
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h4 class="mb-sm-0">Edit Swaps Blotter</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Swaps Blotter</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- end page title -->
+
+        <!--end row-->
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card" id="tasksList">
+
+                    <form onsubmit="validateForm(event)" method="post" >
+                        {% csrf_token %}
+                        
+                        <div class="row g-3" style="padding:20px;">
+
+                                  <h3>Edit Swaps Blotter</h3>
+                            <hr>
+                            
+                            <div class="col-sm-3">
+                                <p><b>Date</b></p>
+                                <input type="Date" class="form-control" name="date" id="date_id" aria-label="First-Name" required >
+                            </div><!--end col-->
+                            <div class="col-sm-3">
+                                <p class="labelsa"><b>Trade Type</b><p>
+                                <select class="form-select" id="singlediff" name="bileteral_external" onchange="enabledisable_ext()">
+                                    <option value="{{d.trader_type}}" selected>{{d.trader_type}}</option>
+                                    <option value="Bilateral">Bilateral</option>
+                                    <option value="External">External</option>
+
+                                </select>
+                            </div>
+                            <div class="col-sm-3">
+                                     <p class="labelsa"><b>Clearear</b></p>
+
+                                <label class="visually-hidden" for="inlineFormSelectPref">Clearear</label>
+                                <select class="form-select" name="clearer" id="clearer_iid" onchange="ClearerChange()">
+
+                                    <option value="{{d.clearer}}" selected>{{d.clearer}}</option>
+                                    {% for i in clearer %}
+                                    <option value="{{i}}">{{i}}</option>
+                                    {% endfor %}
+
+                                </select>
+
+                            </div>
+
+
+
+
+                                <div class="col-sm-3">
+                                    <p class="labelsa"><b>Trader</b><p>
+                               
+                                    <label class="visually-hidden" for="inlineFormSelectPref">Trader</label>
+                                    <select class="form-select" id="singlediff" name="trader">
+                                        <option value="{{d.trader.id}}" selected>{{d.trader.name}}</option>
+                                        {% for i in trader %}
+                                        <option value="{{i.id}}">{{i.name}}</option>
+                                        {% endfor %}
+                
+                                    </select>                             </div>
+
+
+
+
+                                    <div class="col-sm-3">
+                                        <p class="labelsa"><b>Book</b><p>
+                                    
+                                        <label class="visually-hidden" for="inlineFormSelectPref">Book</label>
+                                        <select class="form-select" id="singlediff" name="book">
+                                            <option value="{{d.book}}" selected>{{d.book}}</option>
+                                            {% for i in book %}
+                                            <option value="{{i.name}}">{{i.name}}</option>
+                                            {% endfor %}
+                    
+                                        </select>                             </div>
+
+
+                                        <div class="col-sm-3">
+                                            <p class="labelsa"><b>Customer Company</b><p>
+                                        
+                                            <label class="visually-hidden" for="inlineFormSelectPref">Customer Company</label>
+
+                                            {% if d.trader_type == 'External'%}
+
+                                            <select class="form-select" id="customerCompanyId" name="customer_company" onchange="customerCompanyFun()" disabled>
+                                                <option value="{{d.customer_company}}" selected>{{d.customer_company}}</option>
+                                                {% for i in customer_company %}
+                                                <option value="{{i.Customer_Company_name}}">{{i.Customer_Company_name}}</option>
+                                                {% endfor %}
+
+                                            </select>
+
+                                            {% elif d.trader_type == 'Bilateral' %}
+
+                                            <select class="form-select" id="customerCompanyId" name="customer_company" onchange="customerCompanyFun()">
+                                                <option value="{{d.customer_company}}" selected>{{d.customer_company}}</option>
+                                                {% for i in customer_company %}
+                                                <option value="{{i.Customer_Company_name}}">{{i.Customer_Company_name}}</option>
+                                                {% endfor %}
+                        
+                                            </select>
+
+                                            {% endif %}
+
+                                        </div>
+
+
+
+                        
+                                    <div class="col-sm-3">
+                                        <p class="labelsa"><b>Account</b><p>
+                                  
+                                        <label class="visually-hidden" for="inlineFormSelectPref">Account</label>
+                                        {% if d.trader_type == 'External'%}
+
+                                           <select class="form-select" id="account_id" name="company_account" disabled>
+                                            <option value="{{d.customer_account}}" selected>{{d.customer_account}}</option>
+                                        </select>
+
+                                         {% elif d.trader_type == 'Bilateral' %}
+
+                                        <select class="form-select" id="account_id" name="company_account">
+                                            <option value="{{d.customer_account}}" selected>{{d.customer_account}}</option>
+                                        </select>
+
+                                          {% endif %}
+
+                                    </div>
+
+                                    <div class="col-sm-3">
+                                        <p class="labelsa"><b>Strategy</b></p>
+                              
+                                        <label class="visually-hidden" for="inlineFormSelectPref">Clearear</label>
+                                        <select class="form-select" name="strategy">
+                                            <option value="{{d.strategy.id}}" selected>{{d.strategy.name}}</option>
+                                            {% for i in strategy %}
+                                            <option value="{{i.id}}">{{i.name}}</option>
+
+                                            {% endfor %}
+                                            
+                    
+                                        </select>                             </div>
+
+
+                                        <div class="col-sm-3">
+                                            <p class="labelsa"><b>Derivatives</b></p>
+                                     
+                                            <label class="visually-hidden" for="inlineFormSelectPref">Clearear</label>
+                                            <select class="form-select" name="derivatives"  id="derivative_id" >
+                                                <option value="swaps" selected>swaps</option>
+                                             
+                        
+                                            </select>                             </div>
+        
+
+
+
+
+
+                                <div class="col-sm-3">
+                                    <p class="labelsa"><b>Buy/Sell</b></p>
+                            
+                                    <input type="text" class="form-control" id="buy_sell" placeholder="Buy/Sell" name="buy_sell" aria-label="First-Name" value="{{d.buy_sell}}"  readonly>
+                                </div>
+
+
+                                <div class="col-sm-3">
+                                    <p class="labelsa"><b>Volume</b></p>
+                                    <input type="text" class="form-control"  id="volume" onchange="buySell()" placeholder="Volume" name="volume" aria-label="First-Name" value="{{d.volume}}" required>
+                                </div>
+
+
+                                <div class="col-sm-3">
+                                    <p class="labelsa">Contract Name</p>
+                                    <label class="visually-hidden">Contract Name 1</label>
+                                    <select class="form-select"  name="contract_name" id="contract1"  onchange="Contract_name_broker_like_clearer()">
+                                        <option value="{{d.contract}}" selected>{{d.contract}}</option>
+
+                                    </div>
+
+                                        <br>
+                                        <div class="col-sm-12">
+                                            <input type="hidden" class="form-control">
+                                        </div>
+
+
+                               <div class="col-sm-3">
+                                      <p class="labelsa"><b>Unit</b><p>
+<!--                                    <input type="text" class="form-control" name="unit_c"  id="unit_idc" placeholder="" aria-label="First-Name" value="">-->
+
+                                  <select class="form-select" id="unit_idc" name="unit_c">
+                                      <option value="{{d.unit}}" selected>{{d.unit}}</option>
+
+                                        </select>
+
+
+
+                                </div>
+
+                              <div class="col-sm-3">
+                                      <p class="labelsa"><b>Tick</b><p>
+<!--                                    <input type="text" class="form-control" name="tick_c" id="tick_idc" placeholder="" aria-label="First-Name">-->
+
+                                           <select class="form-select" id="tick_idc" name="tick_c">
+                                            <option value="{{d.tick}}" selected>{{d.tick}}</option>
+
+                                        </select>
+                                </div>
+
+                                     
+
+
+
+                                <div class="col-sm-3">
+                                    <p class="labelsa">Start Date</p>
+                                    <input type="date" name="start_date" value="{{d.start_date}}" class="form-control" placeholder="Major Mini Conn" aria-label="First-Name" id="start_date" onchange="FindEndDateofMonth()" required>
+                                </div>
+
+
+                                <div class="col-sm-3">
+                                    <p class="labelsa">End date</p>
+                                    <input type="date" name="end_date"  value="{{d.end_date}}" class="form-control" placeholder="Major Mini Conn" aria-label="First-Name" id="end_date" required>
+                                </div>
+
+                                
+                                <div class="col-sm-3">
+                                    <p class="labelsa">Price</p>
+                                    <input type="text" class="form-control" name="price"  placeholder="Price" aria-label="First-Name" value="{{d.price}}" required>
+                                </div>
+
+                                
+                                <div class="col-sm-3">
+                                    <p class="labelsa">Approx. Executed Price</p>
+
+                                        {% if d.trader_type == 'External'%}
+                                    <input type="text" class="form-control" name="approximate_ep" id="approximate_ep_id" aria-label="First-Name" value="{{d.approx_ep}}" disabled>
+                                        {% elif d.trader_type == 'Bilateral' %}
+                                    <input type="text" class="form-control" name="approximate_ep" id="approximate_ep_id" aria-label="First-Name" value="{{d.approx_ep}}" >
+                                       {% endif %}
+
+
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <p class="labelsa">Holiday</p>
+                                   
+                                    <select class="form-select" id="holiday"  name="holiday" required>
+                                        <option value='{{d.holiday}}' selected >{{d.holiday}}</option>
+                                        {% for unit in unit %}
+                                        <option value="{{unit.name}}" >{{unit.name}}</option>
+                                        {% endfor %}
+                          
+                                                            </div>
+
+                                                            <div class="col-sm-3">
+                                                                <p class="labelsa"></p>
+                                                             
+                                                                <select class="form-select"  name="unit" required>
+                                
+
+                                                                                        </div>
+
+
+                            <div class="col-sm-3">
+                                <p class="labelsa">Type</p>
+                                <label class="visually-hidden">Type</label>
+                                <select class="form-select" name="type" >
+                                    <option value="{{d.type}}" selected>{{d.type}}</option>
+                                    {% for i in type %}
+                                    <option value="{{i.name}}">{{i.name}}</option>
+                                    {% endfor %}
+
+                            </div>
+            
+<br>
+                                                            <div class="col-sm-12">
+                                                                <input type="hidden" class="form-control"  placeholder="BBi/Mt Conversion" aria-label="First-Name" >
+
+                                                            </div>
+                                
+
+
+                           
+
+
+
+
+
+                                <div class="col-sm-3">
+                                   <p>EFS Code</p>
+                                    <input type="text" class="form-control" value="{{d.efs_code}}" name="efs_code" placeholder="EFS Code" aria-label="First-Name"  >
+                                </div>
+
+                                <div class="col-sm-3">
+                                  <p>Broker</p>
+                                    <label class="visually-hidden" >Broker</label>
+                                    <select class="form-select" name="brocker" id="brocker_id" required>
+                                        <option selected value="{{d.broker}}">{{d.broker}}</option>
+                          
+                                                            </div>
+            
+<br>
+
+                                <div class="col-sm-3">
+                             
+                                    <input type="hidden" class="form-control" name="physical_code" placeholder="Physical Code" aria-label="First-Name" >
+                                </div>
+
+
+                               
+
+                                <div class="col-sm-3">
+                                  <p>Notes</p>
+                                    <input type="text" class="form-control" value="{{d.notes}}" name="notes" placeholder="Notes" aria-label="First-Name" >
+                                </div>
+                                <div class="col-12">
+        <div class="text-end">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </div>
+                        </div><!--end row-->
+                    </form>
+                    <!--end card-body-->
+                </div>
+                <!--end card-->
+            </div>
+            <!--end col-->
+        </div>
+        <!--end row-->
+
+        <!--end delete modal -->
+
+        <div class="modal fade zoomIn" id="showModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content border-0">
+                    <div class="modal-header p-3 bg-soft-info">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Clearer Rates</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+                    </div>
+                    <form class="tablelist-form" method="post" id="trader_from" autocomplete="off">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <input type="hidden" id="tasksId" />
+                            <div class="row g-3">
+                                <div class="col-lg-12">
+                                    <label for="projectName-field" class="form-label">Name</label>
+                                    <input type="hidden" id="edit_id" name="edit_name_id" value="">
+                                    <input type="text"  name="edit_name" id="value_field" value="" class="form-control" placeholder="Clearer Rates name" required />
+                                </div>
+                                <!--end col-->
+
+                                <!--end col-->
+                            </div>
+                            <!--end row-->
+                        </div>
+                        <div class="modal-footer">
+                            <div class="hstack gap-2 justify-content-end">
+                                <button type="button" class="btn btn-light" id="close-modal" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-success" id="add-btn" >Add Clearer Rates</button>
+                                <!-- <button type="button" class="btn btn-success" id="edit-btn">Update Task</button> -->
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade zoomIn" id="showModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content border-0">
+                    <div class="modal-header p-3 bg-soft-info">
+                        <h5 class="modal-title" id="exampleModalLabel">Create Clearer Fee</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+                    </div>
+
+                    
+                    
+                    <form onsubmit="formValidation(event)" method="post">
+                        {% csrf_token %}
+                        
+                        <div class="row g-3" style="padding:20px;">     
+
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="exchangeFee" name="clearer_house_feee" placeholder="Clearer House Fee" aria-label="First-Name" required >
+                                </div>
+
+
+                                <div class="col-sm-6">
+                                    <label class="visually-hidden" for="inlineFormSelectPref">Derivative</label>
+                                    <select class="form-select" id="derivatives" name="derivatives" onchange="swapsFeatures()">
+                                        <option value="choose" selected>Derivative..</option>
+                                        <option value="swaps">Swaps</option>
+                                        <option value="features">Features</option>
+                
+                                    </select>                            </div>
+
+
+
+
+                                    <div class="col-sm-6">
+                                        <label class="visually-hidden" for="inlineFormSelectPref">Contract Name</label>
+                                        <select class="form-select" id="contract_name_id" name="contract_name">
+                                            <option value="choose" selected>Contract Name</option>
+
+                    
+                                        </select>
+                                    </div>
+
+
+                                        <div class="col-sm-6">
+                                            <label class="visually-hidden" for="inlineFormSelectPref">Clearer</label>
+                                            <select class="form-select" id="inlineFormSelectPref" name="clearer" onchange="swapsFeatures()">
+                                                <option value="choose" selected>Clearer</option>
+                                                {% for i in clearer %} 
+                                                <option value="{{i.id}}">{{i.name}}</option>
+                                                {% endfor %}
+                        
+                                            </select>                            </div>
+
+
+
+
+
+                                <div class="col-12">
+        <div class="text-end">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </div>
+                        </div><!--end row-->
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade zoomIn" id="showModal4" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content border-0">
+                    <div class="modal-header p-3 bg-soft-info">
+                        <h5 class="modal-title" id="exampleModalLabel">Create Clearer Rates</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+                    </div>
+
+                    
+                    
+                    <form class="tablelist-form" method="post" id="trader_from" autocomplete="off" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <input type="hidden" id="tasksId" />
+                            <div class="row g-3">
+                                <div class="col-lg-12">
+                                    <label for="projectName-field" class="form-label">Name</label>
+                                    <input type="file"  name="file" id="projectName-field" class="form-control" placeholder="Clearer Rates name"  />
+                                </div>
+                                <!--end col-->
+
+                                <!--end col-->
+                            </div>
+                            <!--end row-->
+                        </div>
+                        <div class="modal-footer">
+                            <div class="hstack gap-2 justify-content-end">
+                                <button type="button" class="btn btn-light" id="close-modal" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-success" id="add-btn" >Upload file</button>
+                                <!-- <button type="button" class="btn btn-success" id="edit-btn">Update Task</button> -->
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--end modal-->
+
+    </div>
+    <!-- container-fluid -->
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+
+
+function deletefunc(id){
+
+    document.querySelector('#delete_feild').value=id
+}
+
+
+function validateForm(event){
+    var tradetype = document.querySelector('#singlediff').value;
+    var clearer = document.querySelector('#clearer_iid').value;
+    var trader = document.querySelector('#trader').value;
+    var book = document.querySelector('#book').value;
+    var strategy = document.querySelector('#strategy').value;
+    var contractname = document.querySelector('#contract1').value;
+    var tradetype = document.querySelector('#singlediff').value;
+    var customercompany = document.querySelector('#customerCompanyId').value;
+
+    console.log(customercompany)
+
+    if (tradetype=='choose'){
+        event.preventDefault()
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Trade Type Should not be null Please choose External or Bilateral',
+            footer: 'Trade Type Error'
+          })
+    }
+
+    if (clearer=='choose'){
+        event.preventDefault()
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Clearer Should not be null Please choose Clearer',
+            footer: 'Clearer Error'
+          })
+    }
+
+    if (trader=='choose'){
+        event.preventDefault()
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Trader Should not be null Please choose Trader',
+            footer: 'Trader Error'
+          })
+    }
+    if (customercompany=='choose'){
+        event.preventDefault()
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'customercompany Should not be null Please choose customercompany',
+            footer: 'Book Error'
+          })
+    }
+
+
+    if (strategy=='choose'){
+        event.preventDefault()
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Strategy  Should not be null Please choose  Strategy Number',
+            footer: 'Strategy Error'
+          })
+    }
+
+    if (contractname=='choose'){
+        event.preventDefault()
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Contract Name  Should not be null Please choose  Contract Name',
+            footer: 'Contract Name Error'
+          })
+    }
+
+
+    if (contractname == 'Fixed'){
+        if (startdate != enddate){
+            event.preventDefault()
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Start Date and End Date should be equal for Fixed Pricing methode ',
+                footer: 'Date Error'
+              })
+        }
+    }
+
+
+    else{
+        return true;
+    }
+}
+
+
+
+
+async function FindEndDateofMonth(){
+    var startdate = document.querySelector('#start_date').value;
+    var enddate = document.querySelector('#end_date')
+
+
+    await fetch('enddate_of_month', { // add comma after URL
+        method: 'POST', // fix colon to comma
+        headers:{
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}',
+        },
+        body: JSON.stringify({'start_date':startdate}) // fix method name to stringify
+    })
+
+    .then(response => response.json())
+    .then(data => {
+        console.log('sss')
+
+        enddate.value= data.data
+
+
+    })
+}
+
+
+
+
+
+
+
+
+
+
+
+
+<!--async function contractNameHolidayRelation(){-->
+<!--    var contract = document.querySelector('#contract1').value;-->
+<!--    var holiday = document.querySelector('#holiday')-->
+<!--    const brocker_input = document.querySelector('#brocker_id')-->
+
+
+<!--    const unit_get = document.querySelector('#unit_idc')-->
+<!--    const tick_get = document.querySelector('#tick_idc')-->
+
+
+
+<!--    await fetch('contract_name_holiday_relation', { // add comma after URL-->
+<!--        method: 'POST', // fix colon to comma-->
+<!--        headers:{-->
+<!--            'Content-Type': 'application/json',-->
+<!--            'X-CSRFToken': '{{ csrf_token }}',-->
+<!--        },-->
+<!--        body: JSON.stringify({'contract_name':contract}) // fix method name to stringify-->
+<!--    })-->
+<!--    .then(response => response.json())-->
+<!--    .then(data => {-->
+<!--        console.log('sss')-->
+<!--        console.log(data.data1.length)-->
+<!--        while (holiday.firstChild){-->
+<!--            holiday.removeChild(holiday.firstChild)-->
+<!--        }-->
+
+<!--        for (let i=0; i < data.data.length; i++){-->
+<!--            const option = document.createElement('option')-->
+<!--            option.value = data.data[i].date-->
+<!--            option.text = data.data[i].date-->
+<!--            holiday.append(option)-->
+<!--        }-->
+<!--        console.log('reached')-->
+
+<!--        console.log(data.data)-->
+
+<!--        while (brocker_input.firstChild){-->
+<!--            brocker_input.removeChild(brocker_input.firstChild)-->
+<!--        }-->
+
+<!--        for (let i=0; i < data.data1.length; i++){-->
+<!--            console.log('reachedss')-->
+<!--            const option = document.createElement('option')-->
+<!--            option.value = data.data1[i].data-->
+<!--            option.text = data.data1[i].data-->
+<!--            brocker_input.append(option)-->
+<!--        }-->
+
+<!--       console.log(data.data1)-->
+
+<!--        while (unit_get.firstChild){-->
+<!--            unit_get.removeChild(unit_get.firstChild)-->
+<!--         }-->
+
+<!--        for (let i=0; i < data.data3.length; i++){-->
+<!--            console.log('reachedss')-->
+<!--            const option = document.createElement('option')-->
+<!--            option.value = data.data3[i].data-->
+<!--            option.text = data.data3[i].data-->
+<!--            unit_get.append(option)-->
+<!--        }-->
+
+<!--       console.log(data.data3)-->
+
+
+<!--       while (tick_get.firstChild){-->
+<!--            tick_get.removeChild(tick_get.firstChild)-->
+<!--         }-->
+
+<!--        for (let i=0; i < data.data4.length; i++){-->
+<!--            console.log('reachedss')-->
+<!--            const option = document.createElement('option')-->
+<!--            option.value = data.data4[i].data-->
+<!--            option.text = data.data4[i].data-->
+<!--            tick_get.append(option)-->
+<!--        }-->
+
+<!--    })-->
+<!--}-->
+
+
+async function Contract_name_broker_like_clearer(){
+    const contract = document.querySelector('#contract1').value
+    const derivative_id = 'features'
+     fetch(`/swaps_blotters_company_broker_derivative`,{
+        method:"POST",
+        headers:{
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}',
+        },
+        body:JSON.stringify({'contract_name':contract})
+     })
+
+    .then (response => response.json())
+    .then (data => {
+        console.log(data)
+        console.log(data.data2)
+        while (brocker_id.firstChild){
+            brocker_id.removeChild(brocker_id.firstChild)
+        }
+        const option = document.createElement('option')
+        option.value ='choose'
+        option.text = '------'
+        document.querySelector('#brocker_id').append(option)
+        for (i=0; i < data.data.length; i++){
+        console.log(data.data[0].data)
+        const option = document.createElement('option')
+        option.value = data.data[i].data;
+        option.text = data.data[i].data;
+        document.querySelector('#brocker_id').append(option);
+
+    }
+    })
+}
+
+
+
+
+
+async function ClearerChange(){
+    const clearer_name = document.querySelector('#clearer_iid').value
+    const derivative_id = 'swaps'
+     fetch(`/swaps_bloters_clearer_derivative`,{
+        method:"POST",
+        headers:{
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}',
+        },
+        body:JSON.stringify({'clearer':clearer_name})
+     })
+
+    .then (response => response.json())
+    .then (data => {
+        console.log(data)
+        while (contract1.firstChild){
+            contract1.removeChild(contract1.firstChild)
+        }
+
+
+        const option = document.createElement('option')
+        option.value ='choose'
+        option.text = '------'
+        document.querySelector('#contract1').append(option)
+        for (i=0; i < data.data.length; i++){
+        console.log(data.data[0].data)
+        const option = document.createElement('option')
+        option.value = data.data[i].data;
+        option.text = data.data[i].data;
+        document.querySelector('#contract1').append(option);
+    }
+
+
+    })
+}
+
+
+
+document.getElementById('date_id').valueAsDate = new Date();
+function buySell(){
+    const buy_sell = document.querySelector('#buy_sell')
+    const volume = document.querySelector('#volume').value
+
+    if (volume > 0){
+        buy_sell.value='Buy'
+    }
+
+    else if(volume < 0){
+        buy_sell.value='Sell'
+    }
+
+}
+
+
+<!--#enable disable customer compnay account  approximate EP-->
+
+function enabledisable_ext(){
+    var option = document.querySelector('#singlediff').value;
+    console.log(option)
+
+    if (option == 'External'){
+        document.getElementById("customerCompanyId").value = ""
+        document.getElementById("customerCompanyId").disabled=true;
+        document.getElementById("account_id").value = ""
+        document.getElementById("account_id").disabled=true;
+        document.getElementById("approximate_ep_id").value = ""
+        document.getElementById("approximate_ep_id").disabled=true;
+    }
+
+    if (option == 'Bilateral'){
+<!--        document.getElementById("customerCompanyId").value = ""-->
+        document.getElementById("customerCompanyId").disabled=false;
+<!--        document.getElementById("account_id").value = ""-->
+        document.getElementById("account_id").disabled=false;
+<!--        document.getElementById("approximate_ep_id").value = ""-->
+        document.getElementById("approximate_ep_id").disabled=false;
+    }
+
+}
+
+
+function customerCompanyFun(){
+    const customer_company = document.querySelector('#customerCompanyId').value
+
+    fetch(`/search_customer_company/${customer_company}`)
+
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.company_name)
+        const account_id = document.querySelector('#account_id')
+
+        while (account_id.firstChild){
+            account_id.removeChild(account_id.firstChild)
+        }
+
+        for (i=0; i < data.company_name.length; i++){
+            const option = document.createElement('option');
+            option.value = data.company_name[i].data
+            option.text = data.company_name[i].data
+            account_id.appendChild(option)
+        }
+    })
+
+}
+{% endblock %}

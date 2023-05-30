@@ -1,0 +1,197 @@
+{% extends 'customer/base.html' %}
+{% load static %}
+{% block content %}
+
+
+  <style>
+
+    .styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.styled-table thead tr {
+    background-color: #405189;
+    color: #ffffff;
+    text-align: left;
+}
+
+
+.styled-table th,
+.styled-table td {
+    padding: 5px 5px;
+}
+
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+.styled-table tbody tr.active-row {
+<!--    font-weight: bold;-->
+    color: black;
+}
+  </style>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<div class="page-content">
+    <div class="container-fluid">
+    <!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0"> History</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
+                    <li class="breadcrumb-item active">History</li>
+                </ol>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+        <!-- end page title -->
+
+
+
+<div class="row ">
+    <div class="col-12 grid-margin">
+        <div class="card">
+            <div class="card-body">
+                    <h4 class="card-title">FUTURE TRADES</h4>
+
+                <div class="">
+<!--             <a href="" class="btn btn-primary active" data-mdb-toggle="button" aria-pressed="true"-->
+<!--           role="button"> Futures-Swap</a>-->
+                    <a href="" class="btn btn-primary active" data-mdb-toggle="button" aria-pressed="true"
+           role="button"> Futures Trade</a>
+                    <a href="/sb-trade-hist/" class="btn btn-primary active" data-mdb-toggle="button" aria-pressed="true"
+           role="button"> Swaps Trade</a>
+                </div>
+
+<!--                #2 buttons-->
+<!--                <div class="row">-->
+<!--                    <div class="form-group">-->
+<!--                        <input class="btn btn-primary d-block w-10 " type="submit"-->
+<!--                               value="Future-Swaps" data-bs-toggle="button" autocomplete="off">-->
+<!--                    </div>-->
+<!--                    <div class="form-group">-->
+<!--                    <input class="btn btn-primary d-block w-10 m-" type="submit" value="Future Trade">-->
+<!--                    </div>-->
+<!--                  <div class="form-group">-->
+<!--                    <input class="btn btn-primary d-block w-10 " type="submit" value="Swaps Trade">-->
+<!--                    </div>-->
+<!--                </div>-->
+
+                <div class="mt-2">
+                 <h3 class="card-title"><i class="fa-solid fa-chart-line text-info "></i> <span class="menu-title"></span></h3>
+                </div>
+
+<!--                <h5 class="card-title"><span class="menu-title">Select Window</span></h5>-->
+
+                <!--                #radio button-->
+
+<!--                <div class="radio">-->
+<!--                    <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off" checked>-->
+<!--                    <label class="btn btn-secondary border" for="option1">Today</label>-->
+
+<!--                    <input type="radio" class="btn-check" name="options" id="option2" autocomplete="off">-->
+<!--                    <label class="btn btn-secondary border" for="option2">Yesterday</label>-->
+
+<!--                    <input type="radio" class="btn-check" name="options" id="option3" autocomplete="off">-->
+<!--                    <label class="btn btn-secondary border" for="option3">Month</label>-->
+
+<!--                    <input type="radio" class="btn-check" name="options" id="option4" autocomplete="off">-->
+<!--                    <label class="btn btn-secondary border" for="option4">Year</label>-->
+
+<!--                      <input type="radio" class="btn-check" name="options" id="option5" autocomplete="off">-->
+<!--                    <label class="btn btn-secondary border" for="option5">Show History</label>-->
+
+<!--                </div>-->
+                <!--                #radio button end    -->
+
+
+                <div class="table-responsive">
+<!--                     <table class="table table-hover able-condensed table table-bordered border-primary ">-->
+<!--                          <h5 class="card-title">Exchange Trading Position</h5>-->
+<!--                        <thead>-->
+<!--                            <tr>-->
+<!--                                 <th class="serial" style="background-color:#00BFFF;"> No </th>-->
+
+<!--                                {% for col in fb_history_df.columns %}-->
+<!--                                <th class="" style="background-color:#00BFFF;"> {{col}} </th>-->
+<!--                                {%endfor%}-->
+
+<!--                            </tr>-->
+<!--                        </thead>-->
+<!--                        <tbody>-->
+<!--                        {% for row in fb_history_df.values %}-->
+<!--                        <tr>-->
+<!--                            <td class="serial">{{forloop.counter}}</td>-->
+<!--                            {% for value in row %}-->
+<!--&lt;!&ndash;                            <td class="bg-danger" > {{value}}</td>&ndash;&gt;-->
+<!--                            <td class="{% if value < 0 %}text-danger{% endif %}">{{value}}</td>-->
+<!--&lt;!&ndash;                            <td class="{% if value < 0 %}text-danger {%elif value >= 0%} text-success {% endif %}">{{value}}</td>&ndash;&gt;-->
+
+<!--&lt;!&ndash;                            <td>{{value}}</td>&ndash;&gt;-->
+<!--                            {% endfor %}-->
+<!--                        </tr>-->
+<!--                        {% endfor %}-->
+<!--                        </tbody>-->
+<!--                    </table>-->
+
+                     <table class="styled-table table table-hover ">
+
+                        <thead>
+                        <tr>
+                             <th class="serial" > No </th>
+                               {% for col in fb_history_df.columns %}
+                                <th class=""> {{col}} </th>
+                                {%endfor%}
+                        </tr>
+                        </thead>
+                        <tbody>
+                              {% for row in fb_history_df.values %}
+                        <tr class="active-row">
+                           <td class="serial">{{forloop.counter}}</td>
+                             {% for value in row %}
+                            <td class="{% if value < 0 %}text-danger{% endif %}">{{value}}</td>
+                               {% endfor %}
+                        </tr>
+                                  {% endfor %}
+                        <!-- and so on... -->
+                        </tbody>
+                    </table>
+
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="page-content">
+    <div class="container-fluid">
+<div class="card mb-3">
+    <div class="card-body">
+
+        <div class="table-card">
+            <table class="table mb-0">
+                <tbody>
+                    <tr>
+                        <td class="fw-medium">Trader Name</td>
+                        <td>{{object.name}}</td>
+                    </tr>
+ 
+                    <tr>
+                        <td class="fw-medium">Created on</td>
+                        <td><span class="badge badge-soft-secondary">{{object.created_date}}</span></td>
+                    </tr>
+            
+                    <tr>
+                        <td class="fw-medium">Status</td>
+                        <td><span class="badge badge-soft-secondary">{{object.updated_at}}</span></td>
+                    </tr>
+
+                </tbody>
+            </table>
+            <!--end table-->
+        </div>
+    </div>
+</div>
+</div>
+</div>
+{% endblock %}

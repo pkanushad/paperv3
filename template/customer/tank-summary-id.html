@@ -1,0 +1,102 @@
+{% extends 'customer/base.html' %}
+{% load static %}
+{% block content %}
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<div class="page-content">
+    <div class="container-fluid">
+    <!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0"> Trade Summary</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
+                    <li class="breadcrumb-item active"> Trade Summary</li>
+                </ol>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+        <!-- end page title -->
+
+
+
+<div class="row ">
+    <div class="col-12 grid-margin">
+        <div class="card">
+            <div class="card-body">
+                    <h4 class="card-title">Trade Summary</h4>
+
+<!--                <div class="">-->
+<!--&lt;!&ndash;             <a href="" class="btn btn-primary active" data-mdb-toggle="button" aria-pressed="true"&ndash;&gt;-->
+<!--&lt;!&ndash;           role="button"> Futures-Swap</a>&ndash;&gt;-->
+<!--                    <a href="/tatal_kbbl_position" class="btn btn-primary active " data-mdb-toggle="button" aria-pressed="true"-->
+<!--           role="button">Exchange Trading Position</a>-->
+<!--                    <a href="/filter" class="btn btn-primary active " data-mdb-toggle="button" aria-pressed="true"-->
+<!--           role="button">Company/Custmor Position</a>-->
+<!--                </div>-->
+
+<!--                <div class="mt-2">-->
+<!--                 <h3 class="card-title"><i class="fa-solid fa-chart-line text-info "></i> <span class="menu-title"></span></h3>-->
+<!--                </div>-->
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body ">
+
+                                <!--                    ## drowdown-->
+                                <div class="row g-3"
+                                ">
+                                <div class="col-sm-5">
+                                    <label for="company_name" class="control-label">Trade ID </label>
+                                    <hr>
+
+                                    <!--                                                            <label class="visually-hidden" for="inlineFormSelectPref">Derivative</label>-->
+                                    <form onsubmit="validateForm(event)" method="post">
+
+                                        {% csrf_token %}
+                                        <select class="form-select" id="tank_summ_trade_id"
+                                                name="tank_summ_trade_id" onchange="">
+                                            <option value="choose" selected>Select Trade ID</option>
+                                            {% for i in lis %}
+                                            <option value="{{i}}">{{i}}</option>
+                                            <!--                                                                <option value="features">Futures</option>-->
+                                            {% endfor %}
+
+                                        </select>
+                                </div><!--end col-->
+                                <div class="col-sm-2 mt-5">
+                                    <button type="submit" class="btn btn-primary"> Submit
+                                    </button>
+                                </div>
+
+                                </form>
+                            </div>
+
+                            <!--#end dropdows-->
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+            </div>
+</div>
+
+
+
+
+{% endblock %}

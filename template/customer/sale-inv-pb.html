@@ -1,0 +1,861 @@
+{% extends 'customer/base.html' %}-->
+{% block content %}
+
+<style>
+  .table tr {font-size: 12px;}
+.table td {font-size: 12px;}
+
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<div class="page-content">
+    <div class="container-fluid">
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h4 class="mb-sm-0">Physical Blotter</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Physical Blotter</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- end page title -->
+
+        <!--end row-->
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card" id="tasksList">
+                    <div class="card-header border-0">
+                        <div class="d-flex align-items-center">
+                            <h5 class="card-title mb-0 flex-grow-1">Physical Blotter</h5>
+                            <div class="flex-shrink-0">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body border border-dashed border-end-0 border-start-0">
+                        <form>
+                            <div class="row g-3">
+                                <div class="col-sm-6">
+<!--                                    <div class="search-box">-->
+
+<!--                                    </div>-->
+                                    <input type="text" class="form-control bg-light border-light" name="search_query" id="demo-datepicker" data-provider="flatpickr" data-date-format="d M, Y" data-range-date="true" placeholder="Search with Contract Name" value="{{request.GET.search_query}}">
+
+                                </div>
+                                <!--end col-->
+
+<!--                                <div class="col-xxl-4 col-sm-6">-->
+<!--                                    <input type="text" class="form-control bg-light border-light" name="search_query" id="demo-datepicker" data-provider="flatpickr" data-date-format="d M, Y" data-range-date="true" placeholder="Search with Contract Name" value="{{request.GET.search_query}}">-->
+<!--                                </div>-->
+                                <!--end col-->
+
+
+                                <!--end col-->
+                                <div class="col-sm-1">
+                                    <button type="submit" class="btn btn-primary w-100" onclick="SearchData();"> <i class="ri-search-2-line"></i>
+
+                                    </button>
+                                </div>
+
+                                <div class="col-sm-1">
+                                    <button type="button" class="btn btn-primary w-100" onclick="window.location.href='/future-blotter'"> <i class="ri-close-circle-line"></i>
+
+                                    </button>
+                                </div>
+
+
+                                <div class=" col-sm-4">
+                                    <p class="btn btn-danger add-btn" data-bs-toggle="modal" data-bs-target="#showModal"><i class="ri-add-line align-bottom me-1"></i> Create Contract</p>
+                                    <p class="btn btn-success add-btn" data-bs-toggle="modal" data-bs-target="#showModal4"><i class="ri-add-line align-bottom me-1"></i> Upload file</p>
+
+                                </div>
+
+
+                                <!--end col-->
+                            </div>
+                            <!--end row-->
+                        </form>
+                    </div>
+                    <!--end card-body-->
+                    <div class="card-body">
+                        <div class="table-responsive table-card mb-4">
+                            <div class="noresult" style="display: none">
+                                <div class="text-center">
+                                    <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop" colors="primary:#121331,secondary:#08a88a" style="width:75px;height:75px"></lord-icon>
+                                    <h5 class="mt-2">Sorry! No Result Found</h5>
+                                    <p class="text-muted mb-0">We've searched more than 200k+ tasks We did not find any tasks for you search.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end mt-2">
+                            <div class="pagination-wrap hstack gap-2">
+                                {% if page_obj.has_previous %}
+                                <a class="page-item pagination-prev" href="?page={{ page_obj.previous_page_number }}">
+                                    Previous
+                                </a>
+                                {% endif %}
+                                <ul class="pagination listjs-pagination mb-0"></ul>
+                                <p style="
+                                margin-bottom: 0px;
+                            "class="page-item pagination-next">{{ page_obj.number }}</p>
+                                <ul class="pagination listjs-pagination mb-0"></ul>
+                                {% if page_obj.has_next %}
+                                <a class="page-item pagination-next" href="?page={{ page_obj.next_page_number }}">
+                                    Next
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <!--end card-body-->
+                </div>
+                <!--end card-->
+            </div>
+            <!--end col-->
+        </div>
+        <!--end row-->
+        <form method="post">
+            {% csrf_token %}
+
+        <div class="modal fade flip" id="deleteOrder" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body p-5 text-center">
+                        <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#405189,secondary:#f06548" style="width:90px;height:90px"></lord-icon>
+                        <div class="mt-4 text-center">
+                            <input type="hidden" name="delet_id" id="delete_feild" value="">
+                            <h4>Are You Sure You want To delete</h4>
+                            <p class="text-muted fs-14 mb-4">Deleting your task will remove all of
+                                your information from our database.</p>
+                            <div class="hstack gap-2 justify-content-center remove">
+                                <button type="reset" class="btn btn-link btn-ghost-success fw-medium text-decoration-none" id="deleteRecord-close" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Close</button>
+                                <button type="submit" class="btn btn-danger" id="delete-record">Yes, Delete It</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+        <!--end delete modal -->
+
+        <div class="modal fade zoomIn" id="showModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content border-0">
+                    <div class="modal-header p-3 bg-soft-info">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Contract
+
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+                    </div>
+                    <form class="tablelist-form" method="post" id="trader_from" autocomplete="off">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <input type="hidden" id="tasksId" />
+                            <div class="row g-3">
+                                <div class="col-lg-12">
+
+                                    <label for="projectName-field" class="form-label">Name</label>
+                                    <input type="hidden" id="edit_id" name="edit_name_id" value="">
+                                    <input type="text"  name="edit_name" id="value_field" value="" class="form-control" placeholder="" required />
+                                </div>
+                                <!--end col-->
+
+                                <!--end col-->
+                            </div>
+                            <!--end row-->
+                        </div>
+                        <div class="modal-footer">
+                            <div class="hstack gap-2 justify-content-end">
+                                <button type="button" class="btn btn-light" id="close-modal" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-success" id="add-btn" >Add Contract</button>
+                                <!-- <button type="button" class="btn btn-success" id="edit-btn">Update Task</button> -->
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade zoomIn" id="showModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content border-0">
+                    <div class="modal-header p-3 bg-soft-info">
+                        <h5 class="modal-title" id="exampleModalLabel">Add Physical Trade</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+                    </div>
+
+
+
+                    <form onsubmit="validateForm(event)" method="post" >
+                        {% csrf_token %}
+
+                        <div class="row g-3" style="padding:20px;">
+
+                            <div class="col-sm-4">
+                                <p><b>Date</b></p>
+                                <input type="Date" class="form-control" name="date" id="date_id" aria-label="First-Name" required >
+                            </div><!--end col-->
+
+
+                                 <div class="col-sm-4">
+                                        <p class="labelsa"><b>Trade ID</b><p>
+
+                                        <input type="text" class="form-control" id="tradeid" placeholder="" name="tradeid" aria-label="First-Name" value="{{d.Trade_id}}" required readonly >
+
+                                    </div>
+                            <div class="col-sm-4">
+                                <p class="labelsa"><b>Trader</b><p>
+
+                                <input type="text" class="form-control" id="trader_id" placeholder="" name="trader" aria-label="First-Name" value="{{request.user.username}}" required readonly >
+
+<!--                                <select class="form-select" id="singlediff" name="bileteral_external">-->
+<!--                                    <option value="choose" selected>-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;</option>-->
+<!--                                    <option value="Bilateral">Bilateral</option>-->
+<!--                                    <option value="External">External</option>-->
+
+<!--                                </select>-->
+                            </div>
+                            <div class="col-sm-3">
+                                <p class="labelsa"><b>Book</b></p>
+                                <input type="text" class="form-control" id="book" placeholder="" name="book" aria-label="First-Name" value="{{d.book}}" required  readonly>
+
+
+
+                            </div>
+
+
+
+
+
+
+                                <div class="col-sm-3">
+                                    <p class="labelsa"><b>Company Name</b><p>
+                                    <input type="text" class="form-control" id="company_name" placeholder="" name="company_name" aria-label="First-Name" required >
+
+                                </div>
+
+
+
+
+                                    <div class="col-sm-3">
+                                        <p class="labelsa"><b>Strategy</b><p>
+                                         <input type="text" class="form-control" id="strategy" placeholder="" name="strategy" aria-label="First-Name" value="{{d.Strategy}}" required readonly>
+
+                                    </div>
+
+
+                                        <div class="col-sm-3">
+                                            <p class="labelsa"><b>Derivative</b><p>
+                                            <select class="form-select" name="derivatives"  id="derivative_id"  >
+                                                <option value="Physical" selected>Physical</option>
+
+                                            </select>
+                                        </div>
+
+
+
+<!--                                    <div class="col-sm-3">-->
+<!--                                        <p class="labelsa"><b>Buy/Sell</b></p>-->
+<!--                                       <select class="form-select" name="buysell"  id="buysell_id" >-->
+
+<!--                                           <option value="Buy" selected>Buy</option>-->
+<!--                                           <option value="Sell" selected>Sell</option>-->
+
+<!--                                            </select>-->
+
+<!--&lt;!&ndash;                                                      <input type="text" class="form-control" id="buysell_id" placeholder="" name="buysell" aria-label="First-Name" value="" required  >&ndash;&gt;-->
+<!--                                    </div>-->
+
+                                <div class="col-sm-6">
+                                    <p class="labelsa"><b>Cargo</b></p>
+
+                                    <input type="text" class="form-control" id="cargo" placeholder="" name="cargo" aria-label="First-Name" value="{{d.Cargo}}" required  readonly >
+
+
+                                </div>
+
+
+                                <div class="col-sm-3">
+                                    <p class="labelsa"><b>Pricing Contract</b></p>
+<!--                                    <input type="text" class="form-control"  id="pricing_contract" onchange="buySell()" placeholder="Pricing Contract" name="pricing_contract" aria-label="First-Name" required>-->
+                                      <select class="form-select" name="pricing_contract" id="pricing_contract">
+                                            <option value="choose" selected>Select</option>
+                                            {% for i in pricing_contract %}
+                                            <option value="{{i.id}}">{{i.contract_name}}</option>
+                                            {% endfor %}
+
+                                        </select>
+
+
+                                </div>
+
+
+                                <div class="col-sm-3">
+                                    <p class="labelsa"><b>Pricing Method</b></p>
+                                       <select class="form-select" name="pricing_methode"  id="pricing_methode_id" onchange="pricing_Method()">
+
+                                           <option value="Fixed" selected>Fixed</option>
+                                           <option value="Float" selected>Float</option>
+
+                                            </select>
+
+                                    </div>
+
+                                        <br>
+                                        <div class="col-sm-12">
+                                            <input type="hidden" class="form-control">
+                                        </div>
+
+
+                                <div class="col-sm-6">
+                                    <p class="labelsa"><b>Quantity</b></p>
+                                    <input type="text" name="quantity" class="form-control" placeholder="" aria-label="First-Name" id="quantity"  value="-{{d.Shore_recieved}}" required readonly onload="buySell();" >
+
+                                </div>
+
+
+                                <div class="col-sm-6">
+                                    <p class="labelsa"><b>Unit</b></p>
+<!--                                          <select class="form-select" name="unit">-->
+<!--                                          <option value="{{d.Unit}}" selected>{{d.Unit}}</option>-->
+<!--                                            {% for i in unit %}-->
+<!--                                            <option value="{{i.id}}">{{i.name}}</option>-->
+<!--                                            {% endfor %}-->
+
+<!--                                        </select>-->
+                                   <input type="text" class="form-control" id="unit" placeholder="" name="unit" aria-label="First-Name" value="{{d.Unit}}" required  readonly>
+
+
+
+                                </div>
+
+
+                                <div class="col-sm-3">
+                                    <p class="labelsa"><b>Density</b></p>
+                                    <input type="text" class="form-control" name="density"  placeholder="" aria-label="First-Name" value="{{d.Density}}" required>
+
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <p class="labelsa"><b>Nominated Quantity</b></p>
+                                    <input type="text" class="form-control" name="nominated_quantity"  placeholder="" aria-label="First-Name" required>
+
+                                </div>
+
+
+                            <div class="col-sm-3">
+                                <p class="labelsa"><b>Premium Discount</b></p>
+                                <input type="text" class="form-control" name="premium_discount" id="premium_discount_id"
+                                       placeholder="" aria-label="First-Name">
+
+                            </div>
+                                   <div class="col-sm-3">
+                                         <p class="labelsa"><b>Pricing Term</b></p>
+
+                                    <input type="text" class="form-control" name="pricing_term" placeholder="" aria-label="First-Name" required >
+
+                                   </div>
+
+<br>
+                                                            <div class="col-sm-12">
+                                                                <input type="hidden" class="form-control"  placeholder="" aria-label="First-Name" >
+
+                                                            </div>
+
+
+
+
+                                <div class="col-sm-4">
+                                    <p class="labelsa"><b>BL Date</b></p>
+                                    <input type="Date" class="form-control" name="bl_date" id="bl_date_id" aria-label="First-Name" required >
+
+                                </div>
+
+
+<!--<br>-->
+
+<!--                                <div class="col-sm-4">-->
+
+<!--                                    <input type="hidden" class="form-control" name="physical_code" placeholder="Physical Code" aria-label="First-Name" required>-->
+<!--                                </div>-->
+                            <div class="col-sm-4">
+                                  <p class="labelsa"><b>Start Date</b></p>
+                                <input type="Date" class="form-control" name="start_date" id="start_date_id"
+                                       aria-label="First-Name"  required>
+
+                            </div>
+                            <div class="col-sm-4">
+                                <p class="labelsa"><b>End Date</b></p>
+                                <input type="Date" class="form-control" name="end_date" id="end_date_id"
+                                       aria-label="First-Name" onchange="checkequaldates()" required>
+
+                            </div>
+
+
+                                   <div class="col-sm-3">
+                                        <p class="labelsa"><b>Holiday</b></p>
+
+                                        <label class="visually-hidden" for="inlineFormSelectPref">Holiday</label>
+                                        <select class="form-select" name="holiday" id="holiday_id">
+                                            <option value="choose" selected>Select</option>
+                                            {% for i in holiday %}
+                                            <option value="{{i}}">{{i}}</option>
+                                            {% endfor %}
+
+                                        </select>
+                                    </div>
+                                 <div class="col-sm-3">
+                                        <p class="labelsa"><b>Delivery Mode</b></p>
+
+                                        <label class="visually-hidden" for="inlineFormSelectPref">Delivery Mode</label>
+                                     <select class="form-select" name="deliverymode" id="deliverymode_id" onchange="vessaltankdisable()">
+
+                                         <option value="{{d.Delivery_mode}}" selected>{{d.Delivery_mode}}</option>
+                                         <option value="Tank" >Tank</option>
+                                         <option value="Vessel" >Vessel</option>
+                                         <option value="PLT" >PLT</option>
+                                     </select>
+
+                                    </div>
+
+                                   <div class="col-sm-3">
+                                        <p class="labelsa"><b>Port </b></p>
+
+                                        <label class="visually-hidden" for="inlineFormSelectPref">Port </label>
+                                        <select class="form-select" name="port" id="port"  onchange="TankPortTermialRelation()">
+                                            <option value="{{d.Port}}" selected>{{d.Port}}</option>
+                                            {% for i in port %}
+                                            <option value="{{i.name}}">{{i.name}}</option>
+                                            {% endfor %}
+
+                                        </select>
+                                    </div>
+                                 <div class="col-sm-3">
+                                        <p class="labelsa"><b>Terminal </b></p>
+
+                                        <label class="visually-hidden" for="inlineFormSelectPref">Terminal </label>
+                                        <select class="form-select" name="terminal" id="terminal">
+                                            <option value="{{d.Terminal}}" selected>{{d.Terminal}}</option>
+
+<!--                                            {% for i in terminal %}-->
+<!--                                            <option value="{{i.name}}">{{i.name}}</option>-->
+<!--                                            {% endfor %}-->
+
+                                        </select>
+                                    </div>
+
+                                <div class="col-sm-3">
+                                        <p class="labelsa"><b>Vessal Name </b></p>
+                                        <label class="visually-hidden" for="inlineFormSelectPref">Vessal Name </label>
+                                      <input type="text" class="form-control" name="vessal_name" id="vessal_name_id"
+                                       aria-label="First-Name" value="{{d.Vessal_name}}" readonly >
+                                    </div>
+
+                               <div class="col-sm-3">
+                                        <p class="labelsa"><b>Tank </b></p>
+
+                                        <label class="visually-hidden" for="inlineFormSelectPref">Tank </label>
+                                        <select class="form-select" name="tank" id="tank">
+                                            <option value="{{d.Tank}}" selected>{{d.Tank}}</option>
+
+<!--                                            {% for i in tank %}-->
+<!--                                            <option value="{{i.Tank_no}}">{{i.Tank_no}}</option>-->
+<!--                                            {% endfor %}-->
+
+                                        </select>
+                                    </div>
+
+                               <div class="col-sm-3">
+                                        <p class="labelsa"><b>External Terminal</b></p>
+                                        <label class="visually-hidden" for="inlineFormSelectPref">External Terminal</label>
+                                      <input type="text" class="form-control" name="external_terminal" id="external_terminal_id"
+                                       aria-label="First-Name" required>
+                                    </div>
+
+                                <div class="col-sm-3">
+                                    <p class="labelsa"><b>Hedging</b></p>
+                                       <select class="form-select" name="hedging"  id="hedging_id" >
+
+                                           <option value="Yes" selected>Yes</option>
+                                           <option value="No" selected>No</option>
+                                            </select>
+
+                                    </div>
+
+
+                            <div class="col-sm-12">
+                                   <p class="labelsa"><b>Remarks</b></p>
+                                    <input type="text" class="form-control" name="Remarks" placeholder="" aria-label="First-Name">
+
+                            </div>
+                                <div class="col-12">
+        <div class="text-end">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </div>
+                        </div><!--end row-->
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade zoomIn" id="showModal4" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content border-0">
+                    <div class="modal-header p-3 bg-soft-info">
+                        <h5 class="modal-title" id="exampleModalLabel">Add Physical Trade</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+                    </div>
+
+
+
+                    <form class="tablelist-form" method="post" id="trader_from" autocomplete="off" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <input type="hidden" id="tasksId" />
+                            <div class="row g-3">
+                                <div class="col-lg-12">
+                                    <label for="projectName-field" class="form-label">Name</label>
+                                    <input type="file"  name="file" id="projectName-field" class="form-control" placeholder="Contract name" required multiple/>
+                                </div>
+                                <!--end col-->
+
+                                <!--end col-->
+                            </div>
+                            <!--end row-->
+                        </div>
+                        <div class="modal-footer">
+                            <div class="hstack gap-2 justify-content-end">
+                                <button type="button" class="btn btn-light" id="close-modal" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-success" id="add-btn" >Upload file</button>
+                                <!-- <button type="button" class="btn btn-success" id="edit-btn">Update Task</button> -->
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--end modal-->
+
+    </div>
+    <!-- container-fluid -->
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+
+
+
+
+
+function validateForm(event){
+    var startdate = document.querySelector('#start_date_id').value;
+    var enddate = document.querySelector('#end_date_id').value;
+    var pricing_cntrct = document.querySelector('#pricing_contract').value;
+    var pricing_methode = document.querySelector('#pricing_methode_id').value;
+    var holiday = document.querySelector('#holiday_id').value;
+
+
+<!--    var option3 = document.querySelector('#major_mini_id').value;-->
+    console.log(pricing_methode)
+    if (startdate>enddate){
+        event.preventDefault()
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Please Check Start Date and End Date',
+            footer: 'Date Error'
+          })
+    }
+
+    if (pricing_cntrct=='choose'){
+        event.preventDefault()
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Pricing Contract Should not be null PLease choose Pricing Contract',
+            footer: 'Pricing Contract Error'
+          })
+    }
+
+    if (holiday=='choose'){
+        event.preventDefault()
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Holiday Should not be null Please choose Holiday',
+            footer: 'Holiday Error'
+          })
+    }
+
+    if (pricing_methode == 'Fixed'){
+        if (startdate != enddate){
+            event.preventDefault()
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Start Date and End Date should be equal for Fixed Pricing methode ',
+                footer: 'Date Error'
+              })
+        }
+    }
+
+
+
+
+
+    else{
+        return true;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+function pricing_Method(){
+    var option = document.getElementById('pricing_methode_id').value;
+
+    var startdate = document.getElementById('start_date_id').value;
+    var enddate = document.getElementById('end_date_id').value;
+
+
+    console.log(option)
+
+    if (option == 'Fixed'){
+        document.getElementById("premium_discount_id").value = ""
+        document.getElementById("premium_discount_id").disabled=true;
+<!--        document.querySelector('#premium_discount_id').disabled=true;-->
+
+    }
+
+   else if (option == 'Float'){
+        document.getElementById("premium_discount_id").value = ""
+        document.getElementById("premium_discount_id").disabled=false;
+
+<!--        document.querySelector('#premium_discount_id').disabled=false;-->
+    }
+
+}
+
+
+function checkequaldates(){
+    var option = document.getElementById('pricing_methode_id').value;
+    var startdate = document.getElementById('start_date_id').value;
+    var enddate = document.getElementById('end_date_id').value;
+
+    if (option == 'Fixed'){
+
+           if (startdate != enddate){
+                event.preventDefault()
+               Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Startdate and Enddate Should be equal in Fixed Pricing Term PLease choose Equal date',
+                footer: 'Pricing Term Error'
+          })
+
+            }
+
+     }
+
+}
+
+
+
+
+function deletefunc(id){
+
+    document.querySelector('#delete_feild').value=id
+}
+
+async function contractNameHolidayRelation(){
+    var contract = document.querySelector('#contract1').value;
+    var holiday = document.querySelector('#holiday')
+    const brocker_input = document.querySelector('#brocker_id')
+    await fetch('contract_name_holiday_relation', { // add comma after URL
+        method: 'POST', // fix colon to comma
+        headers:{
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}',
+        },
+        body: JSON.stringify({'contract_name':contract}) // fix method name to stringify
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('sss')
+        console.log(data.data1.length)
+        while (holiday.firstChild){
+            holiday.removeChild(holiday.firstChild)
+        }
+
+        for (let i=0; i < data.data.length; i++){
+            const option = document.createElement('option')
+            option.value = data.data[i].date
+            option.text = data.data[i].date
+            holiday.append(option)
+        }
+        console.log('reached')
+
+        while (brocker_input.firstChild){
+            brocker_input.removeChild(brocker_input.firstChild)
+        }
+
+        for (let i=0; i < data.data1.length; i++){
+            console.log('reachedss')
+            const option = document.createElement('option')
+            option.value = data.data1[i].data
+            option.text = data.data1[i].data
+            brocker_input.append(option)
+        }
+
+    })
+}
+
+async function ClearerChange(){
+    const clearer_name = document.querySelector('#clearer_iid').value
+    const derivative_id = 'features'
+     fetch(`future_bloters_clearer_derivative`,{
+        method:"POST",
+        headers:{
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}',
+        },
+        body:JSON.stringify({'clearer':clearer_name})
+     })
+
+    .then (response => response.json())
+    .then (data => {
+        console.log(data)
+        while (contract1.firstChild){
+            contract1.removeChild(contract1.firstChild)
+        }
+        const option = document.createElement('option')
+        option.value ='choose'
+        option.text = '------'
+        document.querySelector('#contract1').append(option)
+        for (i=0; i < data.data.length; i++){
+        console.log(data.data[0].data)
+        const option = document.createElement('option')
+        option.value = data.data[i].data;
+        option.text = data.data[i].data;
+        document.querySelector('#contract1').append(option);
+    }
+
+    })
+}
+
+document.getElementById('date_id').valueAsDate = new Date();
+
+<!--###  physical blotter tank, terminal, port-->
+
+async function TankPortTermialRelation(){
+    var port = document.querySelector('#port').value;
+    console.log(port)
+    var terminal = document.querySelector('#terminal')
+    console.log(terminal)
+    const tank_no = document.querySelector('#tank')
+    console.log(tank_no)
+    await fetch('/tank_port_terminal_relation', { // add comma after URL
+        method: 'POST', // fix colon to comma
+        headers:{
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}',
+        },
+        body: JSON.stringify({'port_name':port}) // fix method name to stringify
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('sss')
+        console.log(data.data1.length)
+        while (terminal.firstChild){
+            terminal.removeChild(terminal.firstChild)
+        }
+
+        for (let i=0; i < data.data.length; i++){
+            const option = document.createElement('option')
+            option.value = data.data[i].date
+            option.text = data.data[i].date
+            terminal.append(option)
+        }
+        console.log('reached')
+
+        while (tank_no.firstChild){
+            tank_no.removeChild(tank_no.firstChild)
+        }
+
+        for (let i=0; i < data.data1.length; i++){
+            console.log('reachedss')
+            const option = document.createElement('option')
+            option.value = data.data1[i].data
+            option.text = data.data1[i].data
+            tank_no.append(option)
+        }
+
+    })
+}
+
+
+<!--#enable disable tank-->
+function vessaltankdisable(){
+    var option = document.querySelector('#deliverymode_id').value;
+    console.log(option)
+
+    if (option == 'Tank'){
+        document.getElementById("vessal_name_id").value = ""
+<!--        document.getElementById("tankno_to").disabled=false;-->
+        document.getElementById("vessal_name_id").disabled=true;
+
+<!--        document.querySelector('#major_mini_disabled').disabled=true;-->
+    }
+
+}
+
+
+
+
+
+function customerCompanyFun(){
+    const customer_company = document.querySelector('#customerCompanyId').value
+
+    fetch(`search_customer_company/${customer_company}`)
+
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.company_name)
+        const account_id = document.querySelector('#account_id')
+
+        while (account_id.firstChild){
+            account_id.removeChild(account_id.firstChild)
+        }
+
+        for (i=0; i < data.company_name.length; i++){
+            const option = document.createElement('option');
+            option.value = data.company_name[i].data
+            option.text = data.company_name[i].data
+            account_id.appendChild(option)
+        }
+    })
+
+
+}
+{% endblock %}

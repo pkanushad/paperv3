@@ -1,0 +1,530 @@
+{% extends 'customer/base.html' %}
+{% load static %}
+{% block content %}
+
+
+<style>
+
+       .table tr {font-size: 17px;}
+       .table td {font-size: 15px;}
+
+
+
+</style>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<div class="page-content">
+    <div class="container-fluid">
+    <!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0"> Paper Position</h4>
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Paper Position</li>
+                </ol>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+        <!-- end page title -->
+
+
+
+<div class="row ">
+    <div class="col-12 grid-margin">
+        <div class="card">
+            <div class="card-body">
+                    <h4 class="card-title">Company/Custmor Position</h4>
+
+                <div class="">
+<!--             <a href="" class="btn btn-primary active" data-mdb-toggle="button" aria-pressed="true"-->
+<!--           role="button"> Futures-Swap</a>-->
+                    <a href="/tatal_kbbl_position" class="btn btn-primary btn active " data-mdb-toggle="button" aria-pressed="true"
+           role="button">Exchange Trading Position</a>
+                    <a href="/filter" class="btn btn-primary btn active " data-mdb-toggle="button" aria-pressed="true"
+           role="button">Company/Custmor Position</a>
+                </div>
+
+<!--                <div class="mt-2">-->
+<!--                 <h3 class="card-title"><i class="fa-solid fa-chart-line text-info "></i> <span class="menu-title"></span></h3>-->
+<!--                </div>-->
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body ">
+
+                                <!--                    ## drowdown-->
+                                <div class="row g-3"
+                                ">
+                                <div class="col-sm-5">
+                                    <label for="company_name" class="control-label"> Company Name</label>
+
+                                    <!--                                                            <label class="visually-hidden" for="inlineFormSelectPref">Derivative</label>-->
+                                    <form onsubmit="validateForm(event)" method="post">
+
+                                        {% csrf_token %}
+                                        <select class="form-select" id="company_name_id"
+                                                name="company_name" required>
+                                            <option value="choose" selected>Select Company</option>
+                                            {% for i in book %}
+                                            <option value="{{i.name}}">{{i.name}}</option>
+                                            <!--                                                                <option value="features">Futures</option>-->
+                                            {% endfor %}
+
+                                        </select>
+                                </div><!--end col-->
+<!--                                <div class="col-sm-5">-->
+<!--                                    <label for="lots_kbbl" class="control-label"> Lots/kbbl</label>-->
+
+<!--                                    &lt;!&ndash;                                                            <label class="visually-hidden" for="inlineFormSelectPref">Singl/Diff</label>&ndash;&gt;-->
+<!--                                    <select class="form-select" id="lots_kbbl_id"-->
+<!--                                            name="lots_kbbl" onchange="" required>-->
+<!--                                        <option value="choose" selected>Select</option>-->
+<!--                                        <option value="Lots">Lots</option>-->
+<!--                                        <option value="kbbl">kbbl</option>-->
+
+<!--                                    </select>-->
+<!--                                </div>-->
+                                <div class="col-sm-2 mt-5">
+                                    <button type="submit" class="btn btn-primary"> Submit
+                                    </button>
+
+                                     <a href="/filter" class="btn btn-primary btn active " data-mdb-toggle="button" aria-pressed="true"
+                                     role="button">Clear</a>
+                                 </div>
+                                </div>
+
+                                </form>
+                            </div>
+
+
+                            <!--                                                    #end dropdows-->
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+<!--                #### new table -->
+
+
+
+                                <div class="row mt-2">
+
+
+                                    <h4>{{company_name}}</h4>
+
+
+    <div class="col-12 grid-margin">
+<!--        <div class="card">-->
+
+            <div class="card-body tbl-container  ">
+                {% if companyname %}
+                <h4 class="card-title"><b> {{companyname}}</b>: Kbbl</h4>
+                {% endif %}
+
+                 <div class="table-responsive tbl-fixed">
+                            <table class="table align-middle table-nowrap mb-0 border border  table-hover border border-3" id="tasksTable">
+                                <thead class="table-light  sticky-top">
+                                    {% for messages in messages %}
+                                    <div id="snackbar">{{messages}}</div>
+                                    {% endfor %}
+                                    <tr>
+
+<!--                                             <th class="serial" > No </th>-->
+                               {% for col in filter_kbbl.columns %}
+                                <th class=""> {{col}} </th>
+                                {%endfor%}
+
+
+
+                                    </tr>
+
+                                </thead>
+                                <tbody id="tableBodyTrader" class="list form-check-all">
+
+                                    {% for messages in messages %}
+                                    <p data-toast data-toast-text="{{messages}}" data-toast-gravity="top" id="messages" data-toast-position="center" data-toast-duration="3000" data-toast-close="close"></p>
+                                    {% endfor %}
+
+                                 {% for row in filter_kbbl.values %}
+                        <tr class="active-row">
+<!--                           <td class="serial">{{forloop.counter}}</td>-->
+                             {% for value in row %}
+                            <td class="{% if value < 0 %}text-danger{% endif %}">{{value}}</td>
+                               {% endfor %}
+                        </tr>
+                                  {% endfor %}
+
+
+                                </tbody>
+                            </table>
+
+
+
+                        </div>
+                    </div>
+<!--        </div>-->
+    </div>
+</div>
+
+
+
+<!--            ###########################################  LOTS FILTER ############################################################################-->
+
+
+     <div class="row mt-2">
+    <div class="col-12 grid-margin">
+<!--        <div class="card">-->
+
+            <div class="card-body tbl-container  ">
+                {% if companyname %}
+                <h4 class="card-title"><b> {{companyname}}</b> :Lots</h4>
+                {% endif %}
+
+                 <div class="table-responsive tbl-fixed ">
+                            <table class="table align-middle table-nowrap mb-0 border border table-hover border border-3" id="tasksTable">
+                                <thead class="table-light  sticky-top">
+                                    {% for messages in messages %}
+                                    <div id="snackbar">{{messages}}</div>
+                                    {% endfor %}
+                                    <tr>
+
+<!--                                             <th class="serial" > No </th>-->
+                               {% for col in filter_lots.columns %}
+                                <th class=""> {{col}} </th>
+                                {%endfor%}
+
+
+
+                                    </tr>
+
+                                </thead>
+                                <tbody id="tableBodyTrader" class="list form-check-all">
+
+                                    {% for messages in messages %}
+                                    <p data-toast data-toast-text="{{messages}}" data-toast-gravity="top" id="messages" data-toast-position="center" data-toast-duration="3000" data-toast-close="close"></p>
+                                    {% endfor %}
+
+                                 {% for row in filter_lots.values %}
+                        <tr class="active-row">
+<!--                           <td class="serial">{{forloop.counter}}</td>-->
+                             {% for value in row %}
+                            <td class="{% if value < 0 %}text-danger{% endif %}">{{value}}</td>
+                               {% endfor %}
+                        </tr>
+                                  {% endfor %}
+
+
+                                </tbody>
+                            </table>
+
+
+
+                        </div>
+                    </div>
+<!--        </div>-->
+    </div>
+</div>
+
+
+
+<!--############################################################### LOTS STATEMNTS FILTER ###################################################################-->
+
+
+
+             <div class="row mt-2">
+    <div class="col-12 grid-margin">
+<!--        <div class="card">-->
+
+            <div class="card-body tbl-container  ">
+                {% if companyname %}
+                <h4 class="card-title"><b> {{companyname}}</b> : Lots/Statement </h4>
+                {% endif %}
+                 <div class="table-responsive tbl-fixed">
+                            <table class="table align-middle table-nowrap mb-0 border border  table-hover border border-3" id="tasksTable">
+                                <thead class="table-light sticky-top">
+                                    {% for messages in messages %}
+                                    <div id="snackbar">{{messages}}</div>
+                                    {% endfor %}
+                                    <tr>
+
+<!--                                             <th class="serial" > No </th>-->
+                               {% for col in lots_statement_filter.columns %}
+                                <th class=""> {{col}} </th>
+                                {%endfor%}
+
+
+
+                                    </tr>
+
+                                </thead>
+                                <tbody id="tableBodyTrader" class="list form-check-all">
+
+                                    {% for messages in messages %}
+                                    <p data-toast data-toast-text="{{messages}}" data-toast-gravity="top" id="messages" data-toast-position="center" data-toast-duration="3000" data-toast-close="close"></p>
+                                    {% endfor %}
+
+                                 {% for row in lots_statement_filter.values %}
+                        <tr class="active-row">
+<!--                           <td class="serial">{{forloop.counter}}</td>-->
+                             {% for value in row %}
+                            <td class="{% if value < 0 %}text-danger{% endif %}">{{value}}</td>
+                               {% endfor %}
+                        </tr>
+                                  {% endfor %}
+
+
+                                </tbody>
+                            </table>
+
+
+
+                        </div>
+                    </div>
+<!--        </div>-->
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--                ### end new table-->
+
+
+
+
+
+
+
+<!--                                                            <div class="d-flex">-->
+
+<!--                                                <div class="flex-grow-1 ms-2">-->
+
+<!--&lt;!&ndash;                                                    <div class="col-12 grid-margin ">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                        <div class="card">&ndash;&gt;-->
+<!--&lt;!&ndash;                                                            <div class="card-body">&ndash;&gt;-->
+
+<!--                                                    <div class="table-responsive table-card ">-->
+<!--                                                         <h4 class="card-title">kbbl Position</h4>-->
+<!--                                                        <table class="styled-table table table-hover table-striped">-->
+
+<!--                                                            <thead>-->
+<!--                                                            <tr>-->
+<!--                                                                <th class="serial"> No</th>-->
+<!--                                                                {% for col in kbbl_filter.columns %}-->
+<!--                                                                <th class=""> {{col}}</th>-->
+<!--                                                                {%endfor%}-->
+
+<!--                                                            </tr>-->
+<!--                                                            </thead>-->
+<!--                                                            <tbody>-->
+<!--                                                            {% for row in kbbl_filter.values %}-->
+<!--                                                            <tr class="active-row">-->
+<!--                                                                <td class="serial">{{forloop.counter}}</td>-->
+<!--                                                                {% for value in row %}-->
+<!--                                                                <td class="{% if value < 0 %}text-danger{% endif %}">-->
+<!--                                                                    {{value}}-->
+<!--                                                                </td>-->
+<!--                                                                {% endfor %}-->
+<!--                                                            </tr>-->
+<!--                                                            {% endfor %}-->
+<!--                                                            &lt;!&ndash; and so on... &ndash;&gt;-->
+<!--                                                            </tbody>-->
+
+<!--                                                        </table>-->
+
+<!--                                                    </div>-->
+
+
+<!--                                                </div>-->
+<!--                                            </div>-->
+
+
+
+
+
+<!--                <div class="row ">-->
+<!--    <div class="col-12 grid-margin">-->
+<!--        <div class="card">-->
+<!--            <div class="card-body ">-->
+
+<!--                    <h4 class="card-title">Lots Position</h4>-->
+
+<!--                <div class="table-responsive table-card ">-->
+<!--                    <table class="styled-table table table-hover table-striped ">-->
+
+<!--                        <thead>-->
+<!--                        <tr>-->
+<!--                             <th class="serial" > No </th>-->
+<!--                               {% for col in lots_filter.columns %}-->
+<!--                                <th class=""> {{col}} </th>-->
+<!--                                {%endfor%}-->
+<!--                        </tr>-->
+<!--                        </thead>-->
+<!--                        <tbody>-->
+<!--                              {% for row in lots_filter.values %}-->
+<!--                        <tr class="active-row">-->
+<!--                           <td class="serial">{{forloop.counter}}</td>-->
+<!--                             {% for value in row %}-->
+<!--                            <td class="{% if value < 0 %}text-danger{% endif %}">{{value}}</td>-->
+<!--                               {% endfor %}-->
+<!--                        </tr>-->
+<!--                                  {% endfor %}-->
+<!--                        &lt;!&ndash; and so on... &ndash;&gt;-->
+<!--                        </tbody>-->
+<!--                    </table>-->
+
+<!--                </div>-->
+
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+
+
+
+
+
+
+
+
+<!--                <div class="table-responsive">-->
+<!--                     <table class="table table-hover able-condensed table table-bordered border-primary ">-->
+<!--                          <h5 class="card-title">Exchange Trading Position</h5>-->
+<!--                        <thead>-->
+<!--                            <tr>-->
+<!--                                 <th class="serial" style="background-color:#00BFFF;"> No </th>-->
+
+<!--                                {% for col in fb_history_df.columns %}-->
+<!--                                <th class="" style="background-color:#00BFFF;"> {{col}} </th>-->
+<!--                                {%endfor%}-->
+
+<!--                            </tr>-->
+<!--                        </thead>-->
+<!--                        <tbody>-->
+<!--                        {% for row in fb_history_df.values %}-->
+<!--                        <tr>-->
+<!--                            <td class="serial">{{forloop.counter}}</td>-->
+<!--                            {% for value in row %}-->
+<!--&lt;!&ndash;                            <td class="bg-danger" > {{value}}</td>&ndash;&gt;-->
+<!--                            <td class="{% if value < 0 %}text-danger{% endif %}">{{value}}</td>-->
+<!--&lt;!&ndash;                            <td class="{% if value < 0 %}text-danger {%elif value >= 0%} text-success {% endif %}">{{value}}</td>&ndash;&gt;-->
+
+<!--&lt;!&ndash;                            <td>{{value}}</td>&ndash;&gt;-->
+<!--                            {% endfor %}-->
+<!--                        </tr>-->
+<!--                        {% endfor %}-->
+<!--                        </tbody>-->
+<!--                    </table>-->
+
+<!--                     <table class="styled-table table table-hover ">-->
+
+<!--                        <thead>-->
+<!--                        <tr>-->
+<!--                             <th class="serial" > No </th>-->
+<!--                               {% for col in fb_history_df.columns %}-->
+<!--                                <th class=""> {{col}} </th>-->
+<!--                                {%endfor%}-->
+<!--                        </tr>-->
+<!--                        </thead>-->
+<!--                        <tbody>-->
+<!--                              {% for row in fb_history_df.values %}-->
+<!--                        <tr class="active-row">-->
+<!--                           <td class="serial">{{forloop.counter}}</td>-->
+<!--                             {% for value in row %}-->
+<!--                            <td class="{% if value < 0 %}text-danger{% endif %}">{{value}}</td>-->
+<!--                               {% endfor %}-->
+<!--                        </tr>-->
+<!--                                  {% endfor %}-->
+<!--                        &lt;!&ndash; and so on... &ndash;&gt;-->
+<!--                        </tbody>-->
+<!--                    </table>-->
+
+
+
+
+
+
+<!--                </div>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+    </div></div>
+
+
+{% endblock %}
+
+{% block javascript %}
+
+
+
+
+
+function validateForm(event){
+
+var company_name = document.querySelector('#company_name_id').value;
+
+
+<!--    var option3 = document.querySelector('#major_mini_id').value;-->
+<!--    console.log(pricing_methode)-->
+<!--    if (startdate>enddate){-->
+<!--        event.preventDefault()-->
+<!--        Swal.fire({-->
+<!--            icon: 'error',-->
+<!--            title: 'Oops...',-->
+<!--            text: 'Please Check Start Date and End Date',-->
+<!--            footer: 'Date Error'-->
+<!--          })-->
+<!--    }-->
+
+    if (company_name=='choose'){
+        event.preventDefault()
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Please choose Company Name',
+            footer: 'Filter Error'
+          })
+    }
+
+    else{
+        return true;
+    }
+}
+
+
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,341 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="page-content">
+    <div class="container-fluid">
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h4 class="mb-sm-0">Users</h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Users</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- end page title -->
+
+        <!--end row-->
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card" id="tasksList">
+                    <div class="card-header border-0">
+                        <div class="d-flex align-items-center">
+                            <h5 class="card-title mb-0 flex-grow-1">All Users</h5>
+                            <div class="flex-shrink-0">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body border border-dashed border-end-0 border-start-0">
+                        <form>
+                            <div class="row g-3">
+                                <div class="col-sm-6">
+<!--                                    <div class="search-box">-->
+
+<!--                                    </div>-->
+
+                                    <input type="text" class="form-control bg-light border-light" name="search_query" id="demo-datepicker" data-provider="flatpickr" data-date-format="d M, Y" data-range-date="true" placeholder="Search with Users Name" value="{{request.GET.search_query}}">
+
+                                </div>
+                                <!--end col-->
+
+<!--                                <div class="col-xxl-4 col-sm-6">-->
+<!--                                    <input type="text" class="form-control bg-light border-light" name="search_query" id="demo-datepicker" data-provider="flatpickr" data-date-format="d M, Y" data-range-date="true" placeholder="Search with Users Name" value="{{request.GET.search_query}}">-->
+<!--                                </div>-->
+                                <!--end col-->
+
+
+                                <!--end col-->
+                                <div class=" col-sm-1">
+                                    <button type="submit" class="btn btn-primary w-100" onclick="SearchData();"> <i class="ri-search-2-line"></i>
+
+                                    </button>
+                                </div>
+
+                                <div class="col-sm-1">
+                                    <button type="button" class="btn btn-primary w-100" onclick="window.location.href='/create-users'"> <i class="ri-close-circle-line"></i>
+
+                                    </button>
+                                </div>
+
+
+                                <div class=" col-sm-4">
+                                    <p class="btn btn-danger add-btn" data-bs-toggle="modal" data-bs-target="#showModal"><i class="ri-add-line align-bottom me-1"></i> Create Users</p>
+                                    <p class="btn btn-success add-btn" data-bs-toggle="modal" data-bs-target="#showModal4"><i class="ri-add-line align-bottom me-1"></i> Upload file</p>
+
+                                </div>
+
+
+                                <!--end col-->
+                            </div>
+                            <!--end row-->
+                        </form>
+                    </div>
+                    <!--end card-body-->
+                    <div class="card-body">
+                        <div class="table-responsive table-card mb-4">
+                            <table class="table align-middle table-nowrap mb-0" id="tasksTable">
+                                <thead class="table-light text-muted">
+                                    {% for messages in messages %}
+                                    <div id="snackbar">{{messages}}</div>
+                                    {% endfor %}
+                                    <tr>
+                                        <th style="
+                                        text-align: center;
+                                    "class="sort" data-sort="id">Sl No</th>
+                                        <th style="
+                                        text-align: center; padding-right: 147px;
+                                    " class="sort" data-sort="project_name">Name</th>
+                                        <th style="
+                                        text-align: center; padding-right: 147px;
+                                    " class="sort" data-sort="project_name">Email</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tableBodyTrader" class="list form-check-all">
+                                    {% for messages in messages %}
+                                    <p data-toast data-toast-text="{{messages}}" data-toast-gravity="top" id="messages" data-toast-position="center" data-toast-duration="3000" data-toast-close="close"></p>
+                                    {% endfor %}
+
+                                    {% for data in object_list %}
+                                    <tr>
+
+                                        <td style="
+                                        text-align: center;
+                                    " class="id">{{forloop.counter}}</td>
+                                    <td style="
+                                    text-align: center;
+                                " class="id">{{data.first_name}}</td>
+                                        <td>
+                                            <div class="d-flex">
+                                                <div style="
+                                                text-align: center;
+                                            " class="flex-grow-1 tasks_name">{{data.email}}</div>
+                                                <div class="">
+                                                    <ul class="">
+                                                        <!-- <li class="list-inline-item"><a href="/users-detail/{{data.id}}"><i class="ri-eye-fill align-bottom me-2 text-muted"></i></a></li>
+                                                        <li class="list-inline-item"><a class="edit-item-btn" href="#showModal1" data-bs-toggle="modal"><i class="ri-pencil-fill align-bottom me-2 text-muted" onclick="editTrader('{{data.id}}','{{data.name}}')"></i></a></li> -->
+                                                        <li class="list-inline-item">
+                                                            <a class="remove-item-btn" data-bs-toggle="modal" href="#deleteOrder" onclick="deletefunc('{{data.id}}')">
+                                                                <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </td>
+                                 
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <!--end table-->
+                            <div class="noresult" style="display: none">
+                                <div class="text-center">
+                                    <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop" colors="primary:#121331,secondary:#08a88a" style="width:75px;height:75px"></lord-icon>
+                                    <h5 class="mt-2">Sorry! No Result Found</h5>
+                                    <p class="text-muted mb-0">We've searched more than 200k+ tasks We did not find any tasks for you search.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end mt-2">
+                            <div class="pagination-wrap hstack gap-2">
+                                {% if page_obj.has_previous %}
+                                <a class="page-item pagination-prev" href="?page={{ page_obj.previous_page_number }}">
+                                    Previous
+                                </a>
+                                {% endif %}
+                                <ul class="pagination listjs-pagination mb-0"></ul>
+                                <p style="
+                                margin-bottom: 0px;
+                            "class="page-item pagination-next">{{ page_obj.number }}</p>
+                                <ul class="pagination listjs-pagination mb-0"></ul>
+                                {% if page_obj.has_next %}
+                                <a class="page-item pagination-next" href="?page={{ page_obj.next_page_number }}">
+                                    Next
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <!--end card-body-->
+                </div>
+                <!--end card-->
+            </div>
+            <!--end col-->
+        </div>
+        <!--end row-->
+        <form method="post">
+            {% csrf_token %}
+        
+        <div class="modal fade flip" id="deleteOrder" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body p-5 text-center">
+                        <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#405189,secondary:#f06548" style="width:90px;height:90px"></lord-icon>
+                        <div class="mt-4 text-center">
+                            <input type="hidden" name="delet_id" id="delete_feild" value="">
+                            <h4>You are about to delete a users ?</h4>
+                            <p class="text-muted fs-14 mb-4">Deleting your task will remove all of
+                                your information from our database.</p>
+                            <div class="hstack gap-2 justify-content-center remove">
+                                <button type="reset" class="btn btn-link btn-ghost-success fw-medium text-decoration-none" id="deleteRecord-close" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Close</button>
+                                <button type="submit" class="btn btn-danger" id="delete-record">Yes, Delete It</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+        <!--end delete modal -->
+
+        <div class="modal fade zoomIn" id="showModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content border-0">
+                    <div class="modal-header p-3 bg-soft-info">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit users</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+                    </div>
+                    <form class="tablelist-form" method="post" id="trader_from" autocomplete="off">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <input type="hidden" id="tasksId" />
+                            <div class="row g-3">
+                                <div class="col-lg-12">
+                                    <label for="projectName-field" class="form-label">Name</label>
+                                    <input type="hidden" id="edit_id" name="edit_name_id" value="">
+                                    <input type="text"  name="edit_name" id="value_field" value="" class="form-control" placeholder="Users name" required />
+                                </div>
+                                <!--end col-->
+
+                                <!--end col-->
+                            </div>
+                            <!--end row-->
+                        </div>
+                        <div class="modal-footer">
+                            <div class="hstack gap-2 justify-content-end">
+                                <button type="button" class="btn btn-light" id="close-modal" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-success" id="add-btn" >Add Users</button>
+                                <!-- <button type="button" class="btn btn-success" id="edit-btn">Update Task</button> -->
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade zoomIn" id="showModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content border-0">
+                    <div class="modal-header p-3 bg-soft-info">
+                        <h5 class="modal-title" id="exampleModalLabel">Create Users</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+                    </div>
+
+                    
+                    
+                    <form class="tablelist-form" method="post" id="trader_from" autocomplete="off">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <input type="hidden" id="tasksId" />
+                            <div class="row g-3">
+                                <div class="col-lg-12">
+                                    <label for="projectName-field" class="form-label">Name</label>
+                                    <input type="text"  name="name" id="projectName-field" class="form-control" placeholder="Users name" required />
+                                </div>
+                                <div class="col-lg-12">
+                                    <label for="projectName-field" class="form-label">Email</label>
+                                    <input type="text"  name="email" id="projectName-field" class="form-control" placeholder="Email" required />
+                                </div>
+
+                                <div class="col-lg-12">
+                                    <label for="projectName-field" class="form-label">Password</label>
+                                    <input type="text"  name="passsword11" id="projectName-field" class="form-control" placeholder="Password" required />
+                                </div>
+
+
+                                <!--end col-->
+
+                                <!--end col-->
+                            </div>
+                            <!--end row-->
+                        </div>
+                        <div class="modal-footer">
+                            <div class="hstack gap-2 justify-content-end">
+                                <button type="button" class="btn btn-light" id="close-modal" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-success" id="add-btn" >Add Users</button>
+                                <!-- <button type="button" class="btn btn-success" id="edit-btn">Update Task</button> -->
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade zoomIn" id="showModal4" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content border-0">
+                    <div class="modal-header p-3 bg-soft-info">
+                        <h5 class="modal-title" id="exampleModalLabel">Create Users</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+                    </div>
+
+                    
+                    
+                    <form class="tablelist-form" method="post" id="trader_from" autocomplete="off" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <input type="hidden" id="tasksId" />
+                            <div class="row g-3">
+                                <div class="col-lg-12">
+                                    <label for="projectName-field" class="form-label">Name</label>
+                                    <input type="file"  name="file" id="projectName-field" class="form-control" placeholder="Users name" required />
+                                </div>
+                                <!--end col-->
+
+                                <!--end col-->
+                            </div>
+                            <!--end row-->
+                        </div>
+                        <div class="modal-footer">
+                            <div class="hstack gap-2 justify-content-end">
+                                <button type="button" class="btn btn-light" id="close-modal" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-success" id="add-btn" >Upload file</button>
+                                <!-- <button type="button" class="btn btn-success" id="edit-btn">Update Task</button> -->
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--end modal-->
+
+    </div>
+    <!-- container-fluid -->
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+
+
+function editTrader(id,name){
+    document.querySelector('#edit_id').value=id;
+    document.querySelector('#value_field').value=name;
+}
+
+
+function deletefunc(id){
+
+    document.querySelector('#delete_feild').value=id
+}
+
+{% endblock %}

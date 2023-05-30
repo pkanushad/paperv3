@@ -1,0 +1,466 @@
+{% extends 'customer/base.html' %}
+{% load static %}
+{% block content %}
+
+
+<style>
+
+       .table tr {font-size: 16px;}
+       .table td {font-size: 14px;}
+
+       .tablex tr{font-size:13px;}
+       .tablex td{font-size:13px;}
+
+
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<div class="page-content">
+    <div class="container-fluid">
+    <!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0"> Paper Position</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
+                    <li class="breadcrumb-item active"> Paper Position</li>
+                </ol>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+        <!-- end page title -->
+
+
+<!--        <div class="row  mt-2">-->
+<!--            <div class="col-4">-->
+<!--        <div class="card">-->
+
+<!--            <div class="card-body tbl-container  ">-->
+<!--                <h4 class="card-title"><b>This Month Priced & Unpriced</b> </h4>-->
+<!--                 <div class="table-responsive tbl-fixed  ">-->
+<!--                            <table class="table tablex align-middle table-nowrap mb-0 border border   table-hover " id="tasksTable">-->
+<!--                                <thead class="table-light">-->
+<!--                                    {% for messages in messages %}-->
+<!--                                    <div id="snackbar">{{messages}}</div>-->
+<!--                                    {% endfor %}-->
+<!--                                    <tr>-->
+
+<!--                                        <th class="serial"> No</th>-->
+<!--                                        {% for col in thismonthprice.columns %}-->
+<!--                                        <th class=""> {{col}}</th>-->
+<!--                                        {%endfor%}-->
+
+<!--                                    </tr>-->
+
+<!--                                </thead>-->
+<!--                                <tbody id="tableBodyTrader" class="list form-check-all">-->
+
+<!--                                    {% for messages in messages %}-->
+<!--                                    <p data-toast data-toast-text="{{messages}}" data-toast-gravity="top" id="messages" data-toast-position="center" data-toast-duration="3000" data-toast-close="close"></p>-->
+<!--                                    {% endfor %}-->
+
+
+<!--                                   {% for row in thismonthprice.values %}-->
+<!--                                    <tr class="active-row">-->
+<!--                                      <td class="serial">{{forloop.counter}}</td>-->
+<!--                                      {% for value in row %}-->
+<!--                                      <td class="{% if value < 0 %}text-danger{% endif %}">{{value}}</td>-->
+<!--                                      {% endfor %}-->
+
+<!--                                    </tr>-->
+<!--                                    {% endfor %}-->
+
+<!--                                </tbody>-->
+<!--                            </table>-->
+
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--        </div>-->
+<!--    </div>-->
+
+
+
+<!--&lt;!&ndash;            ##### second row col-6&ndash;&gt;-->
+
+
+<!--                        <div class="col-4">-->
+<!--        <div class="card">-->
+
+<!--            <div class="card-body tbl-container  ">-->
+<!--                <h4 class="card-title"><b>This Month Holiday</b> </h4>-->
+<!--                 <div class="table-responsive tbl-fixed  ">-->
+<!--                            <table class="table  align-middle table-nowrap mb-0 border border   table-hover " id="tasksTable">-->
+<!--                                <thead class="table-light">-->
+<!--                                    {% for messages in messages %}-->
+<!--                                    <div id="snackbar">{{messages}}</div>-->
+<!--                                    {% endfor %}-->
+<!--                                    <tr>-->
+<!--                                  <th class="serial"> No</th>-->
+<!--                                        {% for col in this_month_holiday.columns %}-->
+<!--                                        <th class=""> {{col}}</th>-->
+<!--                                        {%endfor%}-->
+<!--                                    </tr>-->
+
+<!--                                </thead>-->
+<!--                                <tbody id="tableBodyTrader" class="list form-check-all">-->
+
+<!--                                    {% for messages in messages %}-->
+<!--                                    <p data-toast data-toast-text="{{messages}}" data-toast-gravity="top" id="messages" data-toast-position="center" data-toast-duration="3000" data-toast-close="close"></p>-->
+<!--                                    {% endfor %}-->
+
+
+<!--                                    {% for row in this_month_holiday.values %}-->
+<!--                                    <tr class="active-row">-->
+<!--                                      <td class="serial">{{forloop.counter}}</td>-->
+<!--                                      {% for value in row %}-->
+<!--                                      <td class="{% if value < 0 %}text-danger{% endif %}">{{value}}</td>-->
+<!--                                      {% endfor %}-->
+
+<!--                                    </tr>-->
+<!--                                    {% endfor %}-->
+
+
+
+<!--                                </tbody>-->
+<!--                            </table>-->
+
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--        </div>-->
+<!--    </div>-->
+
+
+
+<!--            </div>-->
+
+
+
+
+
+
+
+
+
+                <div class="col-12 grid-margin">
+        <div class="card">
+            <div class="card-body">
+                    <h3 class="card-title">Exchange Trade Position</h3>
+
+                <div class="">
+<!--             <a href="" class="btn btn-primary active" data-mdb-toggle="button" aria-pressed="true"-->
+<!--           role="button"> Futures-Swap</a>-->
+                    <a href="/tatal_kbbl_position" class="btn btn-primary btn active  data-mdb-toggle="button" aria-pressed="true"
+           role="button"> Exchange Trading Position</a>
+                    <a href="/filter" class="btn btn-primary btn active " data-mdb-toggle="button" aria-pressed="true"
+           role="button"> Company/Custmor Position</a>
+                </div>
+
+
+
+            </div></div></div>
+
+
+<!-- # physical blotter as in the card       -->
+
+
+
+<!--        <div class="row  mt-2">-->
+<!--        <div class="card">-->
+
+<!--            <div class="card-body tbl-container  ">-->
+<!--                <h4 class="card-title"><b>kbbl</b> </h4>-->
+<!--                 <div class="table-responsive tbl-fixed  ">-->
+<!--                            <table class="table align-middle table-nowrap mb-0 border border   table-hover " id="tasksTable">-->
+<!--                                <thead class="table-light">-->
+<!--                                    {% for messages in messages %}-->
+<!--                                    <div id="snackbar">{{messages}}</div>-->
+<!--                                    {% endfor %}-->
+<!--                                    <tr>-->
+
+<!--                                      <th class="serial"> No</th>-->
+<!--                                      {% for col in kbbl_total_position.columns %}-->
+<!--                                      <th class=""> {{col}}</th>-->
+<!--                                      {%endfor%}-->
+
+<!--                                    </tr>-->
+
+<!--                                </thead>-->
+<!--                                <tbody id="tableBodyTrader" class="list form-check-all">-->
+
+<!--                                    {% for messages in messages %}-->
+<!--                                    <p data-toast data-toast-text="{{messages}}" data-toast-gravity="top" id="messages" data-toast-position="center" data-toast-duration="3000" data-toast-close="close"></p>-->
+<!--                                    {% endfor %}-->
+
+<!--                                   {% for row in kbbl_total_position.values %}-->
+<!--                                    <tr class="active-row">-->
+<!--                                      <td class="serial">{{forloop.counter}}</td>-->
+<!--                                      {% for value in row %}-->
+<!--                                      <td class="{% if value < 0 %}text-danger{% endif %}">{{value}}</td>-->
+<!--                                      {% endfor %}-->
+
+<!--                                    </tr>-->
+<!--                                    {% endfor %}-->
+
+<!--                                </tbody>-->
+<!--                            </table>-->
+
+<!--                        </div>-->
+<!--                    </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+
+<!--     ###### kbbl-->
+
+ <div class="row mt-2">
+    <div class="col-12 grid-margin">
+        <div class="card">
+
+            <div class="card-body tbl-container  ">
+                <h4 class="card-title"><b>kbbl </b></h4>
+                 <div class="table-responsive">
+                            <table class="table align-middle table-nowrap mb-0  table-hover border border-3" id="tasksTable">
+                                <thead class="table-light ">
+                                               {% for messages in messages %}
+                                    <div id="snackbar">{{messages}}</div>
+                                    {% endfor %}
+                                    <tr>
+
+                                      <th class="serial"> No</th>
+                                      {% for col in kbbl_total_position.columns %}
+                                      <th class=""> {{col}}</th>
+                                      {%endfor%}
+
+                                    </tr>
+
+                                </thead>
+                                <tbody id="tableBodyTrader" class="list form-check-all">
+
+                                 {% for messages in messages %}
+                                    <p data-toast data-toast-text="{{messages}}" data-toast-gravity="top" id="messages" data-toast-position="center" data-toast-duration="3000" data-toast-close="close"></p>
+                                    {% endfor %}
+
+                                   {% for row in kbbl_total_position.values %}
+                                    <tr class="active-row">
+                                      <td class="serial">{{forloop.counter}}</td>
+                                      {% for value in row %}
+                                      <td class="{% if value < 0 %}text-danger{% endif %}">{{value}}</td>
+                                      {% endfor %}
+
+                                    </tr>
+                                    {% endfor %}
+
+
+                                </tbody>
+                            </table>
+
+
+
+                        </div>
+                    </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<!--##### INVENTORY SUMMARY        -->
+
+                                <div class="row mt-2">
+    <div class="col-12 grid-margin">
+        <div class="card">
+
+            <div class="card-body tbl-container  ">
+                <h4 class="card-title"><b>Lots </b></h4>
+                 <div class="table-responsive">
+                            <table class="table align-middle table-nowrap mb-0  table-hover border border-3" id="tasksTable">
+                                <thead class="table-light ">
+                                               {% for messages in messages %}
+                                    <div id="snackbar">{{messages}}</div>
+                                    {% endfor %}
+                                    <tr>
+
+                                      <th class="serial"> No</th>
+                                      {% for col in total_fbsb_trade_position_lots.columns %}
+                                      <th class=""> {{col}}</th>
+                                      {%endfor%}
+
+                                    </tr>
+
+                                </thead>
+                                <tbody id="tableBodyTrader" class="list form-check-all">
+
+                                 {% for messages in messages %}
+                                    <p data-toast data-toast-text="{{messages}}" data-toast-gravity="top" id="messages" data-toast-position="center" data-toast-duration="3000" data-toast-close="close"></p>
+                                    {% endfor %}
+
+                                   {% for row in total_fbsb_trade_position_lots.values %}
+                                    <tr class="active-row">
+                                      <td class="serial">{{forloop.counter}}</td>
+                                      {% for value in row %}
+                                      <td class="{% if value < 0 %}text-danger{% endif %}">{{value}}</td>
+                                      {% endfor %}
+
+                                    </tr>
+                                    {% endfor %}
+
+
+                                </tbody>
+                            </table>
+
+
+
+                        </div>
+                    </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!--        #############################       lots statements   ###############################################-->
+
+
+                                        <div class="row mt-2">
+    <div class="col-12 grid-margin">
+        <div class="card">
+
+            <div class="card-body tbl-container  ">
+                <h4 class="card-title"><b>Lots/Statement </b></h4>
+                 <div class="table-responsive">
+                            <table class="table align-middle table-nowrap mb-0  table-hover border border-3" id="tasksTable">
+                                <thead class="table-light ">
+                                               {% for messages in messages %}
+                                    <div id="snackbar">{{messages}}</div>
+                                    {% endfor %}
+                                    <tr>
+
+                                      <th class="serial"> No</th>
+                                      {% for col in statement_lots.columns %}
+                                      <th class=""> {{col}}</th>
+                                      {%endfor%}
+
+                                    </tr>
+
+                                </thead>
+                                <tbody id="tableBodyTrader" class="list form-check-all">
+
+                                 {% for messages in messages %}
+                                    <p data-toast data-toast-text="{{messages}}" data-toast-gravity="top" id="messages" data-toast-position="center" data-toast-duration="3000" data-toast-close="close"></p>
+                                    {% endfor %}
+
+                                   {% for row in statement_lots.values %}
+                                    <tr class="active-row">
+                                      <td class="serial">{{forloop.counter}}</td>
+                                      {% for value in row %}
+                                      <td class="{% if value < 0 %}text-danger{% endif %}">{{value}}</td>
+                                      {% endfor %}
+
+                                    </tr>
+                                    {% endfor %}
+
+
+                                </tbody>
+                            </table>
+
+
+
+                        </div>
+                    </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--        ######################################     end of  lots statement ##########################################################-->
+
+
+<!--    #### PHYSICAL BLOTTER POSITION    -->
+
+<!--                        <div class="row mt-2">-->
+<!--    <div class="col-12 grid-margin">-->
+<!--        <div class="card">-->
+
+<!--            <div class="card-body tbl-container  ">-->
+<!--                <h4 class="card-title"><b>Physical Position</b> </h4>-->
+<!--                 <div class="table-responsive">-->
+<!--                            <table class="table align-middle table-nowrap mb-0 border border table-hover  " id="tasksTable">-->
+<!--                                <thead class="table-light">-->
+<!--                                    {% for messages in messages %}-->
+<!--                                    <div id="snackbar">{{messages}}</div>-->
+<!--                                    {% endfor %}-->
+<!--                                    <tr>-->
+
+<!--                                      <th class="serial"> No</th>-->
+<!--                                      {% for col in phyical_blotter_position.columns %}-->
+<!--                                      <th class=""> {{col}}</th>-->
+<!--                                      {%endfor%}-->
+
+<!--                                    </tr>-->
+
+<!--                                </thead>-->
+<!--                                <tbody id="tableBodyTrader" class="list form-check-all">-->
+
+<!--                                    {% for messages in messages %}-->
+<!--                                    <p data-toast data-toast-text="{{messages}}" data-toast-gravity="top" id="messages" data-toast-position="center" data-toast-duration="3000" data-toast-close="close"></p>-->
+<!--                                    {% endfor %}-->
+
+<!--                                   {% for row in phyical_blotter_position.values %}-->
+<!--                                    <tr class="active-row">-->
+<!--                                      <td class="serial">{{forloop.counter}}</td>-->
+<!--                                      {% for value in row %}-->
+<!--                                      <td class="{% if value < 0 %}text-danger{% endif %}">{{value}}</td>-->
+<!--                                      {% endfor %}-->
+
+<!--                                    </tr>-->
+<!--                                    {% endfor %}-->
+
+<!--                                </tbody>-->
+<!--                            </table>-->
+
+<!--                        </div>-->
+<!--                    </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+
+
+
+
+
+
+    </div>
+</div>
+
+
+{% endblock %}

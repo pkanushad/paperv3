@@ -1,0 +1,257 @@
+{% extends 'customer/base.html' %}
+{% block content %}
+
+
+<style>
+<!--    .form-group {-->
+<!--        width: 20%;-->
+<!--        padding: 5px;-->
+<!--        float: left;-->
+<!--    }-->
+
+</style>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<div class="page-content">
+    <div class="container-fluid">
+    <!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0"> Billed & Shore Quantity</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Billed & Shore Quantity</li>
+                </ol>
+            </div>
+
+        </div>
+    </div>
+</div>
+        <!-- end page title -->
+
+
+
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title text-success">Billed Quantity</h4>
+                <div class="row">
+                    <form action="" method="post" enctype="multipart/form-data" id="fbForm" data-fb-url="">
+                        <div class="row">
+                            {% csrf_token %}
+
+                            <hr>
+
+
+<!--                            #Bill shore start from here -->
+                            <div class="row">
+
+                                   <div class="col-sm-2">
+                                        <p class="labelsa"><b>Date </b><p>
+
+                                        <input type="date" class="form-control" id="date_id" placeholder="" name="date" aria-label="First-Name" value="{{d.Date}}" required >
+
+                                    </div>
+
+                                   <div class="col-sm-2">
+                                        <p class="labelsa"><b>BL Date</b><p>
+
+                                        <input type="date" class="form-control" id="bldate_id" placeholder="" name="bldate" aria-label="First-Name" value="{{d.bl_date}}" required >
+
+                                    </div>
+
+
+                                   <div class="col-sm-2">
+                                        <p class="labelsa"><b>Purchase/Sales ID</b><p>
+
+                                        <input type="text" class="form-control" id="purchase_sales_id" placeholder="" name="purchase_sales_id" aria-label="First-Name" value="{{d.Purchase_sales_ID}}" required readonly>
+
+                                    </div>
+
+                                       <div class="col-sm-2">
+                                        <p class="labelsa"><b>Trade ID</b><p>
+
+                                        <input type="text" class="form-control" id="trade_id" placeholder="" name="trade_id" aria-label="First-Name" value="{{d.Trade_id}}" required readonly >
+
+                                    </div>
+
+
+
+
+                                   <div class="col-sm-2">
+                                        <p class="labelsa"><b>Product</b><p>
+
+                                        <input type="text" class="form-control" id="product" placeholder="" name="product" aria-label="First-Name" value="{{d.Cargo}}" required readonly >
+
+                                    </div>
+
+                                      <div class="col-sm-2">
+                                        <p class="labelsa"><b>Pricing Contract</b><p>
+
+                                        <input type="text" class="form-control" id="pricing_contract" placeholder="" name="pricing_contract" aria-label="First-Name" value="{{d.Pricing_contract}}" required  readonly>
+
+                                    </div>
+
+
+                                      <div class="col-sm-2">
+                                        <p class="labelsa text-danger"><b>Billed Quantity</b><p>
+
+                                        <input type="text" class="form-control" id="billed_quantity" placeholder="" name="billed_quantity" aria-label="First-Name" value="{{d.Quantity}}" required readonly>
+
+                                    </div>
+
+                                      <div class="col-sm-2">
+                                        <p class="labelsa"><b>Unit</b><p>
+
+                                        <input type="text" class="form-control" id="unit" placeholder="" name="unit" aria-label="First-Name" value="{{d.Unit}}" required readonly  >
+
+                                    </div>
+
+                                      <div class="col-sm-2">
+                                        <p class="labelsa"><b>Delivery Mode</b><p>
+
+                                        <input type="text" class="form-control" id="delivery_mode" placeholder="" name="delivery_mode" aria-label="First-Name" value="{{d.Delivery_mode}}" required readonly>
+
+                                    </div>
+
+                                      <div class="col-sm-2">
+                                        <p class="labelsa"><b>Port</b><p>
+
+                                        <input type="text" class="form-control" id="port" placeholder="" name="port" aria-label="First-Name" value="{{d.Port}}" required readonly >
+
+                                    </div>
+
+                                      <div class="col-sm-2">
+                                        <p class="labelsa"><b>Terminal</b><p>
+
+                                        <input type="text" class="form-control" id="terminal" placeholder="" name="terminal" aria-label="First-Name" value="{{d.Terminal}}" required readonly>
+
+                                    </div>
+
+                                      <div class="col-sm-2">
+                                        <p class="labelsa"><b>Tank</b><p>
+
+                                        <input type="text" class="form-control" id="tank" placeholder="" name="tank" aria-label="First-Name" value="{{d.Tank}}"  readonly>
+
+                                    </div>
+
+                                      <div class="col-sm-2">
+                                        <p class="labelsa"><b>Vessal Name</b><p>
+
+                                        <input type="text" class="form-control" id="vessal_name" placeholder="" name="vessal_name" aria-label="First-Name" value="{{d.Vessal_name}}" required readonly>
+
+                                    </div>
+
+                                <hr>
+
+                                 <h4 class="card-title text-success">Shore Discharge Quantity</h4>
+                                <hr>
+
+                                      <div class="col-sm-2">
+                                        <p class="labelsa text-danger"><b>Shore Discharged Quantity</b><p>
+
+                                        <input type="text" class="form-control" id="shore_recieved" placeholder="" name="shore_recieved" aria-label="First-Name" value="{{d.Shore_recieved}}" required onchange="billshorediff();" >
+
+                                    </div>
+
+
+                                      <div class="col-sm-2">
+                                        <p class="labelsa text-danger"><b>Bill Shore Difference</b><p>
+
+                                        <input type="text" class="form-control" id="difference" placeholder="" name="difference" aria-label="First-Name" required readonly >
+
+                                    </div>
+
+                                     <div class="col-sm-2">
+
+                                         <p class="labelsa "><b> Density(UOM)</b><p>
+                                        <input type="text" class="form-control" id="density_uom" placeholder="" name="density_uom" aria-label="First-Name" required >
+
+                                    </div>
+
+                                      <div class="col-sm-2">
+                                        <p class="labelsa "><b>Terminal Cost</b><p>
+
+                                        <input type="text" class="form-control" id="terminal_cost" placeholder="" name="terminal_cost" aria-label="First-Name" required >
+
+                                    </div>
+
+                                      <div class="col-sm-2">
+                                        <p class="labelsa "><b>Vessal Cost</b><p>
+
+                                        <input type="text" class="form-control" id="vessal_cost" placeholder="" name="vessal_cost" aria-label="First-Name" required >
+
+                                    </div>
+
+
+                                      <div class="col-sm-2">
+                                        <p class="labelsa "><b>Freight Cost</b><p>
+
+                                        <input type="text" class="form-control" id="freight_cost" placeholder="" name="freight_cost" aria-label="First-Name"  required >
+
+                                    </div>
+
+
+<!--                                      <div class="col-sm-3">-->
+<!--                                        <p class="labelsa text-danger"><b>Additional Cost Type</b><p>-->
+
+<!--                                        <input type="text" class="form-control" id="additional_cost_type" placeholder="" name="additional_cost_type" aria-label="First-Name" required >-->
+
+<!--                                    </div>-->
+
+<!--                                          <div class="col-sm-3">-->
+<!--                                        <p class="labelsa text-danger"><b>Total Secondary Cost</b><p>-->
+<!--                                        <input type="text" class="form-control" id="total_secondary_cost" placeholder="" name="total_secondary_cost" aria-label="First-Name" required >-->
+
+<!--                                    </div>-->
+
+
+
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+<!--                              <div class="form-group">-->
+<!--                                <label for="attach_file" class="control-label "> Attach File</label>-->
+<!--&lt;!&ndash;                                {{ form.Attach_file }}&ndash;&gt;-->
+<!--                                  <input type="file" name="Attach_file" class="clearablefileinput form-control-file" id="id_Attach_file" onclick="EnableDisableFile(this)">-->
+<!--                            </div>-->
+                            <input class="btn btn-success d-block w-25 m-auto" type="submit" value="SAVE">
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+{% block javascript %}
+
+function billshorediff(){
+     var biiled_qty = document.getElementById("billed_quantity").value;
+     var shore_dis_qty = document.getElementById("shore_recieved").value;
+<!--     var result = parseFloat(biiled_qty)-parseFloat(shore_dis_qty)-->
+  var result = parseFloat(shore_dis_qty)-parseFloat(biiled_qty)
+
+     document.getElementById("difference").value= result;
+
+}
+
+
+{% endblock %}

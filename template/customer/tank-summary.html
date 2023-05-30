@@ -1,0 +1,529 @@
+{% extends 'customer/base.html' %}
+{% load static %}
+{% block content %}
+
+
+<style>
+    .for-class{
+        margin:0px;
+    }
+
+        .table tr {font-size: 13px;}
+.table td {font-size: 13px;}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<div class="page-content">
+    <div class="container-fluid">
+    <!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0"> Trade Summary</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
+                    <li class="breadcrumb-item active"> Trade Summary</li>
+                </ol>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+        <!-- end page title -->
+
+
+
+<div class="row ">
+    <div class="col-12 grid-margin">
+        <div class="card">
+            <div class="card-body">
+                    <h4 class="card-title" class="bg-primary">Trade Summary :  {{tank_summ_trade_id}}</h4>
+
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body ">
+
+                                <!--                    ## drowdown-->
+                                <div class="row g-3"
+                                ">
+                                <div class="col-sm-5">
+                                    <label for="company_name" class="control-label">Trade ID </label>
+
+                                    <!--                                                            <label class="visually-hidden" for="inlineFormSelectPref">Derivative</label>-->
+                                    <form onsubmit="validateForm(event)" method="post">
+
+                                        {% csrf_token %}
+                                        <select class="form-select" id="tank_summ_trade_id"
+                                                name="tank_summ_trade_id" onchange="">
+                                            <option value="choose" selected>Select Trade ID</option>
+                                            {% for i in lis %}
+                                            <option value="{{i}}">{{i}}</option>
+                                            <!--                                                                <option value="features">Futures</option>-->
+                                            {% endfor %}
+
+                                        </select>
+                                </div><!--end col-->
+
+                                <div class="col-sm-2 mt-5">
+
+
+                                    <a href="/tank-summary" class="btn btn-primary active" data-mdb-toggle="button"
+                                       aria-pressed="true"
+                                       role="button"> Clear</a>
+
+                                </div>
+
+                                </form>
+                            </div>
+
+
+                            <!--                                                    #end dropdows-->
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!--# summary as dileenas first        -->
+
+         <div class="row mt-2">
+    <div class="col-12 grid-margin">
+        <div class="card">
+
+            <div class="card-body tbl-container  ">
+                <h4 class="card-title"><b>Summary</b> </h4>
+                 <div class="table-responsive">
+                            <table class="table align-middle table-nowrap mb-0 border border" id="tasksTable">
+                                <thead class="table-light text-muted sticky-top">
+                                    {% for messages in messages %}
+                                    <div id="snackbar">{{messages}}</div>
+                                    {% endfor %}
+                                    <tr>
+
+                                        <th class="serial"> No</th>
+                                        {% for col in summary_dict.columns %}
+                                        <th class=""> {{col}}</th>
+                                        {%endfor%}
+
+
+                                    </tr>
+
+                                </thead>
+                                <tbody id="tableBodyTrader" class="list form-check-all">
+
+                                    {% for messages in messages %}
+                                    <p data-toast data-toast-text="{{messages}}" data-toast-gravity="top" id="messages" data-toast-position="center" data-toast-duration="3000" data-toast-close="close"></p>
+                                    {% endfor %}
+
+                                    {% for row in summary_dict.values %}
+                                    <tr class="active-row">
+                                      <td class="serial">{{forloop.counter}}</td>
+                                      {% for value in row %}
+                                      <td class="{% if value < 0 %}text-danger{% endif %}">{{value}}</td>
+                                      {% endfor %}
+
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+
+
+                        </div>
+                    </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- # physical blotter as in the card       -->
+
+                        <div class="row mt-2">
+    <div class="col-12 grid-margin">
+        <div class="card">
+
+            <div class="card-body tbl-container  ">
+                <h4 class="card-title"><b>Physical Summary</b> </h4>
+                 <div class="table-responsive">
+                            <table class="table align-middle table-nowrap mb-0 border border" id="tasksTable">
+                                <thead class="table-light text-muted sticky-top">
+                                    {% for messages in messages %}
+                                    <div id="snackbar">{{messages}}</div>
+                                    {% endfor %}
+                                    <tr>
+                                        <th class="serial" > No </th>
+                                        <th> Date  </th>
+                                         <th>Trade ID</th>
+                                        <th>Purchase/Sales ID</th>
+
+                                <th> Trader </th>
+                                <th> Book  </th>
+                                <th> Counter Party  </th>
+                                <th> Strategy  </th>
+                                <th> Derivative</th>
+
+                                <th> Buy sell </th>
+                                <th> Cargo </th>
+                                <th> Pricing Contract</th>
+                                <th> Pricing Method  </th>
+                                <th> Volume  </th>
+                                <th> Unit  </th>
+                                <th> Density  </th>
+                                <th> Nominated Quantity  </th>
+                                <th>Premium Discount  </th>
+                                <th> Pricing Term</th>
+                                <th> BL Date</th>
+                                <th> Start Date</th>
+                                <th> End Date</th>
+                                <th> Holiday</th>
+                                <th> Total No Days</th>
+                                <th>Delivery Mode</th>
+                                <th>Port</th>
+                                <th>Terminal</th>
+                                <th>Vessal Name</th>
+                                <th>Tank</th>
+                                <th>External Terminal</th>
+                                <th>Headging</th>
+
+<!--                                #behind calculations-->
+                                                       <th>Shore Recieved</th>
+                                <th>Terminal Cost</th>
+                                <th>Fright Cost</th>
+                                <th>Vessal Cost</th>
+                                <th>Additional Secondary Charge</th>
+                                <th>additional Cost Type</th>
+                                <th>Total Secondary Cost</th>
+                                <th>Priced Days</th>
+                                <th>Unpriced Days</th>
+                                <th>Total Volume</th>
+                                <th>Price Volume</th>
+                                <th>Unprice Volume</th>
+<!--                                <th>Position</th>-->
+                                <th>Priced Price</th>
+                                <th>Unpriced Price</th>
+
+<!--                                <th>Shore Recieved</th>-->
+<!--                                <th>Difference</th>-->
+<!--                                <th>PnL</th>-->
+<!--                                <th>Difference Pnl</th>-->
+<!--                                <th>Total Profit Loss</th>-->
+                                             <th>Remarks</th>
+
+
+                                    </tr>
+
+                                </thead>
+                                <tbody id="tableBodyTrader" class="list form-check-all">
+
+                                    {% for messages in messages %}
+                                    <p data-toast data-toast-text="{{messages}}" data-toast-gravity="top" id="messages" data-toast-position="center" data-toast-duration="3000" data-toast-close="close"></p>
+                                    {% endfor %}
+
+                                    {%if pb_tradeid_filter %}
+
+                                   {% for physicalblotter in pb_tradeid_filter %}
+                                    <tr class="active-row">
+
+                                        <td class="serial">{{forloop.counter}}</td>
+
+<!--                                        # actions-->
+
+
+                                        <td> {{physicalblotter.Date}}</td>
+                                        <td> {{physicalblotter.Trade_id}}</td>
+                                          <td> {{physicalblotter.Purchase_sales_ID}}</td>
+
+
+                                        <td> {{physicalblotter.Trader}}</td>
+                                        <td> {{physicalblotter.Book}}</td>
+                                        <td> {{physicalblotter.Company_name}}</td>
+                                        <td> {{physicalblotter.Strategy}}</td>
+                                        <td> {{physicalblotter.Derivative}}</td>
+
+                                        <td> {{physicalblotter.Buy_sell}}</td>
+                                        <td> {{physicalblotter.Cargo}}</td>
+                                        <td> {{physicalblotter.Pricing_contract}}</td>
+                                        <td> {{physicalblotter.Pricing_method}}</td>
+                                        <td> {{physicalblotter.Quantity}}</td>
+                                        <td> {{physicalblotter.Unit}}</td>
+
+                                        <td> {{physicalblotter.Density}}</td>
+                                        <td> {{physicalblotter.Nominated_quantity}}</td>
+                                        <td> {{physicalblotter.Premium_discount}}</td>
+                                        <td> {{physicalblotter.Pricing_term}}</td>
+                                        <td> {{physicalblotter.bl_date}}</td>
+                                        <td> {{physicalblotter.start_date}}</td>
+                                        <td> {{physicalblotter.end_date}}</td>
+                                        <td> {{physicalblotter.Holiday}}</td>
+                                        <td> {{physicalblotter.Total_no_days}}</td>
+                                        <td> {{physicalblotter.Delivery_mode}}</td>
+                                        <td> {{physicalblotter.Port}}</td>
+                                        <td> {{physicalblotter.Terminal}}</td>
+                                        <td> {{physicalblotter.Vessal_name}}</td>
+                                        <td> {{physicalblotter.Tank}}</td>
+                                        <td> {{physicalblotter.External_Terminal}}</td>
+                                        <td> {{physicalblotter.Headging}}</td>
+
+
+                                        <!--                                <td> {{physicalblotter.status}}</td>-->
+
+                                         <td> {{physicalblotter.Shore_recieved}}</td>
+                                        <!--                                    # behind for calculations-->
+                                        <td> {{physicalblotter.Terminal_cost}}</td>
+                                        <td> {{physicalblotter.Freight_cost}}</td>
+                                        <td> {{physicalblotter.Vessal_cost}}</td>
+                                        <td> {{physicalblotter.additional_secondary_charge}}</td>
+                                        <td> {{physicalblotter.additional_cost_type}}</td>
+                                        <td> {{physicalblotter.Total_Secondary_Cost}}</td>
+                                        <td> {{physicalblotter.price_days}}</td>
+                                        <td> {{physicalblotter.unprice_days}}</td>
+                                        <td> {{physicalblotter.total_volume}}</td>
+                                        <td> {{physicalblotter.price_volume}}</td>
+                                        <td> {{physicalblotter.unprice_volume}}</td>
+                                        <!--                                 <td> {{physicalblotter.position}}</td>-->
+                                        <td> {{physicalblotter.priced_price}}</td>
+                                        <td> {{physicalblotter.unpriced_price}}</td>
+                                        <td> {{physicalblotter.Remarks}}</td>
+
+                                        <!--                                  <td> {{physicalblotter.Shore_recieved}}</td>-->
+                                        <!--                                  <td> {{physicalblotter.Difference}}</td>-->
+                                        <!--                                  <td> {{physicalblotter.PnL}}</td>-->
+                                        <!--                                 <td> {{physicalblotter.Difference_Pnl}}</td>-->
+                                        <!--                                 <td> {{physicalblotter.Total_Profit_Loss}}</td>-->
+                                        <!--                                <td> <div class="p-2 bg-warning text-dark ">{{physicalblotter.status}}</div> </td>-->
+
+                                    </tr>
+                                    {% endfor %}
+                                {% else %}
+                                <tr><td>No Data Found</td></tr>
+                            {% endif %}
+
+                                </tbody>
+                            </table>
+
+
+
+                        </div>
+                    </div>
+        </div>
+    </div>
+</div>
+
+
+<!--##### INVENTORY SUMMARY        -->
+
+                                <div class="row mt-2">
+    <div class="col-12 grid-margin">
+        <div class="card">
+
+            <div class="card-body tbl-container  ">
+                <h4 class="card-title"><b>Inventory Tansfer Details </b></h4>
+                 <div class="table-responsive">
+                            <table class="table align-middle table-nowrap mb-0" id="tasksTable">
+                                <thead class="table-light text-muted sticky-top">
+                                    {% for messages in messages %}
+                                    <div id="snackbar">{{messages}}</div>
+                                    {% endfor %}
+                                    <tr>
+                                        <th class="serial" > No </th>
+
+                                           <th>Date</th>
+                                        <th>Trade ID</th>
+                                         <th>Purchase/Sales ID</th>
+                                        <th> Distribution Type </th>
+
+                                <th> Delivery Mode </th>
+                                <th> Strategy  </th>
+                                <th> Tank   </th>
+                                <th> Vessal Name  </th>
+                                        <th> Port</th>
+                                            <th> Terminal</th>
+                                        <th> Cargo</th>
+
+
+                                <th> Shore Recieved</th>
+                                          <th> Density  </th>
+                                        <th> Unit  </th>
+
+<!--                               To-->
+                                <th> Destination Container</th>
+                                <th> Port Dest </th>
+                                <th> Terminal dest </th>
+                                <th>Tank No dest </th>
+                                <th> Vessal Name dest</th>
+                                <th> Transfer Mode</th>
+                                <th> Unit dest</th>
+                                <th> Cargo LD QTY </th>
+                                <th>Recieved</th>
+<!--                          # calculated    values                                     -->
+                                <th> Source Cargo LD QTY</th>
+                                <th>Dest Difference</th>
+
+
+                                    </tr>
+
+                                </thead>
+                                <tbody id="tableBodyTrader" class="list form-check-all">
+
+                                    {% for messages in messages %}
+                                    <p data-toast data-toast-text="{{messages}}" data-toast-gravity="top" id="messages" data-toast-position="center" data-toast-duration="3000" data-toast-close="close"></p>
+                                    {% endfor %}
+
+                                    {%if inv_tradeid_filter%}
+
+                                   {% for pb in inv_tradeid_filter %}
+                                    <tr class="active-row">
+
+                                        <td class="serial">{{forloop.counter}}</td>
+
+<!--                                        # actions-->
+
+                                         <td> {{pb.date}}</td>
+                                        <td> {{pb.Trade_id}}</td>
+                                          <td> {{pb.Purchase_sales_ID}}</td>
+
+
+                                        <td> {{pb.Distribution_Type}}</td>
+                                        <td> {{pb.Delivery_mode}}</td>
+                                        <td> {{pb.Strategy}}</td>
+                                        <td> {{pb.Tank}}</td>
+                                        <td> {{pb.Vessal_name}}</td>
+
+                                        <td> {{pb.Port}}</td>
+                                        <td> {{pb.Terminal}}</td>
+                                        <td> {{pb.Cargo}}</td>
+                                        <td> {{pb.Shore_recieved}}</td>
+                                        <td> {{pb.Density}}</td>
+                                        <td> {{pb.Unit}}</td>
+<!--                                        To-->
+
+                                        <td> {{pb.dest_container}}</td>
+                                        <td> {{pb.dest_port}}</td>
+                                        <td> {{pb.dest_terminal}}</td>
+                                        <td> {{pb.dest_tank_num}}</td>
+                                        <td> {{pb.dest_vessal_op}}</td>
+                                        <td> {{pb.inv_transfer_mode}}</td>
+                                        <td> {{pb.dest_unit}}</td>
+                                        <td> {{pb.dest_cargo_LD_QTY}}</td>
+                                        <td> {{pb.dest_received_qty}}</td>
+<!--                                        Calculated values-->
+                                        <td> {{pb.source_cargo_LD_QTY}}</td>
+                                        <td> {{pb.dest_difference}}</td>
+
+
+                                    </tr>
+                                    {% endfor %}
+                                 {% else %}
+                                <tr><td>No Data Found</td></tr>
+                            {% endif %}
+                                </tbody>
+                            </table>
+
+
+
+                        </div>
+                    </div>
+        </div>
+    </div>
+</div>
+
+
+    </div>
+</div>
+
+
+
+
+
+
+<!--##### papaer summary        -->
+
+   <div class="row mt-2 ">
+    <div class="col-12 grid-margin">
+        <div class="card">
+
+            <div class="card-body tbl-container  ">
+                <h4 class="card-title"><b>Paper Summary</b> </h4>
+                 <div class="table-responsive">
+                            <table class="table align-middle table-nowrap mb-0 border border" id="tasksTable">
+                                <thead class="table-light text-muted sticky-top">
+                                    {% for messages in messages %}
+                                    <div id="snackbar">{{messages}}</div>
+                                    {% endfor %}
+                                    <tr>
+
+                                        <th class="serial"> No</th>
+                                        {% for col in paper_tank_summary2.columns %}
+                                        <th class=""> {{col}}</th>
+                                        {%endfor%}
+
+
+                                    </tr>
+
+                                </thead>
+                                <tbody id="tableBodyTrader" class="list form-check-all">
+
+                                    {% for messages in messages %}
+                                    <p data-toast data-toast-text="{{messages}}" data-toast-gravity="top" id="messages" data-toast-position="center" data-toast-duration="3000" data-toast-close="close"></p>
+                                    {% endfor %}
+
+                                    {%if sb_headging_df %}
+
+                                     {% for row in sb_headging_df.values %}
+                                    <tr class="active-row">
+
+
+                                        <td class="serial">{{forloop.counter}}</td>
+                                        {% for value in row %}
+                                        <td class="{% if value < 0 %}text-danger{% endif %}">{{value}}</td>
+                                        {% endfor %}
+
+                                    </tr>
+                                    {% endfor %}
+                                {% else %}
+                                <tr><td>No Data Found</td></tr>
+                            {% endif %}
+
+                                </tbody>
+                            </table>
+
+
+
+                        </div>
+                    </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

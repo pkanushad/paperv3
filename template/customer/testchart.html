@@ -1,0 +1,100 @@
+{% extends 'customer/base.html' %}
+{% load static %}
+{% block content %}
+
+
+<style>
+
+</style>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<div class="page-content">
+    <div class="container-fluid">
+    <!-- start page title -->
+<div class="row">
+    <div class="col-12">
+        <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+            <h4 class="mb-sm-0"> Deals</h4>
+
+            <div class="page-title-right">
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
+                    <li class="breadcrumb-item active"> Deals</li>
+                </ol>
+            </div>
+
+        </div>
+    </div>
+</div>
+        <!-- end page title -->
+
+
+
+        hai
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   <div class="container-fluid">
+	<div class="row">
+
+		<section class="m-3 w-100">
+			<h1 class="h3">WelCome</h1>
+		</section>
+
+	</div>
+	<div id="row_data" value="{{data}}"></div>
+</div>
+<script type="text/javascript" src="{% static 'js/loader.js' %}"></script>
+<script type="text/javascript">
+  google.charts.load("current", {packages:["corechart"]});
+  google.charts.setOnLoadCallback(drawChart);
+  var data1 = document.getElementById('row_data').getAttribute('value');
+  function drawChart() {
+	var data = google.visualization.arrayToDataTable(JSON.parse(data1));
+
+	var options = {
+	  title: 'Employee Type Activities',
+	  is3D: true,
+	};
+
+	var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+	chart.draw(data, options);
+
+  }
+</script>
+
+<div id="piechart_3d" style="width: 900px; height: 500px;"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,780 @@
+{% extends 'customer/base.html' %}
+{% block content %}
+<!--<style>-->
+<!--    .for-class{-->
+<!--        margin:0px;-->
+<!--    }-->
+
+<!--        .table tr {font-size: 13px;}-->
+<!--.table td {font-size: 13px;}-->
+<!--</style>-->
+
+
+<style>
+    .table tr {font-size: 12px;}
+    .table td {font-size: 12px;}
+
+    .tbl-container{
+
+     max-width:fit-content;
+     max-height:fit-content;
+
+    }
+
+   .tbl-fixed {
+       overflow-x: scroll;
+       overflow-y: scroll;
+       height: fit-content;
+       max-height:500px;
+<!--         height: 285px;-->
+    }
+
+
+
+
+
+    table{
+    min-width:max-content;
+    }
+
+    .table th{
+    position:sticky;
+    top: 0px;
+<!--    background:#405189;-->
+
+    }
+
+<!--    table td {-->
+<!--    background:#fff;-->
+<!--    text-align:center;-->
+<!--    border:1px solid #ccc;-->
+
+<!--    }-->
+
+<!--    .table-wrapper{-->
+<!--    max-height:300px;-->
+<!--    overflow-y: scroll;-->
+
+<!--    }-->
+
+
+
+
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<div class="page-content">
+    <div class="container-fluid">
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                    <h4 class="mb-sm-0">Physical Trades </h4>
+
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="javascript: void(0);">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Physical blotter</li>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- end page title -->
+
+        <!--end row-->
+
+
+<!--        new copied code-->
+                            <div class="row">
+                        <div class="col-lg-12">
+                            <div class="card" id="orderList">
+                                <div class="card-header border-0">
+                                    <div class="row align-items-center gy-3">
+                                        <div class="col-sm">
+                                            <h5 class="card-title mb-0">Trade History</h5>
+                                        </div>
+                                        <div class="col-sm-auto">
+                                            <div class="d-flex gap-1 flex-wrap">
+<!--                                                <button type="button" class="btn btn-success add-btn" data-bs-toggle="modal" id="create-btn" data-bs-target="#showModal"><i class="ri-add-line align-bottom me-1"></i> Create Order</button>-->
+<!--                                                <button type="button" class="btn btn-info"><i class="ri-file-download-line align-bottom me-1"></i> Export</button>-->
+                                                <button class="btn btn-soft-danger" id="remove-actions" onClick="deleteMultiple()"><i class="ri-delete-bin-2-line"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+
+                                                                <div class="card-body border border-dashed border-end-0 border-start-0">
+                                    <form method="post" enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                        <div class="row g-3">
+                                            <div class="col-xxl-3 col-sm-6">
+                                                <div class="search-box">
+                                                    <input type="text" class="form-control search" placeholder="Search for order ID, customer, order status or something...">
+                                                    <i class="ri-search-line search-icon"></i>
+                                                </div>
+                                            </div>
+                                            <!--end col-->
+                                            <div class="col-xxl-2 col-sm-6">
+                                                <div>
+                                                    <input type="date" class="form-control" data-provider="flatpickr" data-date-format="d M, Y" data-range-date="true" id="demo-datepicker" placeholder="Select date" name="date">
+                                                </div>
+                                            </div>
+                                            <!--end col-->
+                                            <div class="col-xxl-2 col-sm-4">
+                                                <div>
+
+                                                </div> <select class="form-control" data-choices data-choices-search-false  id="clearer_id" name="clearer">
+                                                        <option value="all"> All</option>
+                                                        <option value="" selected>Clearer</option>
+                                                        {% for i in uniq_cleaer%}
+                                                        <option value="{{i}}">{{i}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                            </div>
+                                            <!--end col-->
+                                            <div class="col-xxl-2 col-sm-4">
+                                                <div>
+                                                    <select class="form-control" data-choices data-choices-search-false  id="book_id" name="book">
+                                                        <option value="">All</option>
+                                                        <option value="" selected>Book</option>
+
+                                                        {% for i in uniq_book%}
+                                                        <option value="{{i}}">{{i}}</option>
+                                                        {% endfor %}
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <!--end col-->
+                                            <div class="col-xxl-2 col-sm-4">
+                                                <div>
+                                                    <select class="form-control" data-choices data-choices-search-false  id="contract_id" name="contract">
+                                                        <option value="">All</option>
+                                                        <option value="" selected>Contract Name</option>
+
+                                                        {% for i in fb%}
+                                                        <option value="{{i.contract}}">{{i.contract}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <!--end col-->
+
+
+
+
+                                            <div class="col-xxl-1 col-sm-4">
+                                                <div>
+                                                    <button type="submit" class="btn btn-primary w-100" onclick="SearchData();"> <i class="ri-equalizer-fill me-1 align-bottom"></i>
+                                                        Filters
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <!--end col-->
+                                        </div>
+                                        <!--end row-->
+                                    </form>
+                                </div>
+
+
+
+
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card" id="tasksList">
+                    <div class="card-header border-0">
+                        <div class="d-flex align-items-center">
+                            <h5 class="card-title mb-0 flex-grow-1">Physical Trade List</h5>
+                            <div class="flex-shrink-0">
+
+                            </div>
+                        </div>
+                    </div>
+                    <!--end card-body-->
+                    <div class="card-body">
+                        <div class="table-responsive  mb-4">
+                            <table class="table align-middle table-nowrap mb-0" id="tasksTable">
+                                <thead class="table-light text-muted sticky-top">
+                                    {% for messages in messages %}
+                                    <div id="snackbar">{{messages}}</div>
+                                    {% endfor %}
+                                    <tr>
+                                        <th class="serial" > No </th>
+
+                                        <th> Action</th>
+                                         <th>Status</th>
+                                        <th> Date  </th>
+                                         <th>Trade ID</th>
+                                        <th>Purchase/Sales ID</th>
+
+                                <th> Trader </th>
+                                <th> Book  </th>
+                                <th> Counter Party  </th>
+                                <th> Strategy  </th>
+                                <th> Derivative</th>
+
+                                <th> Buy sell </th>
+                                <th> Cargo </th>
+                                <th> Pricing Contract</th>
+                                <th> Pricing Method  </th>
+                                <th> Volume  </th>
+                                <th> Unit  </th>
+                                <th> Density  </th>
+                                <th> Nominated Quantity  </th>
+                                <th>Premium Discount  </th>
+                                <th> Pricing Term</th>
+                                <th> BL Date</th>
+                                <th> Start Date</th>
+                                <th> End Date</th>
+                                <th> Holiday</th>
+                                <th> Total No Days</th>
+                                <th>Delivery Mode</th>
+                                <th>Port</th>
+                                <th>Terminal</th>
+                                <th>Vessal Name</th>
+                                <th>Tank</th>
+                                <th>External Terminal</th>
+                                <th>Headging</th>
+
+<!--                                #behind calculations-->
+                                                       <th>Shore Recieved</th>
+                                <th>Terminal Cost</th>
+                                <th>Fright Cost</th>
+                                <th>Vessal Cost</th>
+                                <th>Additional Secondary Charge</th>
+                                <th>additional Cost Type</th>
+                                <th>Total Secondary Cost</th>
+                                <th>Priced Days</th>
+                                <th>Unpriced Days</th>
+                                <th>Total Volume</th>
+                                <th>Price Volume</th>
+                                <th>Unprice Volume</th>
+<!--                                <th>Position</th>-->
+                                <th>Priced Price</th>
+                                <th>Unpriced Price</th>
+                                        <th>m³</th>
+
+<!--                                <th>Shore Recieved</th>-->
+<!--                                <th>Difference</th>-->
+<!--                                <th>PnL</th>-->
+<!--                                <th>Difference Pnl</th>-->
+<!--                                <th>Total Profit Loss</th>-->
+                                             <th>Remarks</th>
+
+
+
+                                    </tr>
+
+                                </thead>
+                                <tbody id="tableBodyTrader" class="list form-check-all">
+
+                                    {% for messages in messages %}
+                                    <p data-toast data-toast-text="{{messages}}" data-toast-gravity="top" id="messages" data-toast-position="center" data-toast-duration="3000" data-toast-close="close"></p>
+                                    {% endfor %}
+
+                                   {% for physicalblotter in physicalblotters %}
+                                    <tr class="active-row">
+
+                                        <td class="serial">{{forloop.counter}}</td>
+
+<!--                                        # actions-->
+                           <td>
+                                                    <div class="dropdown d-inline-block">
+                                                        <button class="btn btn-soft-secondary btn-sm dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                            <i class="ri-more-fill align-middle"></i>
+                                                        </button>
+                                                        <ul class="dropdown-menu dropdown-menu-end">
+<!--                                                            <li><a href="#!" class="dropdown-item"><i class="ri-eye-fill align-bottom me-2 text-muted"></i> View</a></li>-->
+                                                             <li><a href="/add-bill-shore/{{physicalblotter.id}}" class="dropdown-item"><i class="ri-eye-fill align-bottom me-2 text-muted"></i>Discharge/Load</a></li>
+                                                            <li><a class="dropdown-item edit-item-btn" href="/edit-physical-blotter/{{physicalblotter.id}}"><i class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a></li>
+                                                            <li>
+                                                                <a class="dropdown-item remove-item-btn" data-bs-toggle="modal" href="#deleteOrder" onclick="deletefunc('{{physicalblotter.id}}')">
+                                                                    <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i> Delete
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </td>
+
+
+<td> <div class="p-1 bg-success text-white rounded-3  "> {{physicalblotter.status}}</div></td>
+                                         <td> {{physicalblotter.Date}}</td>
+                                        <td> {{physicalblotter.Trade_id}}</td>
+                                          <td> {{physicalblotter.Purchase_sales_ID}}</td>
+
+
+                                        <td> {{physicalblotter.Trader}}</td>
+                                        <td> {{physicalblotter.Book}}</td>
+                                        <td> {{physicalblotter.Company_name}}</td>
+                                        <td> {{physicalblotter.Strategy}}</td>
+                                        <td> {{physicalblotter.Derivative}}</td>
+
+                                        <td> {{physicalblotter.Buy_sell}}</td>
+                                        <td> {{physicalblotter.Cargo}}</td>
+                                        <td> {{physicalblotter.Pricing_contract}}</td>
+                                        <td> {{physicalblotter.Pricing_method}}</td>
+                                        <td> {{physicalblotter.Quantity}}</td>
+                                        <td> {{physicalblotter.Unit}}</td>
+
+                                        <td> {{physicalblotter.Density}}</td>
+                                        <td> {{physicalblotter.Nominated_quantity}}</td>
+                                        <td> {{physicalblotter.Premium_discount}}</td>
+                                        <td> {{physicalblotter.Pricing_term}}</td>
+                                        <td> {{physicalblotter.bl_date}}</td>
+                                        <td> {{physicalblotter.start_date}}</td>
+                                        <td> {{physicalblotter.end_date}}</td>
+                                        <td> {{physicalblotter.Holiday}}</td>
+                                        <td> {{physicalblotter.Total_no_days}}</td>
+                                        <td> {{physicalblotter.Delivery_mode}}</td>
+                                        <td> {{physicalblotter.Port}}</td>
+                                        <td> {{physicalblotter.Terminal}}</td>
+                                        <td> {{physicalblotter.Vessal_name}}</td>
+                                        <td> {{physicalblotter.Tank}}</td>
+                                        <td> {{physicalblotter.External_Terminal}}</td>
+                                        <td> {{physicalblotter.Headging}}</td>
+
+
+                                        <!--                                <td> {{physicalblotter.status}}</td>-->
+
+                                         <td> {{physicalblotter.Shore_recieved}}</td>
+                                        <!--                                    # behind for calculations-->
+                                        <td> {{physicalblotter.Terminal_cost}}</td>
+                                        <td> {{physicalblotter.Freight_cost}}</td>
+                                        <td> {{physicalblotter.Vessal_cost}}</td>
+                                        <td> {{physicalblotter.additional_secondary_charge}}</td>
+                                        <td> {{physicalblotter.additional_cost_type}}</td>
+                                        <td> {{physicalblotter.Total_Secondary_Cost}}</td>
+                                        <td> {{physicalblotter.price_days}}</td>
+                                        <td> {{physicalblotter.unprice_days}}</td>
+                                        <td> {{physicalblotter.total_volume}}</td>
+                                        <td> {{physicalblotter.price_volume}}</td>
+                                        <td> {{physicalblotter.unprice_volume}}</td>
+                                        <!--                                 <td> {{physicalblotter.position}}</td>-->
+                                        <td> {{physicalblotter.priced_price}}</td>
+                                        <td> {{physicalblotter.unpriced_price}}</td>
+                                        <td> {{physicalblotter.m3}}</td>
+                                        <td> {{physicalblotter.Remarks}}</td>
+
+                                        <!--                                  <td> {{physicalblotter.Shore_recieved}}</td>-->
+                                        <!--                                  <td> {{physicalblotter.Difference}}</td>-->
+                                        <!--                                  <td> {{physicalblotter.PnL}}</td>-->
+                                        <!--                                 <td> {{physicalblotter.Difference_Pnl}}</td>-->
+                                        <!--                                 <td> {{physicalblotter.Total_Profit_Loss}}</td>-->
+                                        <!--                                <td> <div class="p-2 bg-warning text-dark ">{{physicalblotter.status}}</div> </td>-->
+
+
+
+<!--                                        <td>-->
+<!--                                            <a href="/add-bill-shore/{{physicalblotter.id}}"-->
+<!--                                               class="btn btn-primary btn-sm"-->
+<!--                                               role="button"> Next</a>-->
+<!--                                        </td>-->
+
+
+<!--                                        <td>-->
+<!--                                                <div class="flex-shrink-0 ms-4">-->
+<!--                                                    <ul class="list-inline tasks-list-menu mb-0">-->
+<!--                                                        <li class="list-inline-item"><a class="edit-item-btn" href="edit-generate-trader-id/{{data.id}}" ><i class="ri-pencil-fill align-bottom me-2 text-muted"></i></a></li>-->
+<!--                                                        <li class="list-inline-item">-->
+<!--                                                            <a class="remove-item-btn" data-bs-toggle="modal" href="#deleteOrder" onclick="deletefunc('{{data.id}}')">-->
+<!--                                                                <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>-->
+<!--                                                            </a>-->
+<!--                                                        </li>-->
+<!--                                                    </ul>-->
+<!--                                                </div>-->
+<!--&lt;!&ndash;                                            </div>&ndash;&gt;-->
+<!--                                        </td>-->
+
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+<!--                        my new-->
+
+
+<!--                               <table class="table table-borderless table-centered align-middle table-nowrap mb-0">-->
+<!--                                                        <thead class="text-muted table-light">-->
+<!--                                                            <tr>-->
+<!--                                                                <th scope="col">No</th>-->
+<!--                                                                <th scope="col">Trader ID</th>-->
+<!--                                                                <th scope="col">Company Name</th>-->
+<!--                                                                <th scope="col">Book</th>-->
+<!--                                                                <th scope="col">Quantity</th>-->
+<!--                                                                <th scope="col">Cargo</th>-->
+<!--                                                                <th scope="col">Strategy</th>-->
+<!--                                                                <th scope="col">Status</th>-->
+<!--                                                                <th scope="col">Action</th>-->
+<!--                                                            </tr>-->
+<!--                                                        </thead>-->
+<!--                                                        <tbody>-->
+<!--                                                           {% for messages in messages %}-->
+<!--                                                           <p data-toast data-toast-text="{{messages}}" data-toast-gravity="top" id="messages" data-toast-position="center" data-toast-duration="3000" data-toast-close="close"></p>-->
+<!--                                                           {% endfor %}-->
+<!--                                                          {% for data in object_list %}-->
+<!--                                                            <tr>-->
+<!--                                                                <td class="id">{{forloop.counter}}</td>-->
+
+<!--                                                                <td class="id">{{data.Trade_id}}</td>-->
+
+<!--                                                                <td class="id">{{data.Company_name.company_name}}</td>-->
+
+<!--                                                                <td class="id">{{data.Book.name}}</td>-->
+<!--                                                                <td class="id">{{data.Quantity}}</td>-->
+
+<!--                                                                <td class="id">{{data.Cargo.name}}</td>-->
+
+<!--                                                                <td class="id">{{data.Strategy.name}}</td>-->
+<!--                                                                <td class= " id {% if data.Status == "New" %}badge badge-soft-success p-4{%elif data.Status == "Process" %}badge badge-soft-warning p-1{% else %}badge badge-soft-danger p-1{% endif %}"> {{data.Status}}</td>-->
+
+<!--                                                            </tr>&lt;!&ndash; end tr &ndash;&gt;-->
+<!--                                                              {% endfor %}-->
+<!--                                                        </tbody>&lt;!&ndash; end tbody &ndash;&gt;-->
+<!--                                                    </table>&lt;!&ndash; end table &ndash;&gt;-->
+
+
+
+
+
+                            <!--end table-->
+                            <div class="noresult" style="display: none">
+                                <div class="text-center">
+                                    <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop" colors="primary:#121331,secondary:#08a88a" style="width:75px;height:75px"></lord-icon>
+                                    <h5 class="mt-2">Sorry! No Result Found</h5>
+                                    <p class="text-muted mb-0">We've searched more than 200k+ tasks We did not find any tasks for you search.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end mt-2">
+                            <div class="pagination-wrap hstack gap-2">
+                                {% if page_obj.has_previous %}
+                                <a class="page-item pagination-prev" href="?page={{ page_obj.previous_page_number }}">
+                                    Previous
+                                </a>
+                                {% endif %}
+                                <ul class="pagination listjs-pagination mb-0"></ul>
+                                <p style="
+                                margin-bottom: 0px;
+                            "class="page-item pagination-next">{{ page_obj.number }}</p>
+                                <ul class="pagination listjs-pagination mb-0"></ul>
+                                {% if page_obj.has_next %}
+                                <a class="page-item pagination-next" href="?page={{ page_obj.next_page_number }}">
+                                    Next
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <!--end card-body-->
+                </div>
+                <!--end card-->
+            </div>
+            <!--end col-->
+        </div>
+        <!--end row-->
+        <form method="post">
+            {% csrf_token %}
+        
+        <div class="modal fade flip" id="deleteOrder" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body p-5 text-center">
+                        <lord-icon src="https://cdn.lordicon.com/gsqxdxog.json" trigger="loop" colors="primary:#405189,secondary:#f06548" style="width:90px;height:90px"></lord-icon>
+                        <div class="mt-4 text-center">
+                            <input type="hidden" name="delete_feild" id="delete_feild" value="">
+                            <h4>You are about to delete a Trader Model List Rates ?</h4>
+                            <p class="text-muted fs-14 mb-4">Deleting your task will remove all of
+                                your information from our database.</p>
+                            <div class="hstack gap-2 justify-content-center remove">
+                                <button type="reset" class="btn btn-link btn-ghost-success fw-medium text-decoration-none" id="deleteRecord-close" data-bs-dismiss="modal"><i class="ri-close-line me-1 align-middle"></i> Close</button>
+                                <button type="submit" class="btn btn-danger" id="delete-record">Yes, Delete It</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+        <!--end delete modal -->
+
+        <div class="modal fade zoomIn" id="showModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content border-0">
+                    <div class="modal-header p-3 bg-soft-info">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Trader Model List Rates</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+                    </div>
+                    <form class="tablelist-form" method="post" id="trader_from" autocomplete="off">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <input type="hidden" id="tasksId" />
+                            <div class="row g-3">
+                                <div class="col-lg-12">
+                                    <label for="projectName-field" class="form-label">Name</label>
+                                    <input type="hidden" id="edit_id" name="edit_name_id" value="">
+                                    <input type="text"  name="edit_name" id="value_field" value="" class="form-control" placeholder="Trader Model List Rates name" required />
+                                </div>
+                                <!--end col-->
+
+                                <!--end col-->
+                            </div>
+                            <!--end row-->
+                        </div>
+                        <div class="modal-footer">
+                            <div class="hstack gap-2 justify-content-end">
+                                <button type="button" class="btn btn-light" id="close-modal" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-success" id="add-btn" >Add Trader Model List Rates</button>
+                                <!-- <button type="button" class="btn btn-success" id="edit-btn">Update Task</button> -->
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade zoomIn" id="showModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content border-0">
+                    <div class="modal-header p-3 bg-soft-info">
+                        <h5 class="modal-title" id="exampleModalLabel">Create Trader Model List Fee</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+                    </div>
+
+
+
+                    <form onsubmit="formValidation(event)" method="post">
+                        {% csrf_token %}
+
+                        <div class="row g-3" style="padding:20px;">
+
+
+                            <div class="col-sm-6">
+                                <p class="for-class">Book</p>
+                                <label class="visually-hidden" for="inlineFormSelectPref">Book</label>
+                                <select class="form-select" id="book" name="book">
+                                    <option value="choose" selected>.......</option>
+                                    {% for i in book %}
+                                    <option value="{{i.id}}">{{i.name}}</option>
+                                    {% endfor %}
+
+
+                                </select></div>
+
+                            <div class="col-sm-6">
+                                <p class="for-class">Company Name</p>
+                                <label class="visually-hidden" for="inlineFormSelectPref">Company Name</label>
+                                <select class="form-select" id="company_name" name="company_name">
+                                    <option value="choose" selected>.......</option>
+                                    {% for i in company_name %}
+                                    <option value="{{i.id}}">{{i.company_name}}</option>
+                                    {% endfor %}
+
+
+                                </select></div>
+
+
+                            <div class="col-sm-6">
+                                <p class="for-class">Cargo</p>
+                                <label class="visually-hidden" for="inlineFormSelectPref">Cargo</label>
+                                <select class="form-select" id="contract_name_id" name="cargo">
+                                    <option value="choose" selected>---------------</option>
+
+                                    {% for i in cargo %}
+                                    <option value="{{i.id}}">{{i.name}}</option>
+                                    {% endfor %}
+
+
+                                </select></div>
+
+
+                            <div class="col-sm-6">
+                                    <p class="for-class">Quantity</p>
+                                    <input type="text" class="form-control" id="exchangeFee" name="quantity" placeholder="Quantity" aria-label="First-Name" required >
+                                </div>
+
+<!--                                   <div class="col-sm-6">-->
+<!--                                    <p class="for-class">Unit</p>-->
+<!--&lt;!&ndash;                                    <input type="text" class="form-control" id="unit" name="unit" placeholder="Unit" aria-label="First-Name" required >&ndash;&gt;-->
+<!--                                <label class="visually-hidden" for="inlineFormSelectPref">unit</label>-->
+<!--                                            <select class="form-select" id="inlineFormSelectPref" name="unit" >-->
+<!--                                                <option value="choose" selected>-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;</option>-->
+<!--                                                {% for i in unit %}-->
+
+<!--                                                <option value="{{i.id}}">{{i.name}}</option>-->
+<!--                                                {% endfor %}-->
+
+<!--                                            </select>-->
+
+
+<!--                                </div>-->
+
+                               <div class="col-sm-6">
+                                            <p class="for-class">Strategy</p>
+                                            <label class="visually-hidden" for="inlineFormSelectPref">Strategy</label>
+                                            <select class="form-select" id="inlineFormSelectPref" name="strategy" >
+                                                <option value="choose" selected>---------------</option>
+                                                {% for i in strategy %}
+                                                <option value="{{i.id}}">{{i.name}}</option>
+                                                {% endfor %}
+
+                                            </select>                            </div>
+
+
+
+
+
+                                <div class="col-12">
+        <div class="text-end">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </div>
+                        </div><!--end row-->
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade zoomIn" id="showModal4" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content border-0">
+                    <div class="modal-header p-3 bg-soft-info">
+                        <h5 class="modal-title" id="exampleModalLabel">Create Clearer Rates</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-modal"></button>
+                    </div>
+
+
+
+                    <form class="tablelist-form" method="post" id="trader_from" autocomplete="off" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <input type="hidden" id="tasksId" />
+                            <div class="row g-3">
+                                <div class="col-lg-12">
+                                    <label for="projectName-field" class="form-label">Name</label>
+                                    <input type="file"  name="file" id="projectName-field" class="form-control" placeholder="Clearer Rates name" required />
+                                </div>
+                                <!--end col-->
+
+                                <!--end col-->
+                            </div>
+                            <!--end row-->
+                        </div>
+                        <div class="modal-footer">
+                            <div class="hstack gap-2 justify-content-end">
+                                <button type="button" class="btn btn-light" id="close-modal" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-success" id="add-btn" >Upload file</button>
+                                <!-- <button type="button" class="btn btn-success" id="edit-btn">Update Task</button> -->
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--end modal-->
+
+
+                            </div></div></div>
+
+
+
+
+
+    </div>
+    <!-- container-fluid -->
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+
+function formValidation(event){
+    var option = document.querySelector('#derivatives').value;
+    var inlineFormSelectPref = document.querySelector('#inlineFormSelectPref').value;
+    if (option=='choose'){
+        event.preventDefault()
+        Swal.fire({
+            icon: 'error',
+            title: 'Please Choose Derivatives',
+            text: 'Derivatives Not selected',
+          })
+    }
+
+    if (inlineFormSelectPref=='choose'){
+        event.preventDefault()
+        Swal.fire({
+            icon: 'error',
+            title: 'Please Choose Clearer',
+            text: 'Clearer Not selected',
+          })
+    }
+
+}
+
+
+async function swapsFeatures() {
+    var option = document.querySelector('#derivatives').value;
+    var contract_name_id = document.querySelector('#contract_name_id')
+    console.log(option)
+    while (contract_name_id.firstChild){
+        contract_name_id.removeChild(contract_name_id.firstChild)
+    }
+    await fetch('clearear_api_swaps', {
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}',
+        },
+            body: JSON.stringify({'derivatives': option})
+
+        })
+        .then(response => response.json())
+        .then(data=>{
+            console.log(data.derivatives[0].contract)
+            for(i=0; i < data.derivatives.length; i++){
+
+                const options = document.createElement('option');
+                options.value = data.derivatives[i].id
+                options.text = data.derivatives[i].contract
+                contract_name_id.appendChild(options)
+            }
+        })
+
+        
+}
+
+
+
+
+
+function editTrader(id,name){
+    document.querySelector('#edit_id').value=id;
+    document.querySelector('#value_field').value=name;
+}
+
+
+function deletefunc(id){
+<!--    document.querySelector('#delete_feild').value=id-->
+<!--  document.querySelector('#delete_feild').value=id-->
+          document.getElementById("delete_feild").value=id;
+}
+
+{% endblock %}

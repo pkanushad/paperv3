@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+ <table class="styled-table table table-hover ">
+
+                        <thead>
+                        <tr>
+                             <th class="serial" > No </th>
+                               {% for col in data_new.columns %}
+                                <th class=""> {{col}} </th>
+                                {%endfor%}
+                        </tr>
+                        </thead>
+                        <tbody>
+                              {% for row in data_new.values %}
+                        <tr class="active-row">
+                           <td class="serial">{{forloop.counter}}</td>
+                             {% for value in row %}
+                            <td class="{% if value < 0 %}text-danger{% endif %}">{{value}}</td>
+                               {% endfor %}
+                        </tr>
+                                  {% endfor %}
+                        <!-- and so on... -->
+                        </tbody>
+                    </table>
+
+
+</body>
+</html>
